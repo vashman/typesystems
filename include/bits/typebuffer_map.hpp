@@ -9,6 +9,7 @@
 
 namespace typesystem{
 namespace bits{
+
 /* buffer_unit_container */
 class typebuffer_map{
 public:
@@ -28,7 +29,8 @@ public:
 
   ~typebuffer_map();
 
-  typedef std::map<total_typeid::id_type, typesystem::bits::typebuffer_base *> map_type;
+  typedef std::map<total_typeid::id_type
+          , typesystem::bits::typebuffer_base *> map_type;
 
   map_type c;
 

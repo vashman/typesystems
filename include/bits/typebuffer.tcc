@@ -9,6 +9,7 @@
 #include <typeinfo>
 
 namespace typesystem{
+
 /* typbuffer_interface dtor */
 template <typename T>
 typebuffer_interface<T>::~typebuffer_interface(
