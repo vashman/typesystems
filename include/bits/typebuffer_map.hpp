@@ -2,13 +2,13 @@
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
-#ifndef TYPESYSTEM_BITS_TYPEBUFFER_MAP_HPP
-#define TYPESYSTEM_BITS_TYPEBUFFER_MAP_HPP
+#ifndef TYPESYSTEMS_BITS_TYPEBUFFER_MAP_HPP
+#define TYPESYSTEMS_BITS_TYPEBUFFER_MAP_HPP
 
 #include <map>
 
-namespace typesystem{
-namespace bits{
+namespace typesystems {
+namespace bits {
 
 /* buffer_unit_container */
 class typebuffer_map{
@@ -30,7 +30,7 @@ public:
   ~typebuffer_map();
 
   typedef std::map<total_typeid::id_type
-          , typesystem::bits::typebuffer_base *> map_type;
+          , typesystems::bits::typebuffer_base *> map_type;
 
   map_type c;
 
@@ -38,5 +38,5 @@ public:
   typedef map_type::const_iterator const_iterator;
 };
 
-} /* bits */ } /* typesystem */
+} /* bits */ } /* typesystems */
 #endif

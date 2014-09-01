@@ -2,21 +2,21 @@
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
-#ifndef TYPESYSTEM_TYPEBUFFER_HPP
-#define TYPESYSTEM_TYPEBUFFER_HPP
+#ifndef TYPESYSTEMS_TYPEBUFFER_HPP
+#define TYPESYSTEMS_TYPEBUFFER_HPP
 
 #include <memory>
 #include "explicit_typeid.hpp"
 #include "bits/typebuffer_base.hpp"
 #include "bits/typebuffer_map.hpp"
 
-namespace typesystem{
+namespace typesystems{
 /* typebuffer_interface
 Generic interface for type, provided vi typebuffer. The functions clear
 and empty are defined in the typesystem::bits::typebuffer_base class.
 */
 template <typename T>
-class typebuffer_interface : public typesystem::bits::typebuffer_base{
+class typebuffer_interface : public typesystems::bits::typebuffer_base{
 public:
   typedef T value_type;
 
@@ -128,7 +128,7 @@ private:
 
 /* typebuffer_container
 */
-typedef typesystem::bits::typebuffer_map typebuffer_container;
+typedef typesystems::bits::typebuffer_map typebuffer_container;
 
 /* typesystem::clear
 
@@ -220,6 +220,6 @@ void
 set_typebuffer(typebuffer_container &, Sequence &&);
 #endif
 
-} /* typesystem */
+} /* typesystems */
 #include "bits/typebuffer.tcc"
 #endif

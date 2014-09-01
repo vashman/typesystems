@@ -3,12 +3,12 @@
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
 
-#ifndef TYPESYSTEM_BITS_TYPEBUFFER_TCC
-#define TYPESYSTEM_BITS_TYPEBUFFER_TCC
+#ifndef TYPESYSTEMS_BITS_TYPEBUFFER_TCC
+#define TYPESYSTEMS_BITS_TYPEBUFFER_TCC
 
 #include <typeinfo>
 
-namespace typesystem{
+namespace typesystems {
 
 /* typbuffer_interface dtor */
 template <typename T>
@@ -219,7 +219,7 @@ typebuffer_interface<T> &
 use_typebuffer(
   typebuffer_container const & _unit
 ){
-typesystem::bits::typebuffer_base * buff = nullptr;
+typesystems::bits::typebuffer_base * buff = nullptr;
 buff = _unit.c.at(explicit_typeid<T>::raw_typeid());
   if (buff != nullptr){
   return static_cast<typebuffer_interface<T> & >(* buff);
@@ -233,7 +233,7 @@ typebuffer<T, Sequence> &
 use_typebuffer(
   typebuffer_container const & _unit
 ){
-typesystem::bits::typebuffer_base * buff = nullptr;
+typesystems::bits::typebuffer_base * buff = nullptr;
 buff = _unit.c.at(explicit_typeid<T>::raw_typeid());
   if (buff != nullptr){
   return static_cast<typebuffer<T, Sequence> &>(* buff);
@@ -278,5 +278,5 @@ _unit.c[explicit_typeid<T>::raw_typeid()]
                = explicit_typeid<Sequence>::raw_typeid();
 }
 
-} /* typesystem */
+} /* typesystems */
 #endif

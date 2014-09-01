@@ -2,13 +2,13 @@
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
-#ifndef TYPESYSTEM_TYPEBUFFER_BASE_CPP
-#define TYPESYSTEM_TYPEBUFFER_BASE_CPP
+#ifndef TYPESYSTEMS_TYPEBUFFER_BASE_CPP
+#define TYPESYSTEMS_TYPEBUFFER_BASE_CPP
 
 #include "../include/typebuffer.hpp"
 
-namespace typesystem{
-namespace bits{
+namespace typesystems {
+namespace bits {
 /* typebuffer_base dtor */
 typebuffer_base::~typebuffer_base(
 ){
@@ -40,5 +40,5 @@ iter->second->clear();
 }
 }
 
-} /* typesystem */
+} /* typesystems */
 #endif

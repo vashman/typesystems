@@ -2,12 +2,14 @@
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
-#ifndef TYPESYSTEM_TYPEBUFFER_BASE_HPP
-#define TYPESYSTEM_TYPEBUFFER_BASE_HPP
+#ifndef TYPESYSTEMS_TYPEBUFFER_BASE_HPP
+#define TYPESYSTEMS_TYPEBUFFER_BASE_HPP
 
 #include "../explicit_typeid.hpp"
 
-namespace typesystem{ namespace bits{
+namespace typesystems {
+namespace bits{
+
 /* typebuffer_base
 Typebuffer base class provides gernic container operations for the
 container.
@@ -38,7 +40,7 @@ public:
   bool
   empty() const;
 
-  typesystem::explicit_typeid_type container_id;
+  typesystems::explicit_typeid_type container_id;
 
 protected:
   virtual void
@@ -47,5 +49,6 @@ protected:
   virtual bool
   do_empty() const = 0;
 };
-}/* bits */ } /* typesystem */
+
+}/* bits */ } /* typesystems */
 #endif

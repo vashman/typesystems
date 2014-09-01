@@ -2,13 +2,13 @@
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
-#ifndef TYPESYSTEM_TYPEBUFFER_MAP_CPP
-#define TYPESYSTEM_TYPEBUFFER_MAP_CPP
+#ifndef TYPESYSTEMS_TYPEBUFFER_MAP_CPP
+#define TYPESYSTEMS_TYPEBUFFER_MAP_CPP
 
 #include "../include/bits/typebuffer_map.hpp"
 
-namespace typesystem{
-namespace bits{
+namespace typesystems {
+namespace bits {
 /* buffer_unit_container dtor 
 
 Needs to delete all typebuffer pointers because every buffer unit
@@ -22,5 +22,5 @@ delete iter->second;
 }
 }
 
-} /* bits */ } /* typeystem */
+} /* bits */ } /* typeystems */
 #endif
