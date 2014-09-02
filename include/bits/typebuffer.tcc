@@ -198,7 +198,7 @@ return (_unit.c.find(explicit_typeid<T>::raw_typeid()) != _unit.c.end());
 }
 
 /* typesystem::has_typebuffer */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 bool
 has_typebuffer(
   typebuffer_container const & _unit
@@ -228,7 +228,7 @@ throw std::bad_cast();
 }
 
 /* typesystem::use_typebuffer */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 typebuffer<T, Sequence> &
 use_typebuffer(
   typebuffer_container const & _unit
@@ -242,7 +242,7 @@ throw std::bad_cast();
 }
 
 /* typesystem::set_typebuff */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(
   typebuffer_container & _unit
@@ -253,7 +253,7 @@ _unit.c[explicit_typeid<T>::raw_typeid()] = new typebuffer<T, Sequence>();
 }
 
 /* typesystem::set_typebuff copy */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(
   typebuffer_container & _unit
@@ -266,7 +266,7 @@ _unit.c[explicit_typeid<T>::raw_typeid()]
 }
 
 /* typesystem::set_typebuff move */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(
   typebuffer_container & _unit

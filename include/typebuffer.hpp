@@ -173,7 +173,7 @@ has_typebuffer(typebuffer_container const &);
 /* typesystem::has_typebuffer
 
 */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 bool
 has_typebuffer(typebuffer_container const &);
 
@@ -191,7 +191,7 @@ use_typebuffer(typebuffer_container const &);
 
 Iterates through the buffer map and matches the 
 */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 typebuffer<T, Sequence> &
 use_typebuffer(typebuffer_container const &);
 
@@ -200,14 +200,14 @@ use_typebuffer(typebuffer_container const &);
 Adds a typebuffer using the Sequence container and Sequence::value_type to
 the buffmap.
 */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(typebuffer_container &);
 
 /* typesystem::set_typebuff copy
 
 */
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(typebuffer_container &, Sequence const &);
 
@@ -215,7 +215,7 @@ set_typebuffer(typebuffer_container &, Sequence const &);
 
 */
 #if __cplusplus >= 201103L
-template <typename Sequence, typename T>
+template <typename T, typename Sequence>
 void
 set_typebuffer(typebuffer_container &, Sequence &&);
 #endif
