@@ -10,7 +10,17 @@
 #include "bits/typebuffer_base.hpp"
 #include "bits/typebuffer_map.hpp"
 
-namespace typesystems{
+#if __cplusplus >= 201103L
+#include <type_traits>
+#define type_traits ::std
+
+#else
+#include <boost/type_traits.hpp>
+#define type_traits ::BOOST
+#endif
+
+namespace typesystems {
+
 /* typebuffer_interface
 Generic interface for type, provided vi typebuffer. The functions clear
 and empty are defined in the typesystem::bits::typebuffer_base class.
@@ -18,7 +28,8 @@ and empty are defined in the typesystem::bits::typebuffer_base class.
 template <typename T>
 class typebuffer_interface : public typesystems::bits::typebuffer_base{
 public:
-  typedef T value_type;
+  typedef typename type_traits::remove_volatile<
+          typename type_traits::remove_cv<T>::type>::type value_type;
 
 #if __cplusplus >= 201103L
   typebuffer_interface() = default;
@@ -38,33 +49,33 @@ public:
   ~typebuffer_interface();
 
   void
-  push(T &);
+  push(value_type const &);
 
 #if __cplusplus >= 201103L
   void
-  push(T &&);
+  push(value_type &&);
 #endif
 
   void
   pop();
 
-  T
+  value_type
   next(); // get copy of next contents and remove from container.
 
   static explicit_typeid<T> const type_id;
 private:
   virtual void
-  do_push(T &) = 0;
+  do_push(value_type const &) = 0;
 
 #if __cplusplus >= 201103L
   virtual void
-  do_push(T &&) = 0;
+  do_push(value_type &&) = 0;
 #endif
 
   virtual void
   do_pop() = 0;
 
-  virtual T
+  virtual value_type
   do_next() = 0;
 };
 
@@ -112,14 +123,14 @@ private:
   do_empty() const;
 
   virtual void
-  do_push(T &);
+  do_push(typename typebuffer_interface<T>::value_type const &);
 
 #if __cplusplus >= 201103L
   virtual void
-  do_push(T &&);
+  do_push(typename typebuffer_interface<T>::value_type &&);
 #endif
 
-  virtual T
+  virtual typename typebuffer_interface<T>::value_type
   do_next();
 
   virtual void
@@ -222,4 +233,6 @@ set_typebuffer(typebuffer_container &, Sequence &&);
 
 } /* typesystems */
 #include "bits/typebuffer.tcc"
+
+#undef type_traits
 #endif

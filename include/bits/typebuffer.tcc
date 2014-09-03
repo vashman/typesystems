@@ -6,8 +6,6 @@
 #ifndef TYPESYSTEMS_BITS_TYPEBUFFER_TCC
 #define TYPESYSTEMS_BITS_TYPEBUFFER_TCC
 
-#include <typeinfo>
-
 namespace typesystems {
 
 /* typbuffer_interface dtor */
@@ -26,7 +24,7 @@ this->do_pop();
 
 /* typebuffer_interface next */
 template <typename T>
-T
+typename typebuffer_interface<T>::value_type
 typebuffer_interface<T>::next(
 ){
 return this->do_next();
@@ -36,7 +34,7 @@ return this->do_next();
 template <typename T>
 void
 typebuffer_interface<T>::push(
-T & _var
+typename typebuffer_interface<T>::value_type const & _var
 ){
 this->do_push(_var);
 }
@@ -46,7 +44,7 @@ this->do_push(_var);
 template <typename T>
 void
 typebuffer_interface<T>::push(
-T && _var
+typename typebuffer_interface<T>::value_type && _var
 ){
 this->do_push(_var);
 }
@@ -130,7 +128,7 @@ return this->c.empty();
 template <typename T, typename Sequence>
 void
 typebuffer<T,Sequence>::do_push(
-T & _var
+typename typebuffer_interface<T>::value_type const & _var
 ){
 this->c.push_back(_var);
 }
@@ -140,7 +138,7 @@ this->c.push_back(_var);
 template <typename T, typename Sequence>
 void
 typebuffer<T,Sequence>::do_push(
-T && _var
+typename typebuffer_interface<T>::value_type && _var
 ){
 this->c.push_back(_var);
 }
@@ -148,10 +146,10 @@ this->c.push_back(_var);
 
 /* typebuffer do_next */
 template <typename T, typename Sequence>
-T
+typename typebuffer_interface<T>::value_type
 typebuffer<T,Sequence>::do_next(
 ){
-T t = this->c.back();
+typename typebuffer<T,Sequence>::value_type t = this->c.back();
 this->c.pop_back();
 return t;
 }
