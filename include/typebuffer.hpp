@@ -28,8 +28,7 @@ and empty are defined in the typesystem::bits::typebuffer_base class.
 template <typename T>
 class typebuffer_interface : public typesystems::bits::typebuffer_base{
 public:
-  typedef typename type_traits::remove_volatile<
-          typename type_traits::remove_cv<T>::type>::type value_type;
+  typedef typename type_traits::remove_cv<T>::type value_type;
 
 #if __cplusplus >= 201103L
   typebuffer_interface() = default;
