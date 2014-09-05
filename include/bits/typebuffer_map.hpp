@@ -107,6 +107,14 @@ public:
     map_type::const_iterator iter;
   };
 
+  iterator begin();
+
+  iterator end();
+
+  const_iterator begin() const;
+
+  const_iterator end() const;
+
   map_type c;
 };
 

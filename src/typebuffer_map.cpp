@@ -22,6 +22,30 @@ delete iter->second;
 }
 }
 
+typebuffer_map::iterator
+typebuffer_map::begin(
+){
+return typebuffer_map::iterator(this->c.begin());
+}
+
+typebuffer_map::iterator
+typebuffer_map::end(
+){
+return typebuffer_map::iterator(this->c.end());
+}
+
+typebuffer_map::const_iterator
+typebuffer_map::begin(
+) const {
+return typebuffer_map::const_iterator(this->c.begin());
+}
+
+typebuffer_map::const_iterator
+typebuffer_map::end(
+) const {
+return typebuffer_map::const_iterator(this->c.end());
+}
+
 /* typebuffer_map iterator */
 
 /* typebuffer_map::iterator ctor */
