@@ -34,7 +34,7 @@ void
 clear(
   typebuffer_container const & _unit
 ){
-for (typebuffer_container::const_iterator iter = _unit.c.begin()
+for (typebuffer_container::map_const_iterator iter = _unit.c.begin()
              , iend = _unit.c.end(); iter != iend; ++iter){
 iter->second->clear();
 }

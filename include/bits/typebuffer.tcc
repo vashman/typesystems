@@ -201,7 +201,7 @@ bool
 has_typebuffer(
   typebuffer_container const & _unit
 ){
-typebuffer_container::iterator iter
+typebuffer_container::map_iterator iter
             = _unit.c.find(explicit_typeid<T>::raw_typeid());
   if (iter != _unit.c.end()){
   /* if types equal return true */
