@@ -10,6 +10,8 @@ external typesystem within a c++ program. The library provides a way to;
 
 User Guide
 ==========================================================================
+[Quick Start](doc/quick_start.md)
+[Overview](doc/proposal.md)
 
 Installing
 ==========================================================================
