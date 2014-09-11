@@ -8,13 +8,15 @@ external typesystem within a c++ program. The library provides a way to;
 2. Rewrite type and vlaue information to compatiable types
 3. Store and retrive rewritten variables between typesystems.
 
-User Guide
+Documentation
 ==========================================================================
-[Quick Start](doc/quick_start.md)
-[Overview](doc/proposal.md)
+[Tutorial](doc/tutorial.md)
+[Building](doc/build.md)
+[Design Overview](doc/proposal.md)
+[Impementation Details](doc/implementation.md)
 
-Installing
+License
 ==========================================================================
-
-Building
---------------------------------------------------------------------------
+Source Copyright © 2013-2014 Sundeep S. Sangha and contributers.
+Distributed under the Boost software license. See the
+[License](./License_1_0.txt) file.
