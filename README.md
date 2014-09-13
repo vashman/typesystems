@@ -1,6 +1,6 @@
 Typesystems
 ==========================================================================
-Status: Open Alpha Devlopment
+Status: Open Alpha
 
 Typesystems is a c++ library that aims to provide a way to represent a
 external typesystem within a c++ program. The library provides a way to;
