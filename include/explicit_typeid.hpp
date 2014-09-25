@@ -7,7 +7,7 @@
 
 #include "./bits/total_typeid.hpp"
 
-namespace typesystems{
+namespace typesystems {
 
 typedef typesystems::bits::total_typeid::id_type explicit_typeid_type;
 
@@ -16,28 +16,24 @@ typedef typesystems::bits::total_typeid::id_type explicit_typeid_type;
 template <typename T>
 class explicit_typeid{
 public:
-  typedef T value_type;
+  typedef T type;
 
 #if __cplusplus >= 201103L
   explicit
-  explicit_typeid() = default;
+  explicit_typeid() = delete;
 
-  explicit_typeid(explicit_typeid const &) = default;
-
-  explicit_typeid &
-  operator=(explicit_typeid const &) = default;
-
-  explicit_typeid(explicit_typeid &&) = default;
+  explicit_typeid(explicit_typeid const &) = delete;
 
   explicit_typeid &
-  operator=(explicit_typeid &&) = default;
+  operator=(explicit_typeid const &) = delete;
 
- ~explicit_typeid() = default;
+  explicit_typeid(explicit_typeid &&) = delete;
+
+  explicit_typeid &
+  operator=(explicit_typeid &&) = delete;
+
+ ~explicit_typeid() = delete;
 #endif
-
-  template <typename T2>
-  static bool
-  compare(explicit_typeid<T2> const &);
 
   template <typename T2>
   static bool
@@ -49,6 +45,7 @@ public:
   static explicit_typeid_type
   raw_typeid();
 
+private:
 	static explicit_typeid_type const id;
 };
 

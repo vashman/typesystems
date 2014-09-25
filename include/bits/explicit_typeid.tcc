@@ -1,4 +1,4 @@
-// 
+// explicit_typeid template instace
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 
@@ -11,26 +11,16 @@ template <typename T>
 explicit_typeid_type const explicit_typeid<T>::id
     = typesystems::bits::total_typeid::next_id();
 
-/* explicit_typeid compare */
-template <typename T>
-template <typename T2>
-bool
-explicit_typeid<T>::compare(
-  explicit_typeid<T2> const & _id
-){
-return explicit_typeid<T>::id == explicit_typeid<T2>::id;
-}
-
-/* explicit_typeid compare */
+/* explicit_typeid static compare */
 template <typename T>
 template <typename T2>
 bool
 explicit_typeid<T>::compare(
 ){
-return explicit_typeid<T>::id == explicit_typeid<T2>::id;
+return explicit_typeid<T>::id == explicit_typeid<T2>::raw_typeid();
 }
 
-/* explicit_typeid raw_compare */
+/* explicit_typeid static raw_compare */
 template <typename T>
 bool
 explicit_typeid<T>::raw_compare(
