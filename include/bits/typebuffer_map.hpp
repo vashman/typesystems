@@ -6,6 +6,8 @@
 #define TYPESYSTEMS_BITS_TYPEBUFFER_MAP_HPP
 
 #include <map>
+#include "../explicit_typeid.hpp"
+#include "typebuffer_base.hpp"
 
 namespace typesystems {
 namespace bits {
@@ -29,7 +31,7 @@ public:
 
   ~typebuffer_map();
 
-  typedef std::map<total_typeid::id_type
+  typedef std::map<typesystems::explicit_typeid_type
           , typesystems::bits::typebuffer_base *> map_type;
 
   typedef typename map_type::iterator map_iterator;

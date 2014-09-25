@@ -15,7 +15,7 @@ Needs to delete all typebuffer pointers because every buffer unit
 manages there own.
 */
 typebuffer_map::~typebuffer_map(){
-for (typebuffer_container::map_iterator iter = this->c.begin()
+for (typebuffer_map::map_iterator iter = this->c.begin()
     , iend = this->c.end(); iter != iend; ++iter
     ){
 delete iter->second;

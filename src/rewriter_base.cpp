@@ -5,6 +5,8 @@
 #ifndef TYPESYSTEMS_REWRITER_BASE_CPP
 #define TYPESYSTEMS_REWRITER_BASE_CPP
 
+#include "../include/bits/rewriter_base.hpp"
+
 namespace typesystems {
 namespace bits {
 
