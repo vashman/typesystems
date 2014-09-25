@@ -27,6 +27,12 @@
 *.out
 *.app
 
+# Log files
+*.log
+
 # Editor Files
 *.swp
 *.*~
+
+# Build Directories
+/build/bin
