@@ -17,6 +17,10 @@ ID_EXOBJS=$(patsubst %, $(EXOBJ)/explicit_typeid/%,$(notdir $(ID_EXSRC:%.cpp=%.o
 ID_EXAMPLES=$(patsubst %, $(BIN)/explicit_typeid/%, $(notdir $(ID_EXSRC:%.cpp=%)))
 
 # Typebuffer examples
+BU_EXSRC=$(wildcard $(EXDIR)/typebuffer/*.cpp)
+BU_EXOBJS=$(patsubst %, $(EXOBJ)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%.o)))
+BU_EXAMPLES=$(patsubst %, $(BIN)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%)))
+
 # Typesystem example
 
 DLIB=$(LIBS)/lib.so
@@ -34,6 +38,13 @@ $(EXOBJ)/explicit_typeid/%.o: $(EXDIR)/explicit_typeid/%.cpp
 $(BIN)/explicit_typeid/%: $(EXOBJ)/explicit_typeid/%.o
 	$(CC) $< -o $@ $(SLIB) 2> example.log
 
+# Typebuffer
+$(EXOBJ)/typebuffer/%.o: $(EXDIR)/typebuffer/%.cpp
+	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
+
+$(BIN)/typebuffer/%: $(EXOBJ)/typebuffer/%.o
+	$(CC) $< -o $@ $(SLIB) 2> example.log
+
 define cc-lib_dynamic
 $(CC) $^ -shared $(FLAGS) -o $@ 2> dyncamiclib.log
 endef
@@ -42,8 +53,7 @@ define cc-lib_static
 ar rvs $@ $^ 2> staticlib.log
 endef
 
-all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES)
-	$(info "tt: " $(ID_EXAMPLES))
+all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES)
 
 $(SLIB): $(OBJECTS)
 	$(cc-lib_static)
@@ -56,7 +66,12 @@ $(OBJECTS): $(SOURCES)
 # Explicit Type Id
 $(ID_EXAMPLES): $(ID_EXOBJS)
 
-$(IDEXOBJS): $(ID_EXSRC)
+$(ID_EXOBJS): $(ID_EXSRC)
+
+# Typebuffer
+$(BU_EXAMPLES): $(BU_EXOBJS)
+
+$(BU_EXOBJS): $(BU_EXSRC)
 
 clean:
 	rm -rf $(BIN)
@@ -65,12 +80,11 @@ clean:
 dirs:
 	mkdir -p $(BIN)
 	mkdir -p $(BIN)/explicit_typeid
+	mkdir -p $(BIN)/typebuffer
 	mkdir -p $(OBJS)
-	mkdir -p $(OBJS)/explict_typeid
 	mkdir -p $(LIBS)
 	mkdir -p $(EXOBJ)
 	mkdir -p $(EXOBJ)/explicit_typeid
-
-example: $(EXAMPLES)
+	mkdir -p $(EXOBJ)/typebuffer
 
 lib: $(SLIB) $(DLIB)
