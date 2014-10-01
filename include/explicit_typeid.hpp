@@ -1,6 +1,9 @@
 // unqiue copyable type_id that, does not check against polymorphic types.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
+// Distributed under the Boost Software License, Version 1.0.
+//    (See accompanying file LICENSE_1_0.txt or copy at
+//          http://www.boost.org/LICENSE_1_0.txt)
 
 #ifndef TYPESYSTEMS_EXPLICIT_TYPEID_HPP
 #define TYPESYSTEMS_EXPLICIT_TYPEID_HPP
