@@ -23,8 +23,8 @@ BU_EXAMPLES=$(patsubst %, $(BIN)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%)))
 
 # Typesystem example
 
-DLIB=$(LIBS)/lib.so
-SLIB=$(LIBS)/lib.a
+DLIB=$(LIBS)/libtest.so
+SLIB=$(LIBS)/libtest.a
 
 .PHONY: clean all dirs lib example
 
@@ -36,14 +36,14 @@ $(EXOBJ)/explicit_typeid/%.o: $(EXDIR)/explicit_typeid/%.cpp
 	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
 
 $(BIN)/explicit_typeid/%: $(EXOBJ)/explicit_typeid/%.o
-	$(CC) $< -o $@ $(SLIB) 2> example.log
+	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
 # Typebuffer
 $(EXOBJ)/typebuffer/%.o: $(EXDIR)/typebuffer/%.cpp
 	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
 
 $(BIN)/typebuffer/%: $(EXOBJ)/typebuffer/%.o
-	$(CC) $< -o $@ $(SLIB) 2> example.log
+	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
 define cc-lib_dynamic
 $(CC) $^ -shared $(FLAGS) -o $@ 2> dyncamiclib.log
