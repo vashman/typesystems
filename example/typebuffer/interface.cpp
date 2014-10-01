@@ -8,9 +8,6 @@
 #include "../../src/typebuffer_map.cpp"
 #include "../../src/total_typeid.cpp"
 
-using std::cout;
-using std::endl;
-using std::vector;
 using typesystems::typebuffer_container;
 using typesystems::typebuffer;
 using typesystems::typebuffer_interface;
@@ -23,16 +20,16 @@ using typesystems::clear;
 int main(){
 typebuffer_container buffers;
 
-set_typebuffer<int, vector<int> >(buffers);
-set_typebuffer<char, vector<char> >(buffers);
+set_typebuffer<int, std::vector<int> >(buffers);
+set_typebuffer<char, std::vector<char> >(buffers);
 
   if (has_typebuffer<int>(buffers) == false){
-  cout << "" << endl;
+  std::cout << "" << std::endl;
   return 1;
   }
 
   if (has_typebuffer<char>(buffers) == false){
-  cout << "" << endl;
+  std::cout << "" << std::endl;
   return 1;
   }
 
@@ -44,18 +41,18 @@ char_buff.push('A');
 
 // run 2 times
 for (int i = 0; i<2; ++i){
-cout << "loop count: " << i << endl;
+std::cout << "loop count: " << i << std::endl;
 
   if (empty<int>(buffers)){
-  cout << "there are no int types" << endl;
+  std::cout << "there are no int types" << std::endl;
   } else {
-  cout << "there are int types" << endl;
-  } 
+  std::cout << "there are int types" << std::endl;
+  }
 
   if (empty<char>(buffers)){
-  cout << "there are no char tyoes" << endl;
+  std::cout << "there are no char tyoes" << std::endl;
   } else {
-  cout << "there are char types" << endl;
+  std::cout << "there are char types" << std::endl;
   }
 
   /* clear all buffers */
