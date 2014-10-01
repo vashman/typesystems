@@ -108,6 +108,14 @@ typebuffer<T,Sequence>::~typebuffer(
 ){
 }
 
+/* typebuffer get_container */
+template <typename T, typename Sequence>
+Sequence &
+typebuffer<T,Sequence>::get_container(
+){
+return this->c;
+}
+
 /* typebuffer do_clear */
 template <typename T, typename Sequence>
 void
@@ -201,7 +209,7 @@ bool
 has_typebuffer(
   typebuffer_container const & _unit
 ){
-typebuffer_container::map_iterator iter
+typebuffer_container::map_const_iterator iter
             = _unit.c.find(explicit_typeid<T>::raw_typeid());
   if (iter != _unit.c.end()){
   /* if types equal return true */

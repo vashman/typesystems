@@ -108,12 +108,13 @@ public:
 
   ~typebuffer();
 
-/* name and protected level is specified in standard [23.2.3.1]
-, protected level is changed to public as it is still compatable with
-anything expecting protected and to provide access to the underlying
-container.
-*/
+  Sequence &
+  get_container();
+
+protected:
+/* name and protected level is specified in standard [23.2.3.1] */
   Sequence c;
+
 private:
   virtual void
   do_clear();
