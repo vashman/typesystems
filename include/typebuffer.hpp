@@ -5,7 +5,6 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-
 #ifndef TYPESYSTEMS_TYPEBUFFER_HPP
 #define TYPESYSTEMS_TYPEBUFFER_HPP
 
@@ -26,37 +25,50 @@
 namespace typesystems {
 
 /* typebuffer_interface
-Generic interface for type, provided vi typebuffer. The functions clear
+Generic interface for type, provided via typebuffer. The functions clear
 and empty are defined in the typesystem::bits::typebuffer_base class.
 */
 template <typename T>
-class typebuffer_interface : public typesystems::bits::typebuffer_base{
+class typebuffer_interface : public typesystems::bits::typebuffer_base {
 public:
   typedef typename type_traits::remove_cv<T>::type value_type;
 
 #if __cplusplus >= 201103L
-  typebuffer_interface() = default;
+  typebuffer_interface(
+  ) = default;
 
-  typebuffer_interface(typebuffer_interface<T> const &) = default;
-
-  typebuffer_interface<T> &
-  operator=(typebuffer_interface<T> const &) = default;
-
-  typebuffer_interface(typebuffer_interface<T> &&) = default;
+  typebuffer_interface(
+    typebuffer_interface<T> const &
+  ) = default;
 
   typebuffer_interface<T> &
-  operator=(typebuffer_interface<T> &&) = default;
+  operator=(
+    typebuffer_interface<T> const &
+  ) = default;
+
+  typebuffer_interface(
+    typebuffer_interface<T> &&
+  ) = default;
+
+  typebuffer_interface<T> &
+  operator=(
+    typebuffer_interface<T> &&
+  ) = default;
 #endif
 
   virtual
   ~typebuffer_interface();
 
   void
-  push(value_type const &);
+  push(
+    value_type const &
+  );
 
 #if __cplusplus >= 201103L
   void
-  push(value_type &&);
+  push(
+    value_type &&
+  );
 #endif
 
   void
@@ -65,14 +77,17 @@ public:
   value_type
   next(); // get copy of next contents and remove from container.
 
-  static explicit_typeid<T> const type_id;
 private:
   virtual void
-  do_push(value_type const &) = 0;
+  do_push(
+    value_type const &
+  ) = 0;
 
 #if __cplusplus >= 201103L
   virtual void
-  do_push(value_type &&) = 0;
+  do_push(
+    value_type &&
+  ) = 0;
 #endif
 
   virtual void
@@ -98,16 +113,24 @@ public:
     container_type const & _ctnr = container_type()
   );
 
-  typebuffer(typebuffer const &);
+  typebuffer(
+    typebuffer const &
+  );
 
   typebuffer &
-  operator=(typebuffer const &);
+  operator=(
+    typebuffer const &
+  );
 
 #if __cplusplus >= 201103L
-  typebuffer(typebuffer &&);
+  typebuffer(
+    typebuffer &&
+  );
 
   typebuffer &
-  operator=(typebuffer &&);
+  operator=(
+    typebuffer &&
+  );
 #endif
 
   ~typebuffer();
@@ -127,11 +150,15 @@ private:
   do_empty() const;
 
   virtual void
-  do_push(typename typebuffer_interface<T>::value_type const &);
+  do_push(
+    typename typebuffer_interface<T>::value_type const &
+  );
 
 #if __cplusplus >= 201103L
   virtual void
-  do_push(typename typebuffer_interface<T>::value_type &&);
+  do_push(
+    typename typebuffer_interface<T>::value_type &&
+  );
 #endif
 
   virtual typename typebuffer_interface<T>::value_type
@@ -152,7 +179,9 @@ call the container clear function. This function must gurantee no
 changes to the buff_map itself.
 */
 void
-clear(typebuffer_container const &);
+clear(
+  typebuffer_container const &
+);
 
 /* type specfic functions */
 /* typesystem::empty<T>
@@ -164,7 +193,9 @@ true, for empty;
 */
 template <typename T>
 bool
-empty(typebuffer_container const &);
+empty(
+  typebuffer_container const &
+);
 
 /* typesystem::clear<T>
 
@@ -174,7 +205,9 @@ for the typebuffer_base class.
 */
 template <typename T>
 void
-clear(typebuffer_container const &);
+clear(
+  typebuffer_container const &
+);
 
 /* typesystem::has_typebuffer
 
@@ -183,14 +216,18 @@ typebuffer_interface of T matches that in the buffer, returns true.
 */
 template <typename T>
 bool
-has_typebuffer(typebuffer_container const &);
+has_typebuffer(
+  typebuffer_container const &
+);
 
 /* typesystem::has_typebuffer
 
 */
 template <typename T, typename Sequence>
 bool
-has_typebuffer(typebuffer_container const &);
+has_typebuffer(
+  typebuffer_container const &
+);
 
 /* typesystem::use_typebuffer
 
@@ -200,7 +237,9 @@ returns a cast of the pointer to T.
 */
 template <typename T>
 typebuffer_interface<T> &
-use_typebuffer(typebuffer_container const &);
+use_typebuffer(
+  typebuffer_container const &
+);
 
 /* typesystem::use_typebuff
 
@@ -208,7 +247,9 @@ Iterates through the buffer map and matches the
 */
 template <typename T, typename Sequence>
 typebuffer<T, Sequence> &
-use_typebuffer(typebuffer_container const &);
+use_typebuffer(
+  typebuffer_container const &
+);
 
 /* typesystem::set_typebuff
 
@@ -217,14 +258,18 @@ the buffmap.
 */
 template <typename T, typename Sequence>
 void
-set_typebuffer(typebuffer_container &);
+set_typebuffer(
+  typebuffer_container &
+);
 
 /* typesystem::set_typebuff copy
 
 */
 template <typename T, typename Sequence>
 void
-set_typebuffer(typebuffer_container &, Sequence const &);
+set_typebuffer(
+  typebuffer_container &, Sequence const &
+);
 
 /* typesystem::set_typebuff move
 
@@ -232,7 +277,9 @@ set_typebuffer(typebuffer_container &, Sequence const &);
 #if __cplusplus >= 201103L
 template <typename T, typename Sequence>
 void
-set_typebuffer(typebuffer_container &, Sequence &&);
+set_typebuffer(
+  typebuffer_container &, Sequence &&
+);
 #endif
 
 } /* typesystems */
