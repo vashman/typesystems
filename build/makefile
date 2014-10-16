@@ -8,6 +8,10 @@ OBJS=$(BIN)/objs
 EXOBJ=$(OBJS)/example
 LIBS=$(BIN)/libs
 
+# install dirs
+INCDIR=/usr/local/include/typesystems
+LIBDIR=/usr/local/lib
+
 SOURCES=$(wildcard $(SRC)/*.cpp)
 OBJECTS=$(patsubst %, $(OBJS)/%, $(notdir $(SOURCES:%.cpp=%.o)))
 
@@ -23,8 +27,11 @@ BU_EXAMPLES=$(patsubst %, $(BIN)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%)))
 
 # Typesystem example
 
-DLIB=$(LIBS)/libtest.so
-SLIB=$(LIBS)/libtest.a
+MAJOR=0
+MINOR=0
+LIB=libtypesystems.so
+DLIB=$(LIBS)/libtypesystems.so.$(MAJOR).$(MINOR)
+SLIB=$(LIBS)/libtypesystems.a.$(MAJOR).$(MINOR)
 
 .PHONY: clean all dirs lib example
 
@@ -88,3 +95,15 @@ dirs:
 	mkdir -p $(EXOBJ)/typebuffer
 
 lib: $(SLIB) $(DLIB)
+
+install: $(DLIB)
+	mkdir -p -m  655 $(INCDIR)
+	install -c  $(DLIB) $(LIBDIR)
+	ldconfig -v -n $(LIBDIR)
+	ln -sf $(LIBDIR)/$(LIB).$(MAJOR).$(MINOR) $(LIBDIR)/$(LIB).$(MAJOR)
+	ln -sf $(LIBDIR)/$(LIB).$(MAJOR) $(LIBDIR)/$(LIB)
+	cp -r ../include/* $(INCDIR)
+
+remove: $(LIBDIR)/$(LIB) $(INCDIR)
+	rm -r $(INCDIR)
+	rm $(LIBDIR)/$(LIB)*
