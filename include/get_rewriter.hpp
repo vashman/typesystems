@@ -1,4 +1,4 @@
-//
+// convert data from typesystem into client data.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 // Distributed under the Boost Software License, Version 1.0.
@@ -43,6 +43,9 @@ public:
   ) const;
 
 protected:
+  /* get_rewriter ctor
+
+  */
   template <std::size_t TypeCount>
   explicit
   get_rewriter(

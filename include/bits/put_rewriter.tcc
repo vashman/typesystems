@@ -10,6 +10,7 @@
 
 namespace typesystems {
 
+/* put_rewriter ctor */
 template <typename T>
 template <std::size_t TypeCount>
 put_rewriter<T>::put_rewriter(
