@@ -34,13 +34,6 @@ public:
   /* number of type generated when rewriting with zero as infinite */
   std::size_t const gen_count;
 
-  template <std::size_t TypeCount>
-  put_rewriter(
-    explicit_typeid_type const (&)[TypeCount]
-  , std::size_t
-  , std::size_t _refs = 0
- );
-
   virtual
   ~put_rewriter(
   );
@@ -52,6 +45,13 @@ public:
   ) const;
 
 protected:
+  template <std::size_t TypeCount>
+  put_rewriter(
+    explicit_typeid_type const (&)[TypeCount]
+  , std::size_t
+  , std::size_t _refs = 0
+ );
+
   virtual bool
   do_rewrite(
     value_type const &

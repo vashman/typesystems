@@ -32,13 +32,6 @@ public:
   /* number to types used in rewriting excluding T. */
   std::size_t const type_count;
 
-  template <std::size_t TypeCount>
-  explicit
-  get_rewriter(
-    explicit_typeid_type const (&)[TypeCount]
-  , std::size_t _refs = 0
-  );
-
   virtual
   ~get_rewriter(
   );
@@ -50,6 +43,13 @@ public:
   ) const;
 
 protected:
+  template <std::size_t TypeCount>
+  explicit
+  get_rewriter(
+    explicit_typeid_type const (&)[TypeCount]
+  , std::size_t _refs = 0
+  );
+
   virtual bool
   do_rewrite(
     value_type &
