@@ -30,7 +30,7 @@ infomartion.
 
 Documentation
 --------------------------------------------------------------------------
-Check out the [style guide](doc.style) for style and formatting
+Check out the [style guide][doc.style] for style and formatting
 infomartion.
 
 Submitting Changes
