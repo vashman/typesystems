@@ -14,8 +14,18 @@
 2 Introduction
 ==========================================================================
 
+
 3 Motivation and Scope
 ==========================================================================
+When dealing with external programs, may it be databases, scripting
+languages the typesystem and/or the types being used may differ completly.
+This means that when interfaceing with these external programs, the client
+must provide tight coupling between their own typesystem and that of the
+program.
+
+The interface between the two can consist of; conversion of type and data
+information, a mechanism for passing types between them which may need to
+be asynarious, and possibly identification of type infomation.
 
 4 Impact on the Standard
 ==========================================================================
