@@ -191,7 +191,8 @@ clear(
   typebuffer_container const & _unit
 ){
   if (has_typebuffer<T>(_unit)){
-  (_unit.c[explicit_typeid<T>::raw_typeid()])->clear();
+  (_unit.c.at(explicit_typeid<T>::raw_typeid()))->clear();
+  return;
   }
 throw std::bad_cast();
 }

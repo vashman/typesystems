@@ -19,17 +19,26 @@ namespace bits {
 class typebuffer_map{
 public:
 #if __cplusplus >= 201103L
-  typebuffer_map() = default;
+  typebuffer_map(
+  ) = default;
 
-  typebuffer_map(typebuffer_map const &) = delete;
-
-  typebuffer_map &
-  operator=(typebuffer_map const &) = delete;
-
-  typebuffer_map(typebuffer_map &&) = delete;
+  typebuffer_map(
+    typebuffer_map const &
+  ) = delete;
 
   typebuffer_map &
-  operator=(typebuffer_map &&) = delete;
+  operator=(
+    typebuffer_map const &
+  ) = delete;
+
+  typebuffer_map(
+    typebuffer_map &&
+  ) = delete;
+
+  typebuffer_map &
+  operator=(
+    typebuffer_map &&
+  ) = delete;
 #endif
 
   ~typebuffer_map();
@@ -112,13 +121,17 @@ public:
     map_type::const_iterator iter;
   };
 
-  iterator begin();
+  iterator
+  begin();
 
-  iterator end();
+  iterator
+  end();
 
-  const_iterator begin() const;
+  const_iterator
+  begin() const;
 
-  const_iterator end() const;
+  const_iterator
+  end() const;
 
   map_type c;
 };
