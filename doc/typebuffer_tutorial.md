@@ -134,7 +134,7 @@ use_typebuffer<int>(container_1);
 
 7 Clearing data in a buffer
 --------------------------------------------------------------------------
-[example: clearing.cpp](../example/typebuffer/clearing/cpp)
+[example: clearing.cpp](../example/typebuffer/clearing.cpp)
 
 ```c++
 clear<std::string>(con1);
