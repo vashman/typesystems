@@ -24,6 +24,8 @@ Distributed under the Boost Software License, Version 1.0.
   3. Adding Typebuffers to a Container
   4. Checking Container for Typebuffer
   5. Retriving a Typebuffer from a Container
+  6. Checking if a buffer is empty
+  7. Clearing data in a buffer
 
 2 Introduction
 ==========================================================================
@@ -120,4 +122,22 @@ has_typebuffer<int>(container_1);
 
 ```c++
 use_typebuffer<int>(container_1);
+```
+
+6 Checking if a buffer is empty
+--------------------------------------------------------------------------
+[example: empty.cpp](../example/typebuffer/empty.cpp)
+
+```c++
+  if (empty<std::string>(con1) == false){
+```
+
+7 Clearing data in a buffer
+--------------------------------------------------------------------------
+[example: clearing.cpp](../example/typebuffer/clearing/cpp)
+
+```c++
+clear<std::string>(con1);
+
+clear(con1);
 ```
