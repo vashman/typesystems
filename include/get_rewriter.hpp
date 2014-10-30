@@ -42,9 +42,12 @@ public:
   , typebuffer_container const &
   ) const;
 
+  bool
+  empty(
+  ) const;
+
 protected:
   /* get_rewriter ctor
-
   */
   template <std::size_t TypeCount>
   explicit
@@ -57,6 +60,10 @@ protected:
   do_rewrite(
     value_type &
   , typebuffer_container const &
+  ) const = 0;
+
+  virtual bool
+  do_empty(
   ) const = 0;
 };
 

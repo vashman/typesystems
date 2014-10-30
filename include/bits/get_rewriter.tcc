@@ -37,6 +37,13 @@ return this->do_rewrite(_value, _buffers);
 
 template <typename T>
 bool
+empty(
+) const {
+return this->do_empty();
+}
+
+template <typename T>
+bool
 operator>(
   get_rewriter<T> const & _a
 , get_rewriter<T> const & _b
