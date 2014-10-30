@@ -1,4 +1,4 @@
-//
+// typesystem or part of typesystem representation with io.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 // Distributed under the Boost Software License, Version 1.0.
@@ -24,28 +24,41 @@ public:
   typedef explicit_typeid_type id_type;
 
 #if __cplusplus >= 201103L
-  typesystem() = default;
+  typesystem(
+  ) = default;
 
-  typesystem(typesystem const &) = default;
-
-  typesystem &
-  operator=(typesystem const &) = default;
-
-  typesystem(typesystem &&) = default;
+  typesystem(
+    typesystem const &
+  ) = default;
 
   typesystem &
-  operator=(typesystem &&) = default;
+  operator=(
+    typesystem const &
+  ) = default;
+
+  typesystem(
+    typesystem &&
+  ) = default;
+
+  typesystem &
+  operator=(
+    typesystem &&
+  ) = default;
 #endif
 
   ~typesystem();
 
   template <typename T>
   bool
-  put_rewrite(T const &) const;
+  put_rewrite(
+    T const &
+  ) const;
 
   template <typename T>
   bool
-  get_rewrite(T &) const;
+  get_rewrite(
+    T &
+  ) const;
 
 private:
   typebuffer_container typebuffers;
@@ -83,42 +96,78 @@ private:
   template <typename T, typename Sequence>
   friend void
   set_typebuffer(typesystem &);
+
+  template <typename T>
+  friend bool
+  empty(typesystem const &);
+
+  template <typename T>
+  friend void
+  clear(typesystem &);
 };
+
+/* typesystem::empty */
+template <typename T>
+bool
+empty(
+  typesystems const &
+);
+
+/* typesystem::clear */
+template <typename T>
+void
+clear(
+  typesystem &
+);
 
 /* typesystem::has_put_rewriter */
 template <typename T>
 bool
-has_put_rewriter(typesystem const &);
+has_put_rewriter(
+  typesystem const &
+);
 
 /* typesystem::has_get_rewriter */
 template <typename T>
 bool
-has_get_rewriter(typesystem const &);
+has_get_rewriter(
+  typesystem const &
+);
 
 /* typesystem::use_put_rewriter */
 template <typename T>
 put_rewriter<T> &
-use_put_rewriter(typesystem const &);
+use_put_rewriter(
+  typesystem const &
+);
 
 /* typesystem::use_get_rewriter */
 template <typename T>
 get_rewriter<T> &
-use_get_rewriter(typesystem const &);
+use_get_rewriter(
+  typesystem const &
+);
 
 /* typesystem::set_typebuffer */
 template <typename T, typename Sequence>
 void
-set_typebuffer(typesystem const &);
+set_typebuffer(
+  typesystem const &
+);
 
 /* typesystem::set_put_rewriter */
 template <typename Rewriter>
 bool
-set_put_rewriter(typesystem const & _typesys);
+set_put_rewriter(
+  typesystem const & _typesys
+);
 
 /* typesystem::set_get_rewriter */
 template <typename Rewriter>
 bool
-set_get_rewriter(typesystem const & _typesys);
+set_get_rewriter(
+  typesystem const & _typesys
+);
 
 } /* typesystems */
 #include "./bits/typesystem.tcc"

@@ -171,5 +171,27 @@ _typesys.get_rewriters[
 ] = new Rewriter();
 return true;
 }
+
+/* typesystem empty */
+template <typename T>
+bool
+empty(
+  typesystem const & _typesys
+){
+  if (has_get_rewriter<T>(_typesys)){
+  return (use_get_rewriter<T>(_typesys)).empty();
+  }
+return empty<T>(_typesys.typebuffers);
+}
+
+/* typesystem clear */
+template <typename T>
+void
+clear(
+  typesystem & _typesys
+){
+clear<T>(_typesys.typebuffers);
+}
+
 } /* typesystems */
 #endif
