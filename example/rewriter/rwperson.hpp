@@ -33,6 +33,19 @@ public:
   person_rw_get(
     std::size_t _refs = 0
   );
+
+private:
+  virtual bool 
+  do_rewrite(
+    person &
+  , typesystems::typebuffer_container const & _buffers
+  ) const;
+
+  virtual bool
+  do_empty(
+  ) const;
+
+  static typesystems::explicit_typeid_type const array[2];
 };
 
 
@@ -46,7 +59,7 @@ person_rw_put::person_rw_put(
 }
 
 bool
-do_rewrite(
+person_rw_put::do_rewrite(
   person const & _person
 , typesystems::typebuffer_container const & _buffers
 ) const {
@@ -69,4 +82,22 @@ typesystems::explicit_typeid_type const person_rw_put::array[]
   = {
      typesystems::explicit_typeid<std::string>::raw_typeid()
    , typesystems::explicit_typeid<int const>::raw_typeid()
+  };
+
+bool
+person_rw_get::do_rewrite(
+  person & _person
+, typesystems::typebuffer_container const & _buffers
+) const {
+}
+
+template <typename T>
+bool
+person_rw_get::do_empty(
+) const {
+
+}
+
+typesystems::explicit_typeid_type const person_rw_get::array[]
+  = {
   };
