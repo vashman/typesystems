@@ -22,7 +22,7 @@ typesystem typesys;
 [example: types.cpp](../exmaple/typesystem/types.cpp)
 
 ```c++
-set_typebuffer<int>(typesys);
+set_typebuffer<int, std::vector<int> >(typesys);
 ```
 
 4 Checking if a Type is Avaliable
