@@ -22,13 +22,13 @@ public:
     std::size_t _refs = 0
   );
 
+private:
   virtual bool
   do_rewrite(
     T const &
   , typebuffer_container const &
   ) const;
 
-private:
   static typesystems::explicit_typeid_type const array[1];
 };
 
@@ -40,13 +40,13 @@ public:
     std::size_t _refs = 0
   );
 
+private:
   virtual bool
   do_rewrite(
     T &
   , typebuffer_container const &
   ) const;
 
-private:
   static typesystems::explicit_typeid_type const array[1];
 };
 
