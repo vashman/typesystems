@@ -47,6 +47,11 @@ private:
   , typebuffer_container const &
   ) const;
 
+  virtual bool
+  do_empty(
+    typebuffer_container const &
+  ) const;
+
   static typesystems::explicit_typeid_type const array[1];
 };
 
@@ -100,6 +105,14 @@ default_rewriter_get<T>::do_rewrite(
   return true;
   }
 return false;
+}
+
+template <typename T>
+bool
+default_rewriter_get<T>::do_empty(
+  typebuffer_container const & _buffer
+) const {
+return (use_typebuffer<T>(_buffer)).empty();
 }
 
 } /* bits */ } /* typesystems */
