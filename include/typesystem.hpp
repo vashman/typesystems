@@ -110,7 +110,7 @@ private:
 template <typename T>
 bool
 empty(
-  typesystems const &
+  typesystem const &
 );
 
 /* typesystem::clear */
