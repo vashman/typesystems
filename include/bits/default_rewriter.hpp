@@ -1,4 +1,4 @@
-//
+// Default rewriters that simply input/output the type.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 // Distributed under the Boost Software License, Version 1.0.
@@ -18,10 +18,15 @@ template <typename T>
 class default_rewriter_put : public typesystems::put_rewriter<T>{
 public:
   explicit
-  default_rewriter_put(std::size_t _refs = 0);
+  default_rewriter_put(
+    std::size_t _refs = 0
+  );
 
   virtual bool
-  do_rewrite(T const &, typebuffer_container const &) const;
+  do_rewrite(
+    T const &
+  , typebuffer_container const &
+  ) const;
 
 private:
   static typesystems::explicit_typeid_type const array[1];
@@ -31,10 +36,15 @@ template <typename T>
 class default_rewriter_get : public typesystems::get_rewriter<T>{
 public:
   explicit
-  default_rewriter_get(std::size_t _refs = 0);
+  default_rewriter_get(
+    std::size_t _refs = 0
+  );
 
   virtual bool
-  do_rewrite(T &, typebuffer_container const &) const;
+  do_rewrite(
+    T &
+  , typebuffer_container const &
+  ) const;
 
 private:
   static typesystems::explicit_typeid_type const array[1];
@@ -53,7 +63,7 @@ template <typename T>
 default_rewriter_put<T>::default_rewriter_put(
   std::size_t _refs
 )
- : typesystems::put_rewriter<T>(array, 0, _refs){
+ : typesystems::put_rewriter<T>(array, 0, _refs) {
 }
 
 /* default_rewriter_get ctor */
