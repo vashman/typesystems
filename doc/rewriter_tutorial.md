@@ -13,6 +13,7 @@ Table of Contents
 4. Using an Rewriter
   1. Instaniating
   2. Invoking a Rewriter
+  3. Checking if buffer is empty
 
 2 Scope
 ==========================================================================
@@ -89,4 +90,12 @@ rwp->rewrite(alice, buffer);
 person alice_clone(0, "");
 
 rwg->rewrite(alice_clone, buffer);
+```
+
+3 Checking is a buffer is empty
+--------------------------------------------------------------------------
+[example: ](../example/rewriter/empty.cpp)
+
+```c++
+bool rv = rwg->empty<person>();
 ```
