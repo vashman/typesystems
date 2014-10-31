@@ -37,7 +37,7 @@ return this->do_rewrite(_value, _buffers);
 
 template <typename T>
 bool
-empty(
+get_rewriter<T>::empty(
   typebuffer_container const & _buff
 ) const {
 return this->do_empty(_buff);
