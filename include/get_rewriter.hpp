@@ -44,6 +44,7 @@ public:
 
   bool
   empty(
+    typebuffer_container const &
   ) const;
 
 protected:
@@ -64,6 +65,7 @@ protected:
 
   virtual bool
   do_empty(
+    typebuffer_container const &
   ) const = 0;
 };
 
