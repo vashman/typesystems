@@ -38,11 +38,12 @@ private:
   virtual bool 
   do_rewrite(
     person &
-  , typesystems::typebuffer_container const & _buffers
+  , typesystems::typebuffer_container const &
   ) const;
 
   virtual bool
   do_empty(
+    typesystems::typebuffer_container const &
   ) const;
 
   static typesystems::explicit_typeid_type const array[2];
@@ -50,7 +51,7 @@ private:
 
 
 person_rw_put::person_rw_put(
-  std::size_t _refs = 0
+  std::size_t _refs
 )
   : typesystems::put_rewriter<person>(
     array
@@ -73,8 +74,8 @@ typesystems::typebuffer_interface<int const> & buff1
 typesystems::typebuffer_interface<std::string> & buff2
     = typesystems::use_typebuffer<std::string>(_buffers);
 
-buff1.push(_person.age);
-buff2.push(string(_person.name));
+buff1.push(_person.get_age());
+buff2.push(std::string(_person.name));
 return true;
 }
 
@@ -89,13 +90,29 @@ person_rw_get::do_rewrite(
   person & _person
 , typesystems::typebuffer_container const & _buffers
 ) const {
+  if (typesystems::has_typebuffer<std::string>(_buffers) == false){
+  return false;
+  }
+  if (typesystems::has_typebuffer<int const>(_buffers) == false){
+  return false;
+  }
+typesystems::typebuffer_interface<std::string> & b1
+  = typesystems::use_typebuffer<std::string>(_buffers);
+
+typesystems::typebuffer_interface<int const> & b2
+  = typesystems::use_typebuffer<int const>(_buffers);
+
+/* operation should block with buffer is empty */
+_person = person(b2.next(), b1.next());
+return true;
 }
 
-template <typename T>
 bool
 person_rw_get::do_empty(
+  typesystems::typebuffer_container const & _buffers
 ) const {
-
+return ( (typesystems::use_typebuffer<std::string>(_buffers)).empty() 
+       && (typesystems::use_typebuffer<int const>(_buffers)).empty() );
 }
 
 typesystems::explicit_typeid_type const person_rw_get::array[]
