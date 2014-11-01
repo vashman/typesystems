@@ -82,7 +82,7 @@ define cc-lib_static
 ar rvs $@ $^ 2> staticlib.log
 endef
 
-all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES)
+all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES) $(RW_EXAMPLES) $(TY_EXAMPLES)
 
 $(SLIB): $(OBJECTS)
 	$(cc-lib_static)
