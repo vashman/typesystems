@@ -14,15 +14,42 @@ public:
   , std::string name
   );
 
-private:
+  person &
+  operator=(
+  person const &
+  );
+
   std::string name;
-  int const age;
+
+  int
+  get_age(
+  ) const;
+
+private:
+  int age;
 };
 
 person::person(
   int _age
-, string _name
+, std::string _name
 )
   : name(_name)
   , age(_age) {
+}
+
+int
+person::get_age(
+) const {
+return this->age;
+}
+
+person &
+person::operator=(
+  person const & _person
+){
+  if (&_person != this){
+  this->name = _person.name;
+  this->age = _person.age;
+  }
+return *this;
 }
