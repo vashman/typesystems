@@ -54,7 +54,7 @@ person_rw_put::person_rw_put(
   std::size_t _refs
 )
   : typesystems::put_rewriter<person>(
-    array
+      array
     , static_cast<std::size_t>(2)
     , _refs) {
 }
