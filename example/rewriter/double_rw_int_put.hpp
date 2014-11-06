@@ -8,8 +8,9 @@
 #include <limits>
 #include <iomanip>
 #include <cmath>
+#include "../../include/put_rewriter.hpp"
 
-class double_rw_int_put : public typesystems::rewriter_put<double>{
+class double_rw_int_put : public typesystems::put_rewriter<double>{
 public:
   explicit
   double_rw_int_put(
@@ -20,44 +21,25 @@ public:
   do_rewrite(
     double const & _value
   , typesystems::typebuffer_container const & _buffers
-  ) const {
-    /* check if the int buffer is present */
-    if (typesystems::has_typebuffer<int>(_buffers) == false){
-    return false;
-    }
-  /* split the value before and after the decimal */
-  double dbl_int;
-  double dbl_dec = modf(_value, & dbl_int);
-  typesystems::typebuffer_interface<int> & buffer
-      = typesystems::use_typebuffer<int>(_buffers);
+  ) const;
 
-  try {
-    while (std::numeric_limits<int>::max() < dbl_int){
-    buffer.push(static_cast<int>(dbl_int - std::numeric_limits<int>::max()));
-    dbl_int -= std::numeric_limits<int>::max();
-    }
-    buffer.push(static_cast<int>(dbl_int));
-    
-    while (std::numeric_limits<int>::max() < dbl_dec){
-    buffer.push(static_cast<int>(dbl_dec - std::numeric_limits<int>::max()));
-    dbl_dec -= std::numeric_limits<int>::max();
-    }
-    buffer.push(static_cast<int>(dbl_dec));
-  } catch (...){
-  return false;
-  }
-  return true;
-  }
+private:
+  static typesystems::explicit_typeid_type const array[1];
 };
 
-double_rw_int_put(
+/**/
+double_rw_int_put::double_rw_int_put(
   std::size_t _refs
 )
-  : typesystems::rewriter_put<double> (_refs) {
+  : typesystems::put_rewriter<double> (
+      array
+    , static_cast<std::size_t>(1)
+    , _refs) {
 }
 
+/**/
 bool
-do_rewrite(
+double_rw_int_put::do_rewrite(
   double const & _value
 , typesystems::typebuffer_container const & _buffers
 ) const {
@@ -66,25 +48,31 @@ do_rewrite(
   return false;
   }
 /* split the value before and after the decimal */
-double dbl_int;
-double dbl_dec = std::modf(_value, & dbl_int);
+double chara;
+double manti = std::modf(_value, & chara);
 typesystems::typebuffer_interface<int> & buffer
     = typesystems::use_typebuffer<int>(_buffers);
 
 try {
-  while (std::numeric_limits<int>::max() < dbl_int){
-  buffer.push(static_cast<int>(dbl_int - std::numeric_limits<int>::max()));
-  dbl_int -= std::numeric_limits<int>::max();
+  while (std::numeric_limits<int>::max() < chara){
+  buffer.push(static_cast<int>(chara - std::numeric_limits<int>::max()));
+  chara -= std::numeric_limits<int>::max();
   }
-buffer.push(static_cast<int>(dbl_int));
+buffer.push(static_cast<int>(chara));
     
-  while (std::numeric_limits<int>::max() < dbl_dec){
-  buffer.push(static_cast<int>(dbl_dec - std::numeric_limits<int>::max()));
-  dbl_dec -= std::numeric_limits<int>::max();
+  while (std::numeric_limits<int>::max() < manti){
+  buffer.push(static_cast<int>(manti - std::numeric_limits<int>::max()));
+  manti -= std::numeric_limits<int>::max();
    }
-buffer.push(static_cast<int>(dbl_dec));
+buffer.push(static_cast<int>(manti));
   } catch (...){
   return false;
   }
 return true;
 }
+
+/**/
+typesystems::explicit_typeid_type const double_rw_int_put::array[]
+  = {
+     typesystems::explicit_typeid<int>::raw_typeid()
+  };
