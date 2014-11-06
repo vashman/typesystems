@@ -10,21 +10,18 @@
 #include <iomanip>
 #include <cmath>
 #include <vector>
-#include "../../../include/put_rewriter.hpp"
+#include "../../include/put_rewriter.hpp"
+#include "../../include/get_rewriter.hpp"
 
-#include "../../../src/rewriter_base.cpp"
-#include "../../../src/total_typeid.cpp"
-#include "../../../src/typebuffer_map.cpp"
-#include "../../../src/typebuffer.cpp"
+#include "../../src/rewriter_base.cpp"
+#include "../../src/total_typeid.cpp"
+#include "../../src/typebuffer_map.cpp"
+#include "../../src/typebuffer.cpp"
 
-using std::cout;
-using std::endl;
-using std::modf;
-using std::pow;
-using std::vector;
-using std::numeric_limits;
-using typesystems::rewriter_put;
-using typesystems::rewriter_get;
+#include "double_rw_int_put.hpp"
+
+using typesystems::put_rewriter;
+using typesystems::get_rewriter;
 using typesystems::typebuffer_container;
 using typesystems::has_typebuffer;
 using typesystems::use_typebuffer;
@@ -37,7 +34,7 @@ int main(){
 typebuffer_container buffer;
 set_typebuffer<int, std::vector<int> >(buffer);
 
-rewriter_put<double> * dbl_rw = new dbl_rw_int_put(1);
+put_rewriter<double> * dbl_rw = new double_rw_int_put(1);
 
 double value = std::numeric_limits<double>::max();
 
@@ -51,7 +48,9 @@ dbl_rw->rewrite(value, buffer);
 typebuffer<int, std::vector<int> > & buff
           = use_typebuffer<int, std::vector<int> >(buffer);
 
-std::cout << "number of elements: " << buff.c.size() << std::endl;
+std::vector<int> & con = buff.get_container();
+
+std::cout << "number of elements: " << con.size() << std::endl;
 std::cout << "the double: " << std::setprecision(15) << value << " turned into: ";
 //while (empty<int>(buffer) == false){
 ///cout << buff.next() << " and ";
