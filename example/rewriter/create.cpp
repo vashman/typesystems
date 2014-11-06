@@ -9,7 +9,6 @@
 #include "../../include/get_rewriter.hpp"
 #include "rwperson.hpp"
 
-
 using typesystems::put_rewriter;
 using typesystems::get_rewriter;
 
