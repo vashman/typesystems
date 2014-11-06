@@ -85,6 +85,14 @@ typesystems::explicit_typeid_type const person_rw_put::array[]
    , typesystems::explicit_typeid<int const>::raw_typeid()
   };
 
+person_rw_get::person_rw_get(
+  std::size_t _refs
+)
+  : typesystems::get_rewriter<person>(
+    array
+  , _refs) {
+}
+
 bool
 person_rw_get::do_rewrite(
   person & _person
