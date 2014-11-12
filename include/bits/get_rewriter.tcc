@@ -10,6 +10,7 @@
 
 namespace typesystems {
 
+/* get_rewriter ctor */
 template <typename T>
 template <std::size_t TypeCount>
 get_rewriter<T>::get_rewriter(
@@ -21,11 +22,13 @@ get_rewriter<T>::get_rewriter(
   , type_count ((TypeCount - static_cast<std::size_t>(1))) {
 }
 
+/* get_rewriter dtor */
 template <typename T>
 get_rewriter<T>::~get_rewriter(
 ){
 }
 
+/* get_rewriter rewrite */
 template <typename T>
 bool
 get_rewriter<T>::rewrite(
@@ -35,6 +38,7 @@ get_rewriter<T>::rewrite(
 return this->do_rewrite(_value, _buffers);
 }
 
+/* get_rewriter empty */
 template <typename T>
 bool
 get_rewriter<T>::empty(
@@ -43,6 +47,7 @@ get_rewriter<T>::empty(
 return this->do_empty(_buff);
 }
 
+/* get_rewriter operator > */
 template <typename T>
 bool
 operator>(
@@ -52,6 +57,7 @@ operator>(
 return _a.type_count > _b.type_count;
 }
 
+/* get_rewriter operator < */
 template <typename T>
 bool
 operator<(
@@ -61,6 +67,7 @@ operator<(
 return _a < _b;
 }
 
+/* get_rewriter operator == */
 template <typename T>
 bool
 operator==(
@@ -85,6 +92,7 @@ not_found = true;
 return true;
 }
 
+/* get_rewriter operator != */
 template <typename T>
 bool
 operator!=(
@@ -94,6 +102,7 @@ operator!=(
 return !(_a == _b);
 }
 
+/* get_rewriter operator >= */
 template <typename T>
 bool
 operator>=(
@@ -103,6 +112,7 @@ operator>=(
 return _a.type_count >= _b.type_count;
 }
 
+/* get_rewriter operator <= */
 template <typename T>
 bool
 operator<=(
