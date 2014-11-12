@@ -50,6 +50,7 @@ Repository
 ==========================================================================
 Official Repository's are;
 * [github](http://github.com/vashman/typesystems)
+* [bitbucket](http://bitbucket.org/sambabus/typesystems)
 
 [issues]: http://www.github.com/vashman/typesystems/issues
 [src.style]: http://www.github.com/404
