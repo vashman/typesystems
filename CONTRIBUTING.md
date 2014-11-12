@@ -1,8 +1,5 @@
 Contributing
 ==========================================================================
-The main repository is on http://github.com/vashman/typesystems.
-All issues and disscusions happen on http://github.com/vashman/typesystems
-/issues.
 
 Table of Contents
 ==========================================================================
@@ -11,6 +8,8 @@ Table of Contents
   1. Source Code
   2. Documentation
 3. Submitting Changes
+4. Issues & Bugs
+5. Repository
 
 Proposing Changes / Filing Bugs
 ==========================================================================
@@ -39,8 +38,18 @@ Changes should be submitted trough [github]
 (http://github.com/vashman/typesystems). The changes should be submitted
 under the topic branch for which it address. This topic branch should be
 merged with the newest development branch before submitting. 
-After submitting a pull request the connected [issues][issues] should also be
-updated.
+After submitting a pull request the connected [issues][issues] should also
+be updated.
+
+Issues & Bugs
+==========================================================================
+All issues and disscusions happen on http://github.com/vashman/typesystems
+/issues.
+
+Repository
+==========================================================================
+Official Repository's are;
+* [github](http://github.com/vashman/typesystems)
 
 [issues]: http://www.github.com/vashman/typesystems/issues
 [src.style]: http://www.github.com/404
