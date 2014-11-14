@@ -25,15 +25,23 @@ public:
   explicit
   explicit_typeid() = delete;
 
-  explicit_typeid(explicit_typeid const &) = delete;
+  explicit_typeid(
+    explicit_typeid const &
+  ) = delete;
 
   explicit_typeid &
-  operator=(explicit_typeid const &) = delete;
+  operator=(
+    explicit_typeid const &
+  ) = delete;
 
-  explicit_typeid(explicit_typeid &&) = delete;
+  explicit_typeid(
+    explicit_typeid &&
+  ) = delete;
 
   explicit_typeid &
-  operator=(explicit_typeid &&) = delete;
+  operator=(
+    explicit_typeid &&
+  ) = delete;
 
  ~explicit_typeid() = delete;
 #endif
@@ -43,7 +51,9 @@ public:
   compare();
 
   static bool
-  raw_compare(explicit_typeid_type const &);
+  raw_compare(
+    explicit_typeid_type const &
+  );
 
   static explicit_typeid_type
   raw_typeid();
