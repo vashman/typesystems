@@ -23,7 +23,8 @@ public:
 
 #if __cplusplus >= 201103L
   explicit
-  explicit_typeid() = delete;
+  explicit_typeid(
+  ) = delete;
 
   explicit_typeid(
     explicit_typeid const &
