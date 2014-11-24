@@ -1,6 +1,6 @@
 Typesystems Tutorial
 ==========================================================================
-`
+```
    typesystem                                              
 +------------------------------------------+               
 |                                          |               
@@ -22,10 +22,12 @@ Typesystems Tutorial
 |             |  6 +-----------------+     |           |   
 |             +--> |   get_rewriter  +-----------------+   
 |                  +-----------------+     |               
-|                                          |               
+|                                          |               `
 +------------------------------------------+               
-`
+```
+
 figure 1: overview of typesystems, without type ids.
+
 1. A container for type 'T' is created.
 2. The container is used by the typebuffer adapter.
 3. The typebuffer_interface is used to access the adapter.
@@ -34,6 +36,8 @@ figure 1: overview of typesystems, without type ids.
 6. The typebuffer_interface is used to retrieve 'T'.
 7. A rewriter exams 'U' and converts it to 'T' if necessary.
 
+Tutorials
+==========================================================================
 1. [Explicit Typeid Tutorial](./explicit_typeid_tutorial.md)
 2. [Typebuffer Tutorial](./typebuffer_tutorial.md)
 3. [Rewriter Tutorial](./rewriter_tutorial.md)
