@@ -54,5 +54,5 @@ Official Repository's are;
 * [gitlab](http://gitlab.com/actingcaptin/typesystems)
 
 [issues]: http://www.github.com/vashman/typesystems/issues
-[src.style]: http://www.github.com/404
+[src.style]: http://vashman.github.io/docs/style/
 [doc.style]: http://www.github.com/404
