@@ -39,6 +39,10 @@ and pop from the underlying container.
 ==========================================================================
 1 Basic Creation
 --------------------------------------------------------------------------
+When creating a typebuffer, the template parameters are the type that the
+typebuffer represents, and the container type that is used to store and
+retrive the types. 
+
 [example: create.cpp](../example/typebuffer/create.cpp)
 
 ```c++
@@ -47,6 +51,9 @@ typebuffer<int, std::vector<int> > buffer;
 
 2 Copy Container Concstruction
 --------------------------------------------------------------------------
+By passing the same container type of the typbuffer, the containers copy
+contructor will be used as the initial container.
+
 [example: create.cpp](../example/typebuffer/create.cpp)
 
 ```c++
@@ -55,14 +62,20 @@ typebuffer<int, std::vector<int> > copied_buffer (vec);
 
 3 Qualified Types
 --------------------------------------------------------------------------
+Note that the first template parameter does not need to the same as the
+parameter used for the container such as when using const.
+
 [example: qualified.cpp](../example/qualified.cpp)
 
 ```c++
-typebuffer<int const, vector<int> > cbuff;
+typebuffer<const int, std::vector<int> > const_buffer;
 ```
 
 4 Accessing the Underlying Container
 --------------------------------------------------------------------------
+To retrive a referance to the container being used within a typebuffer,
+the containers interface may be used directly.
+
 [example: raw_container.cpp](../example/typebuffer/raw_container.cpp)
 
 ```c++
@@ -72,8 +85,14 @@ con.resize(12);
 
 4 Typebuffer Interface
 ==========================================================================
+The typebuffer interface is used to provide access to a typebuffer
+instance without knowing the container type used to create the typebuffer.
+
 1 Create an Typebuffer Interface
 --------------------------------------------------------------------------
+A typebuffer interface is a base class of typebuffer, and can not be
+constructed itself.
+
 [example: ](../example/typebuffer/interface.cpp)
 
 ```c++
