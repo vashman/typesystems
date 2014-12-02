@@ -98,6 +98,14 @@ private:
   set_typebuffer(typesystem &);
 
   template <typename T>
+  friend typebuffer_interface<T> &
+  use_typebuffer(typesystem &);
+
+  template <typename T, typename Sequence>
+  friend typebuffer<T,Sequence> &
+  use_typebuffer(typesystem &);
+
+  template <typename T>
   friend bool
   empty(typesystem const &);
 
@@ -153,6 +161,18 @@ template <typename T, typename Sequence>
 void
 set_typebuffer(
   typesystem const &
+);
+
+template <typename T>
+typebuffer_interface<T> &
+use_typebuffer(
+  typesystem &
+);
+
+template <typename T, typename Sequence>
+typebuffer<T,Sequence> &
+use_typebuffer(
+  typesystem &
 );
 
 /* typesystem::set_put_rewriter */

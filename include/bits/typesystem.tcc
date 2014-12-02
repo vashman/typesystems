@@ -193,5 +193,21 @@ clear(
 clear<T>(_typesys.typebuffers);
 }
 
+template <typename T, typename Sequence>
+typebuffer<T,Sequence> &
+use_typebuffer(
+  typesystem & _typesys
+){
+return use_typebuffer<T,Sequence>(_typesys.typebuffers);
+}
+
+template <typename T>
+typebuffer_interface<T> &
+use_typebuffer(
+  typesystem & _typesys
+){
+return use_typebuffer<T>(_typesys.typebuffers);
+}
+
 } /* typesystems */
 #endif
