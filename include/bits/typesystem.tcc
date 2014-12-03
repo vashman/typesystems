@@ -179,7 +179,7 @@ empty(
   typesystem const & _typesys
 ){
   if (has_get_rewriter<T>(_typesys)){
-  return (use_get_rewriter<T>(_typesys)).empty();
+  return (use_get_rewriter<T>(_typesys)).empty(_typesys.typebuffers);
   }
 return empty<T>(_typesys.typebuffers);
 }
