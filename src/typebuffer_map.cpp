@@ -53,34 +53,34 @@ return typebuffer_map::const_iterator(this->c.end());
 
 /* typebuffer_map::iterator ctor */
 typebuffer_map::iterator::iterator(
-  typename typebuffer_map::map_type::iterator _iter
+  typebuffer_map::map_type::iterator _iter
 )
   : iter (_iter) {
 }
 
-typename typebuffer_map::iterator::self_type
+typebuffer_map::iterator::self_type
 typebuffer_map::iterator::operator++(
 ){
 ++this->iter;
 return *this;
 }
 
-typename typebuffer_map::iterator::self_type
+typebuffer_map::iterator::self_type
 typebuffer_map::iterator::operator++(
   int 
 ){
-typename typebuffer_map::iterator::self_type i = *this;
+typebuffer_map::iterator::self_type i = *this;
 this->iter++;
 return i;
 }
 
-typename typebuffer_map::iterator::reference
+typebuffer_map::iterator::reference
 typebuffer_map::iterator::operator*(
 ){
 return this->iter->second;
 }
 
-typename typebuffer_map::iterator::pointer
+typebuffer_map::iterator::pointer
 typebuffer_map::iterator::operator->(
 ){
 return &this->iter->second;
@@ -88,14 +88,14 @@ return &this->iter->second;
 
 bool
 typebuffer_map::iterator::operator==(
-  typename typebuffer_map::iterator::self_type const & _iter
+  typebuffer_map::iterator::self_type const & _iter
 ) const {
 return _iter.iter == this->iter;
 }
 
 bool
 typebuffer_map::iterator::operator!=(
-  typename typebuffer_map::iterator::self_type const & _iter
+  typebuffer_map::iterator::self_type const & _iter
 ) const {
 return _iter.iter != this->iter;
 }
@@ -104,34 +104,34 @@ return _iter.iter != this->iter;
 
 /* typebuffer_map::const_iterator ctor */
 typebuffer_map::const_iterator::const_iterator(
-  typename typebuffer_map::map_type::const_iterator _iter
+  typebuffer_map::map_type::const_iterator _iter
 )
   : iter (_iter) {
 }
 
-typename typebuffer_map::const_iterator::self_type
+typebuffer_map::const_iterator::self_type
 typebuffer_map::const_iterator::operator++(
 ){
 ++this->iter;
 return *this;
 }
 
-typename typebuffer_map::const_iterator::self_type
+typebuffer_map::const_iterator::self_type
 typebuffer_map::const_iterator::operator++(
   int 
 ){
-typename typebuffer_map::const_iterator::self_type i = *this;
+typebuffer_map::const_iterator::self_type i = *this;
 this->iter++;
 return i;
 }
 
-typename typebuffer_map::const_iterator::value_type const &
+typebuffer_map::const_iterator::value_type const &
 typebuffer_map::const_iterator::operator*(
 ){
 return this->iter->second;
 }
 
-typename typebuffer_map::const_iterator::value_type const *
+typebuffer_map::const_iterator::value_type const *
 typebuffer_map::const_iterator::operator->(
 ){
 return &this->iter->second;
@@ -139,14 +139,14 @@ return &this->iter->second;
 
 bool
 typebuffer_map::const_iterator::operator==(
-  typename typebuffer_map::const_iterator::self_type const & _iter
+  typebuffer_map::const_iterator::self_type const & _iter
 ) const {
 return _iter.iter == this->iter;
 }
 
 bool
 typebuffer_map::const_iterator::operator!=(
-  typename typebuffer_map::const_iterator::self_type const & _iter
+  typebuffer_map::const_iterator::self_type const & _iter
 ) const {
 return _iter.iter != this->iter;
 }

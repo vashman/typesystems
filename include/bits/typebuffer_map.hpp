@@ -61,7 +61,7 @@ public:
     typedef int difference_type;
 
     explicit
-    iterator(typename map_type::iterator);
+    iterator(map_type::iterator);
 
     self_type
     operator++();
