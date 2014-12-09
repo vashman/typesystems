@@ -46,17 +46,17 @@ public:
   typedef std::map<typesystems::explicit_typeid_type
           , typesystems::bits::typebuffer_base *> map_type;
 
-  typedef typename map_type::iterator map_iterator;
-  typedef typename map_type::const_iterator map_const_iterator;
+  typedef map_type::iterator map_iterator;
+  typedef map_type::const_iterator map_const_iterator;
 
   /*
   */
   class iterator{
   public:
     typedef iterator self_type;
-    typedef typename map_type::mapped_type value_type;
-    typedef typename map_type::mapped_type & reference;
-    typedef typename map_type::mapped_type * pointer;
+    typedef map_type::mapped_type value_type;
+    typedef map_type::mapped_type & reference;
+    typedef map_type::mapped_type * pointer;
     typedef std::forward_iterator_tag iterator_catagory;
     typedef int difference_type;
 
@@ -90,14 +90,14 @@ public:
   class const_iterator{
   public:
     typedef const_iterator self_type;
-    typedef typename map_type::mapped_type value_type;
-    typedef typename map_type::mapped_type & reference;
-    typedef typename map_type::mapped_type * pointer;
+    typedef map_type::mapped_type value_type;
+    typedef map_type::mapped_type & reference;
+    typedef map_type::mapped_type * pointer;
     typedef std::forward_iterator_tag iterator_catagory;
     typedef int difference_type;
 
     explicit
-    const_iterator(typename map_type::const_iterator);
+    const_iterator(map_type::const_iterator);
 
     self_type
     operator++();
