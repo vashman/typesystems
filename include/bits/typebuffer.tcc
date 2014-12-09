@@ -83,6 +83,7 @@ typebuffer<T,Sequence>::operator=(
 return *this;
 }
 
+#if __cplusplus >= 201103L
 /* typebuffer move ctor */
 template <typename T, typename Sequence>
 typebuffer<T,Sequence>::typebuffer(
@@ -92,7 +93,6 @@ typebuffer<T,Sequence>::typebuffer(
   , c (_buff.c){
 }
 
-#if __cplusplus >= 201103L
 /* typebuffer move operator */
 template <typename T, typename Sequence>
 typebuffer<T,Sequence> &
