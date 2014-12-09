@@ -19,7 +19,7 @@
 
 #else
 #include <boost/type_traits.hpp>
-#define type_traits ::BOOST
+#define type_traits ::boost
 #endif
 
 namespace typesystems {
