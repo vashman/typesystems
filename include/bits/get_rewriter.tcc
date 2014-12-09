@@ -32,7 +32,7 @@ get_rewriter<T>::~get_rewriter(
 template <typename T>
 bool
 get_rewriter<T>::rewrite(
-  get_rewriter<T>::value_type & _value
+  typename get_rewriter<T>::value_type & _value
 , typebuffer_container const & _buffers
 ) const {
 return this->do_rewrite(_value, _buffers);
