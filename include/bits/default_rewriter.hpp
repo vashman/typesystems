@@ -79,6 +79,7 @@ default_rewriter_get<T>::default_rewriter_get(
  : typesystems::get_rewriter<T>(array, _refs){
 }
 
+/* default_rewrite_put do_rewrite */
 template <typename T>
 bool
 default_rewriter_put<T>::do_rewrite(
@@ -93,6 +94,7 @@ default_rewriter_put<T>::do_rewrite(
 return false;
 }
 
+/* default_rewrite_get do_rewrite */
 template <typename T>
 bool
 default_rewriter_get<T>::do_rewrite(

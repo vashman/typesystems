@@ -22,7 +22,7 @@ put_rewriter<T> & rw = use_put_rewriter<T>(*this);
 return rw.rewrite(_value_type, this->typebuffers);
 }
 
-/* typesystem put_rewite */
+/* typesystem get_rewite */
 template <typename T>
 bool
 typesystem::get_rewrite(
