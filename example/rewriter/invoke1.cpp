@@ -45,8 +45,13 @@ typebuffer<int const, std::vector<int> > & buff2
 
 std::cout << buff1.next() << " : " << buff2.next() << std::endl;
 return 0;
-}
-  catch (...) {
+} catch (
+  typesystems::no_buffer const & _e
+) {
+std::cerr << _e.what();
+return 1;
+
+} catch (...) {
 std::cerr << "";
 return 1;
 }

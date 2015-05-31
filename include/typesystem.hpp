@@ -49,13 +49,13 @@ public:
   ~typesystem();
 
   template <typename T>
-  bool
+  void
   put_rewrite(
     T const &
   ) const;
 
   template <typename T>
-  bool
+  void
   get_rewrite(
     T &
   ) const;

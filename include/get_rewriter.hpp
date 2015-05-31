@@ -36,7 +36,7 @@ public:
   ~get_rewriter(
   );
 
-  bool
+  void
   rewrite(
     value_type &
   , typebuffer_container const &
@@ -57,7 +57,7 @@ protected:
   , std::size_t _refs = 0
   );
 
-  virtual bool
+  virtual void
   do_rewrite(
     value_type &
   , typebuffer_container const &
@@ -113,6 +113,7 @@ operator<=(
 
 } /* typesystems */
 #include "bits/get_rewriter.tcc"
+#include "bits/rewriter_exception.hpp"
 
 #undef type_traits
 #endif

@@ -14,14 +14,19 @@ namespace typesystems {
 template <typename T>
 template <std::size_t TypeCount>
 put_rewriter<T>::put_rewriter(
-  explicit_typeid_type const (&_array)[TypeCount]
+  explicit_typeid_type const
+  (&_array)[TypeCount]
 , std::size_t _gen_count
-, std::size_t _refs
+, std::size_t _ref
 )
-  : typesystems::bits::rewriter_base (_refs)
-  , type_array ( _array)
-  , type_count ((TypeCount - static_cast<std::size_t>(1)))
-  , gen_count (_gen_count) {
+: typesystems::bits::rewriter_base (_ref)
+, type_array (_array)
+, type_count (
+    TypeCount
+  -
+    static_cast<std::size_t>(1)
+  )
+, gen_count (_gen_count) {
 }
 
 template <typename T>
@@ -31,12 +36,12 @@ put_rewriter<T>::~put_rewriter(
 
 /* rewriter rewrite to other type */
 template <typename T>
-bool
+void
 put_rewriter<T>::rewrite(
   put_rewriter<T>::value_type const & _value
 , typebuffer_container const & _buffers
 ) const {
-return this->do_rewrite(_value, _buffers);
+this->do_rewrite(_value, _buffers);
 }
 
 template <typename T>
