@@ -10,14 +10,16 @@
 #include <cmath>
 #include "../../include/put_rewriter.hpp"
 
-class double_rw_int_put : public typesystems::put_rewriter<double>{
+class double_rw_int_put
+  : public typesystems
+::put_rewriter<double> {
 public:
   explicit
   double_rw_int_put(
     std::size_t _refs = 0
   );
 
-  virtual bool
+  virtual void
   do_rewrite(
     double const & _value
   , typesystems::typebuffer_container const & _buffers
@@ -31,29 +33,29 @@ private:
 double_rw_int_put::double_rw_int_put(
   std::size_t _refs
 )
-  : typesystems::put_rewriter<double> (
-      array
-    , static_cast<std::size_t>(1)
-    , _refs) {
+: typesystems::put_rewriter<double> (
+  array
+, static_cast<std::size_t>(1)
+, _refs
+) {
 }
 
 /**/
-bool
+void
 double_rw_int_put::do_rewrite(
   double const & _value
-, typesystems::typebuffer_container const & _buffers
+,   typesystems
+::typebuffer_container const & _buffers
 ) const {
-  /* check if the int buffer is present */
-  if (typesystems::has_typebuffer<int>(_buffers) == false){
-  return false;
-  }
+  typesystems
+::check_typebuffer<int>(_buffers);
+
 /* split the value before and after the decimal */
 double chara;
 double manti = std::modf(_value, & chara);
 typesystems::typebuffer_interface<int> & buffer
     = typesystems::use_typebuffer<int>(_buffers);
 
-try {
   while (std::numeric_limits<int>::max() < chara){
   buffer.push(static_cast<int>(chara - std::numeric_limits<int>::max()));
   chara -= std::numeric_limits<int>::max();
@@ -65,10 +67,6 @@ buffer.push(static_cast<int>(chara));
   manti -= std::numeric_limits<int>::max();
    }
 buffer.push(static_cast<int>(manti));
-  } catch (...){
-  return false;
-  }
-return true;
 }
 
 /**/

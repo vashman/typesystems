@@ -29,13 +29,16 @@ Generic interface for type, provided via typebuffer. The functions clear
 and empty are defined in the typesystem::bits::typebuffer_base class.
 */
 template <typename T>
-class typebuffer_interface : public typesystems::bits::typebuffer_base {
+class typebuffer_interface
+  : public typesystems
+::bits::typebuffer_base {
 public:
-  typedef typename type_traits::remove_cv<T>::type value_type;
+  typedef typename
+  type_traits::remove_cv<T>::type
+  value_type;
 
 #if __cplusplus >= 201103L
-  typebuffer_interface(
-  ) = default;
+  typebuffer_interface() = default;
 
   typebuffer_interface(
     typebuffer_interface<T> const &
@@ -98,10 +101,12 @@ private:
 };
 
 /* typebuffer
-Sequence container adapter where all types are treated as T.
+  Sequence container adapter where all
+  types are treated as T.
 */
 template <typename T, typename Sequence>
-class typebuffer : public typebuffer_interface<T>{
+class typebuffer
+: public typebuffer_interface<T> {
 public:
   typedef typename Sequence::value_type value_type;
   typedef typename Sequence::reference reference;
@@ -110,7 +115,8 @@ public:
   typedef Sequence container_type;
 
   typebuffer(
-    container_type const & _ctnr = container_type()
+    container_type const &
+      _ctnr = container_type()
   );
 
   typebuffer(
@@ -139,7 +145,9 @@ public:
   get_container();
 
 protected:
-/* name and protected level is specified in standard [23.2.3.1] */
+/* name and protected level is
+  specified in standard [23.2.3.1]
+*/
   Sequence c;
 
 private:
@@ -242,8 +250,8 @@ use_typebuffer(
 );
 
 /* typesystem::use_typebuff
-
-Iterates through the buffer map and matches the 
+  Iterates through the buffer map and
+  matches the 
 */
 template <typename T, typename Sequence>
 typebuffer<T, Sequence> &
@@ -252,9 +260,9 @@ use_typebuffer(
 );
 
 /* typesystem::set_typebuff
-
-Adds a typebuffer using the Sequence container and Sequence::value_type to
-the buffmap.
+  Adds a typebuffer using the Sequence
+  container and Sequence::value_type to
+  the buffmap.
 */
 template <typename T, typename Sequence>
 void
@@ -263,22 +271,22 @@ set_typebuffer(
 );
 
 /* typesystem::set_typebuff copy
-
 */
 template <typename T, typename Sequence>
 void
 set_typebuffer(
-  typebuffer_container &, Sequence const &
+  typebuffer_container &
+, Sequence const &
 );
 
 /* typesystem::set_typebuff move
-
 */
 #if __cplusplus >= 201103L
 template <typename T, typename Sequence>
 void
 set_typebuffer(
-  typebuffer_container &, Sequence &&
+  typebuffer_container &
+, Sequence &&
 );
 #endif
 

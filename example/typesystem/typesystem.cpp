@@ -23,7 +23,7 @@ using typesystems::set_typebuffer;
 using typesystems::has_put_rewriter;
 using typesystems::has_get_rewriter;
 
-int main(){
+int main() try {
 typesystem ts;
 
 // push buffer
@@ -37,14 +37,15 @@ float fvalue = 2.25;
 int result = 0;
 
   if (has_put_rewriter<int>(ts)){
-    if (ts.put_rewrite(value)){
-      if (has_get_rewriter<int>(ts)){
-      ts.get_rewrite(result);
-      cout << "value written was: " << result << endl;
-      }
-    } else {
-    cout << "error occured writing" << endl;
+  ts.put_rewrite(value);
+    if (has_get_rewriter<int>(ts)){
+    ts.get_rewrite(result);
+    cout << "value written was: " << result << endl;
     }
+  } else {
+  cout << "error occurred writing" << endl;
   }
 return 0;
+} catch (...){
+return 1;
 }

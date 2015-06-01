@@ -15,7 +15,8 @@ namespace typesystems {
 namespace bits {
 
 template <typename T>
-class default_rewriter_put : public typesystems::put_rewriter<T>{
+class default_rewriter_put
+: public typesystems::put_rewriter<T> {
 public:
   explicit
   default_rewriter_put(
@@ -23,17 +24,20 @@ public:
   );
 
 private:
-  virtual bool
+  virtual void
   do_rewrite(
     T const &
   , typebuffer_container const &
   ) const;
 
-  static typesystems::explicit_typeid_type const array[1];
+  static
+    typesystems
+  ::explicit_typeid_type const array[1];
 };
 
 template <typename T>
-class default_rewriter_get : public typesystems::get_rewriter<T>{
+class default_rewriter_get
+: public typesystems::get_rewriter<T> {
 public:
   explicit
   default_rewriter_get(
@@ -41,7 +45,7 @@ public:
   );
 
 private:
-  virtual bool
+  virtual void
   do_rewrite(
     T &
   , typebuffer_container const &
@@ -81,32 +85,28 @@ default_rewriter_get<T>::default_rewriter_get(
 
 /* default_rewrite_put do_rewrite */
 template <typename T>
-bool
+void
 default_rewriter_put<T>::do_rewrite(
   T const & _value
 , typebuffer_container const & _buffer
 ) const {
-  if (has_typebuffer<T>(_buffer)){
-  typebuffer_interface<T> & _buff = use_typebuffer<T>(_buffer);
-  _buff.push(_value);
-  return true;
-  }
-return false;
+check_typebuffer<T>(_buffer);
+typebuffer_interface<T> &
+  _buff = use_typebuffer<T>(_buffer);
+_buff.push(_value);
 }
 
 /* default_rewrite_get do_rewrite */
 template <typename T>
-bool
+void
 default_rewriter_get<T>::do_rewrite(
   T & _value
 , typebuffer_container const & _buffer
 ) const {
-  if (has_typebuffer<T>(_buffer)){
-  typebuffer_interface<T> & _buff = use_typebuffer<T>(_buffer);
-  _value = _buff.next();
-  return true;
-  }
-return false;
+check_typebuffer<T>(_buffer);
+typebuffer_interface<T> &
+  _buff = use_typebuffer<T>(_buffer);
+_value = _buff.next();
 }
 
 template <typename T>

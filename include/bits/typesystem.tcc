@@ -14,22 +14,24 @@ namespace typesystems {
 
 /* typesystem put_rewrite */
 template <typename T>
-bool
+void
 typesystem::put_rewrite(
   T const & _value_type
 ) const {
-put_rewriter<T> & rw = use_put_rewriter<T>(*this);
-return rw.rewrite(_value_type, this->typebuffers);
+put_rewriter<T> &
+  rw = use_put_rewriter<T>(*this);
+rw.rewrite(_value_type, this->typebuffers);
 }
 
 /* typesystem get_rewite */
 template <typename T>
-bool
+void
 typesystem::get_rewrite(
   T & _value_type
 ) const {
-get_rewriter<T> & rw = use_get_rewriter<T>(*this);
-return rw.rewrite(_value_type, this->typebuffers);
+get_rewriter<T> &
+  rw = use_get_rewriter<T>(*this);
+rw.rewrite(_value_type, this->typebuffers);
 }
 
 /* typesystems::has_put_rewriter */
@@ -38,8 +40,12 @@ bool
 has_put_rewriter(
   typesystem const & _typesys
 ){
-return _typesys.put_rewriters.find(explicit_typeid<T>::raw_typeid())
-        != _typesys.put_rewriters.end();
+return
+  _typesys.put_rewriters.find(
+    explicit_typeid<T>::raw_typeid()
+  )
+!=
+_typesys.put_rewriters.end();
 }
 
 /* typesystems::has_get_rewriter */
@@ -48,8 +54,12 @@ bool
 has_get_rewriter(
   typesystem const & _typesys
 ){
-return _typesys.get_rewriters.find(explicit_typeid<T>::raw_typeid())
-      != _typesys.get_rewriters.end();
+return
+  _typesys.get_rewriters.find(
+    explicit_typeid<T>::raw_typeid()
+  )
+!=
+  _typesys.get_rewriters.end();
 }
 
 /* typesystems::use_put_rewriter */
