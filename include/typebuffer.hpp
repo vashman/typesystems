@@ -192,12 +192,14 @@ clear(
 );
 
 /* type specfic functions */
-/* typesystem::empty<T>
-
-This function iterates through the buffer map and when the
-static_typeid for T is matached, the function calls the empty function of
-the typebuffer_base class. If the buffer for the type is not found returns
-true, for empty;
+/* empty
+  This function iterates through the
+  buffer map and when the static_typeid
+  for T is matached, the function calls
+  the empty function of the
+  typebuffer_base class. If the buffer
+  for the type is not found returns true
+  , for empty;
 */
 template <typename T>
 bool

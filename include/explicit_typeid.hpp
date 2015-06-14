@@ -1,4 +1,4 @@
-// unqiue copyable type_id that, does not check against polymorphic types.
+// unique copyable type_id that, does not check against polymorphic types.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 // Distributed under the Boost Software License, Version 1.0.

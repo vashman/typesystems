@@ -1,4 +1,5 @@
-// A custom class used to demostrate rewriting.
+// A custom class used to demostrate
+// rewriting.
 
 //          Copyright Sundeep S. Sangha 2013 - 2014.
 // Distributed under the Boost Software License, Version 1.0.
@@ -33,13 +34,12 @@ person::person(
   int _age
 , std::string _name
 )
-  : name(_name)
-  , age(_age) {
+: name(_name)
+, age(_age) {
 }
 
 int
-person::get_age(
-) const {
+person::get_age() const {
 return this->age;
 }
 

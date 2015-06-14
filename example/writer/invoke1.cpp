@@ -8,16 +8,21 @@
 #include <iostream>
 #include <vector>
 #include <string>
-#include "../../include/put_rewriter.hpp"
+#include "../../include/owriter.hpp"
 #include "../../include/explicit_typeid.hpp"
-#include "../../src/rewriter_base.cpp"
+
+#include "../../src/iwriter_base.cpp"
+#include "../../src/owriter_base.cpp"
 #include "../../src/total_typeid.cpp"
 #include "../../src/typebuffer_map.cpp"
 #include "../../src/typebuffer.cpp"
 
-#include "rwperson.hpp"
+#include "person_writer.hpp"
 
-using typesystems::put_rewriter;
+using typesystems::owriter;
+using typesystems::owriter_container;
+using typesystems::add_writer;
+using typesystems::use_writer;
 using typesystems::typebuffer_container;
 using typesystems::has_typebuffer;
 using typesystems::use_typebuffer;
@@ -31,12 +36,16 @@ typebuffer_container buffer;
 set_typebuffer<std::string, std::vector<std::string> >(buffer);
 set_typebuffer<int const, std::vector<int> >(buffer);
 
-put_rewriter<person> * rw = new person_rw_put(1);
+owriter_container writers;
+add_writer<person_writer>(writers);
 
 person alice(24, "Alice");
 
+owriter<person> & writer
+= use_writer<person>(writers);
+
 /* demote the single person type into base types */
-rw->rewrite(alice, buffer);
+writer.put(alice, buffer, writers);
 
 typebuffer<std::string, std::vector<std::string> > & buff1
   = use_typebuffer<std::string, std::vector<std::string> >(buffer);
@@ -44,6 +53,7 @@ typebuffer<int const, std::vector<int> > & buff2
   = use_typebuffer<int const, std::vector<int> >(buffer);
 
 std::cout << buff1.next() << " : " << buff2.next() << std::endl;
+
 return 0;
 } catch (
   typesystems::no_buffer const & _e

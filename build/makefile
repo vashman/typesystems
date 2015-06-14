@@ -25,15 +25,10 @@ BU_EXSRC=$(wildcard $(EXDIR)/typebuffer/*.cpp)
 BU_EXOBJS=$(patsubst %, $(EXOBJ)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%.o)))
 BU_EXAMPLES=$(patsubst %, $(BIN)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%)))
 
-# Rewriter examples
-RW_EXSRC=$(wildcard $(EXDIR)/rewriter/*.cpp)
-RW_EXOBJS=$(patsubst %, $(EXOBJ)/rewriter/%, $(notdir $(RW_EXSRC:%.cpp=%.o)))
-RW_EXAMPLES=$(patsubst %, $(BIN)/rewriter/%, $(notdir $(RW_EXSRC:%.cpp=%)))
-
-# Typesystem example
-TY_EXSRC=$(wildcard $(EXDIR)/typesystem/*.cpp)
-TY_EXOBJS=$(patsubst %, $(EXOBJ)/typesystem/%, $(notdir $(TY_EXSRC:%.cpp=%.o)))
-TY_EXAMPLES=$(patsubst %, $(BIN)/typesystem/%, $(notdir $(TY_EXSRC:%.cpp=%)))
+# Writer examples
+RW_EXSRC=$(wildcard $(EXDIR)/writer/*.cpp)
+RW_EXOBJS=$(patsubst %, $(EXOBJ)/writer/%, $(notdir $(RW_EXSRC:%.cpp=%.o)))
+RW_EXAMPLES=$(patsubst %, $(BIN)/writer/%, $(notdir $(RW_EXSRC:%.cpp=%)))
 
 MAJOR=0
 MINOR=0
@@ -61,17 +56,10 @@ $(BIN)/typebuffer/%: $(EXOBJ)/typebuffer/%.o
 	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
 # Rewriter
-$(EXOBJ)/rewriter/%.o: $(EXDIR)/rewriter/%.cpp
+$(EXOBJ)/writer/%.o: $(EXDIR)/writer/%.cpp
 	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
 
-$(BIN)/rewriter/%: $(EXOBJ)/rewriter/%.o
-	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
-
-# Typesystem
-$(EXOBJ)/typesystem/%.o: $(EXDIR)/typesystem/%.cpp
-	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
-
-$(BIN)/typesystem/%: $(EXOBJ)/typesystem/%.o
+$(BIN)/writer/%: $(EXOBJ)/writer/%.o
 	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
 define cc-lib_dynamic
@@ -82,7 +70,7 @@ define cc-lib_static
 ar rvs $@ $^ 2> staticlib.log
 endef
 
-all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES) $(RW_EXAMPLES) $(TY_EXAMPLES)
+all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES) $(RW_EXAMPLES)
 
 $(SLIB): $(OBJECTS)
 	$(cc-lib_static)
@@ -102,15 +90,10 @@ $(BU_EXAMPLES): $(BU_EXOBJS)
 
 $(BU_EXOBJS): $(BU_EXSRC)
 
-# Rewriter
+# Writer
 $(RW_EXAMPLES): $(RW_EXOBJS)
 
 $(RW_EXOBJS): $(RW_EXSRC)
-
-# Typesystem
-$(TY_EXAMPLES): $(TY_EXOBJS)
-
-$(TY_EXOBJS): $(TY_EXSRC)
 
 clean:
 	rm -rf $(BIN)
@@ -120,15 +103,13 @@ dirs:
 	mkdir -p $(BIN)
 	mkdir -p $(BIN)/explicit_typeid
 	mkdir -p $(BIN)/typebuffer
-	mkdir -p $(BIN)/rewriter
-	mkdir -p $(BIN)/typesystem
+	mkdir -p $(BIN)/writer
 	mkdir -p $(OBJS)
 	mkdir -p $(LIBS)
 	mkdir -p $(EXOBJ)
 	mkdir -p $(EXOBJ)/explicit_typeid
 	mkdir -p $(EXOBJ)/typebuffer
-	mkdir -p $(EXOBJ)/typesystem
-	mkdir -p $(EXOBJ)/rewriter
+	mkdir -p $(EXOBJ)/writer
 
 lib: $(SLIB) $(DLIB)
 
