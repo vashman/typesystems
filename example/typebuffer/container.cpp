@@ -7,29 +7,34 @@
 
 #include <vector>
 #include "../../include/typebuffer.hpp"
+#include "../../include/typebuffer_queue.hpp"
 
 using typesystems::typebuffer_container;
+using typesystems::typebuffer_queue;
 using typesystems::set_typebuffer;
 using typesystems::has_typebuffer;
 using typesystems::use_typebuffer;
 
 int main(){
+typebuffer_container container;
+set_typebuffer<
+  int
+, typebuffer_queue<int>
+>(container);
 
-typebuffer_container container_1;
-
-set_typebuffer<int, std::vector<int> >(container_1);
-
-  if (has_typebuffer<int>(container_1) == false){
+  if (!has_typebuffer<int>(container)){
   return 1;
   }
 
-auto & buffer = use_typebuffer<int>(container_1);
+auto &
+buffer = use_typebuffer<int>(container);
 
-  if (has_typebuffer<int, std::vector<int> >(container_1) == false){
+  if (!has_typebuffer<int>(container)){
   return 1;
   }
 
-auto & b = use_typebuffer<int, std::vector<int> >(container_1);
+auto &
+b = use_typebuffer<int>(container);
 
 return 0;
 }

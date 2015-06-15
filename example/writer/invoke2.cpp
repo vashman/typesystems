@@ -18,6 +18,7 @@
 #include "../../src/total_typeid.cpp"
 #include "../../src/typebuffer_map.cpp"
 #include "../../src/typebuffer.cpp"
+#include "../../include/typebuffer_queue.hpp"
 
 #include "double_int_put.hpp"
 
@@ -31,14 +32,17 @@ using typesystems::typebuffer_container;
 using typesystems::has_typebuffer;
 using typesystems::use_typebuffer;
 using typesystems::set_typebuffer;
-using typesystems::typebuffer_interface;
+using typesystems::typebuffer;
+using typesystems::typebuffer_queue;
 using typesystems::typebuffer;
 using typesystems::empty;
 
 int main(){
 typebuffer_container buffer;
-set_typebuffer<int, std::vector<int> >
-(buffer);
+set_typebuffer<
+  int
+, typebuffer_queue<int>
+> (buffer);
 
 owriter_container writer;
 add_writer<double_int_put>(writer);
@@ -56,19 +60,8 @@ dblwriter.put(value, buffer, writer);
   return 1;
   }
 
-typebuffer<int, std::vector<int> > &
-buff = use_typebuffer<
-  int
-, std::vector<int>
->(buffer);
-
-std::vector<int> &
-con = buff.get_container();
-
-std::cout
-<< "number of elements: "
-<< con.size()
-<< std::endl;
+typebuffer<int> &
+buff = use_typebuffer<int> (buffer);
 
 std::cout
 << "the double: "

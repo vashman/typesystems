@@ -16,6 +16,7 @@
 #include "../../src/total_typeid.cpp"
 #include "../../src/typebuffer_map.cpp"
 #include "../../src/typebuffer.cpp"
+#include "../../include/typebuffer_queue.hpp"
 
 #include "person_writer.hpp"
 
@@ -27,14 +28,22 @@ using typesystems::typebuffer_container;
 using typesystems::has_typebuffer;
 using typesystems::use_typebuffer;
 using typesystems::set_typebuffer;
-using typesystems::typebuffer_interface;
+using typesystems::typebuffer;
+using typesystems::typebuffer_queue;
 using typesystems::typebuffer;
 using typesystems::empty;
 
 int main() try {
 typebuffer_container buffer;
-set_typebuffer<std::string, std::vector<std::string> >(buffer);
-set_typebuffer<int const, std::vector<int> >(buffer);
+set_typebuffer<
+  std::string
+, typebuffer_queue<std::string>
+> (buffer);
+
+set_typebuffer<
+  int const
+, typebuffer_queue<int>
+> (buffer);
 
 owriter_container writers;
 add_writer<person_writer>(writers);
@@ -47,12 +56,19 @@ owriter<person> & writer
 /* demote the single person type into base types */
 writer.put(alice, buffer, writers);
 
-typebuffer<std::string, std::vector<std::string> > & buff1
-  = use_typebuffer<std::string, std::vector<std::string> >(buffer);
-typebuffer<int const, std::vector<int> > & buff2
-  = use_typebuffer<int const, std::vector<int> >(buffer);
+typebuffer<std::string> &
+buff1 = use_typebuffer<std::string>
+(buffer);
 
-std::cout << buff1.next() << " : " << buff2.next() << std::endl;
+typebuffer<int const> &
+buff2 = use_typebuffer<int const>
+(buffer);
+
+std::cout
+<< buff1.next()
+<< " : "
+<< buff2.next()
+<< std::endl;
 
 return 0;
 } catch (

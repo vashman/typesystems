@@ -32,7 +32,11 @@ return this->do_empty();
 }
 } /* bits */
 
-/* typesystem::clear */
+/* clear
+  Iterates through a buffer unit and
+  uses the typebuffer_base class to call
+  the container clear function.
+*/
 void 
 clear(
   typebuffer_container const & _unit

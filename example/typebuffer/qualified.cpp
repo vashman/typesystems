@@ -8,13 +8,22 @@
 #include <iostream>
 #include <vector>
 #include "../../include/typebuffer.hpp"
+#include "../../include/typebuffer_queue.hpp"
 
 using typesystems::typebuffer;
+using typesystems::typebuffer_queue;
 
 int main(){
 // create typebuffer for int using a vector of ints
-typebuffer<const int, std::vector<int> > cbuffer;
-typebuffer<volatile int, std::vector<int> > vbuffer;
+typebuffer_queue<
+  const int
+, std::deque<int>
+> cbuffer;
+
+typebuffer_queue<
+  volatile int
+, std::deque<int>
+> vbuffer;
 
 /* use container specfic function by calling on the underlying container.
 */
@@ -31,8 +40,10 @@ vbuffer.push(int(b));
 
 The buffers next function
 */
-std::cout << "The answer is: " << (cbuffer.next() + vbuffer.next())
-  << std::endl;
+std::cout
+<< "The answer is: "
+<< (cbuffer.next() + vbuffer.next())
+<< std::endl;
 
 return 0;
 }
