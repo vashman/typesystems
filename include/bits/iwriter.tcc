@@ -53,17 +53,17 @@ rewrite(
 , typebuffer_container const & _buffer
 , iwriter_container const & _writer
 ){
- if (has_writer<T>(_writer)){
+  if (has_typebuffer<T>(_buffer)){
   auto &
-  writer = use_writer<T>(_writer);
-  writer.get(_var, _buffer, _writer);
+  buff = use_typebuffer<T>(_buffer);
+  _var = buff.next();
   } else {
-    if (has_typebuffer<T>(_buffer)){
+    if (has_writer<T>(_writer)){
     auto &
-    buff = use_typebuffer<T>(_buffer);
-    _var = buff.next();
+    writer = use_writer<T>(_writer);
+    writer.get(_var, _buffer, _writer);
     } else {
-    throw "no buffer!";
+    throw "No Buffer!";
     }
   }
 }
