@@ -125,7 +125,7 @@ template <typename T, typename Sequence>
 void
 typebuffer_adapter<T,Sequence>::do_pop(
 ){
-this->c.pop_back();
+this->c.erase(this->c.begin());
 }
 
 /* do_front */
