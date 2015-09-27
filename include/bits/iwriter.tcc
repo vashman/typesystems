@@ -8,6 +8,8 @@
 #ifndef TYPESYSTEMS_IWRITER_TCC
 #define TYPESYSTEMS_IWRITER_TCC
 
+#include <stdexcept>
+
 namespace typesystems {
 
 /* ctor */
@@ -63,7 +65,8 @@ rewrite(
     writer = use_writer<T>(_writer);
     writer.get(_var, _buffer, _writer);
     } else {
-    throw "No Buffer!";
+    throw
+    std::runtime_error("No Buffer!");
     }
   }
 }

@@ -8,6 +8,8 @@
 #ifndef TYPESYSTEMS_OWRITER_TCC
 #define TYPESYSTEMS_OWRITER_TCC
 
+#include <stdexcept>
+
 namespace typesystems {
 
 /* put_rewriter ctor */
@@ -52,7 +54,8 @@ rewrite(
     writer = use_writer<T>(_writer);
     writer.put(_var, _buffer, _writer);
     } else {
-    throw "no buffer!";
+    throw
+    std::runtime_error("No Buffer!");
     }
   }
 }
