@@ -6,22 +6,22 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <iostream>
-#include "../../include/explicit_typeid.hpp"
+#include "../../include/qualified_typeid.hpp"
 
-using typesystems::explicit_typeid;
+using typesystems::qualified_typeid;
 
 int main(){
 
   /* produce false */
-  if (explicit_typeid<int>::compare<int const>()){
+  if (qualified_typeid<int const>() == typeid(int)){
   } else {
   std::cout << "int and const int differ." << std::endl;
   }
 
-  if (explicit_typeid<int>::compare<int volatile>()){
+  if (qualified_typeid<int volatile> == typeid(int)){
   std::cout << "int and volatile int are the same" << std::endl;
   } else {
-  std::cout << "int and volatile int are differnt" << std::endl;
+  std::cout << "int and volatile int are different" << std::endl;
   }
 
 return 0;

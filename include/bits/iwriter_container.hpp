@@ -15,48 +15,60 @@ typedef std::map<
 , bits::iwriter_base *
 > iwriter_container;
 
+/* set_writer */
 template <typename Writer>
 void
-add_writer(iwriter_container &);
+set_writer(
+  iwriter_container &
+);
 
+/* remove_writer */
 template <typename T>
 void
-remove_writer(iwriter_container &);
+remove_writer(
+  iwriter_container &
+);
 
+/* has_writer */
 template <typename T>
 bool
 has_writer(
   iwriter_container const &
 );
 
+/* set_writer */
 template <typename Writer>
 void
-add_writer(iwriter_container & _con){
-_con[
+set_writer(
+  iwriter_container & _c
+){
+_c [
   explicit_typeid<typename Writer::type>
   ::raw_typeid()
 ] = new Writer ();
 }
 
+/* remove_writer */
 template <typename T>
 void
-remove_writer(iwriter_container & _con){
-_con.erase(
-  _con.find(
-    explicit_typeid<T>::raw_typeid()
-  )
-);
+remove_writer(
+  iwriter_container & _c
+){
+_c.erase( _c.find(
+  explicit_typeid<T>::raw_typeid()
+));
 }
 
+/* has_writer */
 template <typename T>
 bool
 has_writer(
-  iwriter_container const & _con
+  iwriter_container const & _c
 ){
-auto iter = _con.find(
+auto iter = _c.find(
   explicit_typeid<T>::raw_typeid()
 );
-return iter != _con.end();
+return iter != _c.end();
 }
 
 } /* typesystems */

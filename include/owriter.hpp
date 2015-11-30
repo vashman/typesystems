@@ -8,41 +8,30 @@
 #ifndef TYPESYSTEMS_OWRITER_HPP
 #define TYPESYSTEMS_OWRITER_HPP
 
-#include "typebuffer.hpp"
+#include <type_traits>
 #include "bits/owriter_base.hpp"
 #include "bits/owriter_container.hpp"
-
-#if __cplusplus >= 201103L
-#include <type_traits>
-#define type_traits ::std
-
-#else
-#include <boost/type_traits.hpp>
-#define type_traits ::boost
-#endif
 
 namespace typesystems {
 
 /* rewriter_interface */
-template <typename T>
+template <typename T, typename Output>
 class owriter
   : public bits::owriter_base {
 public:
   typedef T type;
 
   typedef typename
-  type_traits::remove_cv<T>::type
-  value_type;
+  std::remove_cv<T>::type value_type;
 
   virtual
-  ~owriter(
-  );
+  ~owriter();
 
   void
   put(
     value_type const &
-  , typebuffer_container const &
   , owriter_container const &
+  , Output &
   ) const;
 
 protected:
@@ -54,8 +43,8 @@ protected:
   virtual void
   do_put(
     value_type const &
-  , typebuffer_container const &
   , owriter_container const &
+  , Output &
   ) const = 0;
 };
 
@@ -79,5 +68,4 @@ rewrite(
 #include "bits/owriter.tcc"
 #include "bits/writer_exception.hpp"
 
-#undef type_traits
 #endif

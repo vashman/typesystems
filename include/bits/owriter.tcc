@@ -13,28 +13,27 @@
 namespace typesystems {
 
 /* put_rewriter ctor */
-template <typename T>
-owriter<T>::owriter(
+template <typename , typename Output>
+owriter<T,Output>::owriter(
   std::size_t _ref
 )
 : bits::owriter_base (_ref) {
 }
 
-template <typename T>
-owriter<T>::~owriter(
+template <typename T, typename Output>
+owriter<T,Output>::~owriter(
 ){
 }
 
 /* rewriter rewrite to other type */
-template <typename T>
+template <typename T, typename Output>
 void
-owriter<T>::put(
-  owriter<T>::value_type const &
-  _value
-, typebuffer_container const & _buffer
+owriter<T,Output>::put(
+  owriter<T>::value_type const & _value
 , owriter_container const & _writer
+, Output & _out
 ) const {
-this->do_put(_value, _buffer, _writer);
+this->do_put(_value, _writer, Output);
 }
 
 template <typename T>

@@ -11,63 +11,71 @@
 #include "typebuffer.hpp"
 #include "bits/iwriter_base.hpp"
 #include "bits/iwriter_container.hpp"
-
-#if __cplusplus >= 201103L
 #include <type_traits>
-#define type_traits ::std
-
-#else
-#include <boost/type_traits.hpp>
-#define type_traits ::boost
-#endif
 
 namespace typesystems {
 
 /* rewriter_interface */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 class iwriter
   : public bits::iwriter_base {
 public:
-  typedef T type;
 
-  typedef typename type_traits
-  ::remove_cv<T>::type value_type;
+typedef T type;
 
-  virtual
-  ~iwriter(
-  );
+typedef typename std
+::remove_cv<T>::type value_type;
 
-  void
-  get(
-    value_type &
-  , typebuffer_container const &
-  , iwriter_container const &
-  ) const;
+/* dtor */
+virtual
+~iwriter();
 
-  bool
-  empty(
-    typebuffer_container const &
-  , iwriter_container const &
-  ) const;
+/* get */
+void
+get(
+  value_type &
+, InputIter
+, Typelist const &
+, iwriter_container const &
+) const;
+
+/* empty */
+bool
+empty(
+  InputIter
+, Typelist const &
+, iwriter_container const &
+) const;
 
 protected:
-  /* get_writer ctor */
-  explicit
-  iwriter(std::size_t _refs = 0);
 
-  virtual void
-  do_get(
-    value_type &
-  , typebuffer_container const &
-  , iwriter_container const &
-  ) const = 0;
+/* get_writer ctor */
+explicit
+iwriter(
+  std::size_t _refs = 0
+);
 
-  virtual bool
-  do_empty(
-    typebuffer_container const &
-  , iwriter_container const &
-  ) const = 0;
-};
+/* do_get */
+virtual void
+do_get(
+  value_type &
+, InputIter
+, Typelist const &
+, iwriter_container const &
+) const = 0;
+
+/* do_empty */
+virtual bool
+do_empty(
+  InputIter
+, Typelist const &
+, iwriter_container const &
+) const = 0;
+}; /* iwriter */
 
 /* use_iwriter */
 template <typename T>
@@ -77,27 +85,33 @@ use_writer(
 );
 
 /* rewrite */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 void
 rewrite(
   T &
-, typebuffer_container const &
+, InputIter
+, Typelist const &
 , iwriter_container const &
 );
 
 /* empty */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 bool
 empty(
-  typebuffer_container const &
+  InputIter
+, Typelist const &
 , iwriter_container const &
 );
-
-
 
 } /* typesystems */
 #include "bits/iwriter.tcc"
 #include "bits/writer_exception.hpp"
-
-#undef type_traits
 #endif

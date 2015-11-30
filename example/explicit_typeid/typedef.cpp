@@ -6,21 +6,18 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <iostream>
-#include "../../include/explicit_typeid.hpp"
+#include "../../include/qualified_typeid.hpp"
 
-using typesystems::explicit_typeid;
+using typesystems::qualified_typeid;
 
 int main(){
 
 typedef int some_type;
-
+qualified_typeid<int> id()
   /* true statement */
-  if (explicit_typeid<int>::compare<some_type>()){
+  if (id == typeid(int)){
   std::cout << "some_type is a int." << std::endl;
   }
-
-/* the equivilent of the above */
-explicit_typeid<int>::compare<int>();
 
 return 0;
 }

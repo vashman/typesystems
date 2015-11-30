@@ -13,87 +13,140 @@
 namespace typesystems {
 
 /* ctor */
-template <typename T>
-iwriter<T>::iwriter(
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
+iwriter<T,InputIter,Typelist>::iwriter (
   std::size_t _ref
 )
 : bits::iwriter_base (_ref) {
 }
 
 /* dtor */
-template <typename T>
-iwriter<T>::~iwriter(){
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
+iwriter<T,InputIter,Typelist>::~iwriter(
+){
 }
 
 /* read */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 void
-iwriter<T>::get(
-  typename iwriter<T>::value_type &
-   _value
-, typebuffer_container const & _buffer
+iwriter<T,InputIter,Typelist>::get (
+  typename iwriter<T,InputIter,Typelist>
+  ::value_type & _value
+, InputIter _iter
+, Typelist const & _typelist
 , iwriter_container const & _writer
 ) const {
-this->do_get(_value, _buffer, _writer);
+this->do_get(
+  _value
+, _iter
+, _typelist
+, _writer
+);
 }
 
 /* empty */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 bool
-iwriter<T>::empty(
-  typebuffer_container const & _buffer
+iwriter<T,InputIter,Typelist>::empty (
+  InputIter _iter
+, Typelist const & _typelist
 , iwriter_container const & _writer
 ) const {
-return this->do_empty(_buffer, _writer);
+return this->
+do_empty(_iter, _typelist, _writer);
 }
 
 /* rewrite */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 void
 rewrite(
   T & _var
-, typebuffer_container const & _buffer
+, InputIter _iter
+, InputIter _end
+, Typelist _type
+, Typelist _type_end
 , iwriter_container const & _writer
 ){
-  if (has_typebuffer<T>(_buffer)){
-  auto &
-  buff = use_typebuffer<T>(_buffer);
-  _var = buff.next();
+  if (
+    _type_end
+  !=
+    find (
+      _type
+    , _type_end
+    , explicit_typeid<T>
+    )
+  ){
+  _var = *_iter;
   } else {
-    if (has_writer<T>(_writer)){
-    auto &
-    writer = use_writer<T>(_writer);
-    writer.get(_var, _buffer, _writer);
-    } else {
+    if (! has_writer<T>(_writer)){
     throw
     std::runtime_error("No Buffer!");
     }
+  auto& writer = use_writer<T>(_writer);
+  writer.get(_var, _iter, _end, _writer);
   }
 }
 
 /* empty */
-template <typename T>
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
 bool
-empty(
-  typebuffer_container const & _buffer
+empty (
+  InputIter _iter
+, InputIter _end
 , iwriter_container const & _writer
 ){
+  /* if another writer is present for
+     the type, check if that writer is
+     empty.
+  */
   if (has_writer<T>(_writer)){
   auto &
   writer = use_writer<T>(_writer);
-  return writer.empty(_buffer, _writer);
+  return writer.empty(_iter, _writer);
   }
-return empty<T>(_buffer);
+/* The iterator containes the type in
+   question directly, so query it to see
+   if there are any.
+*/
+return (_iter != _end);
 }
 
 /* use_iwriter */
-template <typename T>
-iwriter<T> &
+template <
+  typename T
+, typename InputIter
+, typename Typelist
+>
+iwriter<T,InputIter,Typelist> &
 use_writer(
   iwriter_container const & _con
 ){
 bits::iwriter_base * ptr = nullptr;
-ptr = _con.at(
+ptr = _con.at (
   explicit_typeid<T>::raw_typeid()
 );
   if (ptr != nullptr){

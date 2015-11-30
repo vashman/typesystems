@@ -17,15 +17,20 @@ namespace bits {
 /* writer_base */
 class iwriter_base {
 public:
-  virtual
-  ~iwriter_base();
+
+virtual
+~iwriter_base();
 
 protected:
-  iwriter_base(std::size_t);
+
+iwriter_base(
+  std::size_t
+);
 
 private:
-  std::size_t refs;
-};
+
+std::size_t refs;
+}; /* iwriter_base */
 
 } /* bits */ } /* typesystems */
 
