@@ -18,6 +18,6 @@ Documentation
 
 License
 ==========================================================================
-Source Copyright © 2013-2014 Sundeep S. Sangha and contributers.
+Source Copyright © 2013-2015 Sundeep S. Sangha and contributers.
 Distributed under the Boost software license. See the
 [License](./License_1_0.txt) file.
