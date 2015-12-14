@@ -10,7 +10,7 @@
 
 namespace typesystems {
 
-/* set input writer */
+/* make input writer */
 template <
   typename T
 , typename BufferIter
@@ -18,12 +18,13 @@ template <
 >
 iwriter_base_type
 make_iwriter (
-  iwriter_function<T,BufferIter, WriterIter> * _func
+  iwriter_function <
+    T,BufferIter, WriterIter > * _func
 ){
 return iwriter_base_type(_func);
 }
 
-/* set output writer */
+/* make output writer */
 template <
   typename T
 , typename OutputIter
@@ -31,7 +32,8 @@ template <
 >
 owriter_base_type
 make_owriter (
-  owriter_function<T,OutputIter,WriterIter> * _func
+  owriter_function <
+    T,OutputIter,WriterIter > * _func
 ){
 return owriter_base_type(_func);
 }
@@ -40,23 +42,16 @@ return owriter_base_type(_func);
 template <
   typename T
 , typename BufferIter
-, typename WriterIter
-, typename Typeid
->
+, typename WriterIter >
 iwriter_type<T,BufferIter,WriterIter>
 use_iwriter (
   iwriter_base_type & _writer
-, Typeid const & _type
 ){
-  if (
-    !_writer
-  ||
-    qualified_typeid<T>() != _type
-  )
-  throw std::bad_cast();
+  if (! _writer) throw std::bad_cast();
 
 return std::static_pointer_cast <
-  iwriter_function<T,BufferIter,WriterIter>
+  iwriter_function <
+    T, BufferIter, WriterIter >
 > (_writer);
 }
 
@@ -64,38 +59,29 @@ return std::static_pointer_cast <
 template <
   typename T
 , typename OutputIter
-, typename WriterIter
-, typename Typeid
->
+, typename WriterIter >
 owriter_type<T,OutputIter,WriterIter>
 use_owriter (
   owriter_base_type & _writer
-, Typeid const & _type
 ){
-  if (
-    !_writer
-  ||
-    qualified_typeid<T>() != _type
-  )
-  throw std::bad_cast();
+  if (! _writer) throw std::bad_cast();
 
 return std::static_pointer_cast <
-  owriter_function<T,OutputIter,WriterIter>
+  owriter_function <
+    T, OutputIter, WriterIter >
 > (_writer);
-
 }
 
-/*namespace bits {
-/ * input rewrite
+namespace bits {
+/* input rewrite
   If the container type is not present, 
   rewrite the type.
-* /
+*/
 template <
   typename T
 , typename BufferIter
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite_dispatch (
   T & _var
 , BufferIter _buffer
@@ -104,25 +90,30 @@ rewrite_dispatch (
 , WriterIter _writer_end
 , std::false_type const
 ){
-WriterIter iter = get_writer<T>(_writer, _writer_end);
+WriterIter iter
+= find(_writer,_writer_end,);
   if (iter == _writer_end) throw ;
-auto writer = use_iwriter<T,BufferIter,WriterIter>(iter);
+auto writer = use_iwriter <
+  T, BufferIter, WriterIter > (*iter);
 
-  if (false == writer(_var, _buffer, _buffer_end, _writer, _writer_end)){
-  throw ;
-  }
+return writer(
+  _var
+, _buffer
+, _buffer_end
+, _writer
+, _writer_end
+);
 }
 
-/ * input rewrite
+/* input rewrite
   If the container type is present,
   write the type.
-* /
+*/
 template <
   typename T
 , typename BufferIter
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite_dispatch (
   T & _var
 , BufferIter _buffer
@@ -132,15 +123,15 @@ rewrite_dispatch (
 , std::true_type const
 ){
 _var = *_buffer++;
+return true;
 }
 
-/ * output rewrite dispatch * /
+/* output rewrite dispatch */
 template <
   typename T
 , typename BufferOutput
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite_dispatch (
   T const & _var
 , BufferOutput _output
@@ -149,15 +140,15 @@ rewrite_dispatch (
 , std::true_type const
 ){
 *_output = _var;
+return true;
 }
 
-/ * output rewrite dispatch * /
+/* output rewrite dispatch */
 template <
   typename T
 , typename BufferOutput
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite_dispatch (
   T const & _var
 , BufferOutput _output
@@ -165,21 +156,28 @@ rewrite_dispatch (
 , WriterIter _writer_end
 , std::false_type const
 ){
-auto iter = get_writer<T>(_writer, _writer_end);
+WriterIter iter
+= find(_writer, _writer_end, );
   if (iter == _writer_end) throw ;
-auto writer = use_owriter<T,BufferOutput,WriterIter>(iter);
-writer(_var, _output, _writer, _writer_end);
+  
+auto writer = use_writer <
+  T, BufferOutput, WriterIter >(*iter);
+return writer(
+  _var
+, _output
+, _writer
+, _writer_end
+);
 }
 
-} / * bits * /
+} /* bits */
 
-/ * rewrite input * /
+/* rewrite input */
 template <
   typename T
 , typename BufferIter
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite (
   T & _var
 , BufferIter _buffer
@@ -187,37 +185,47 @@ rewrite (
 , WriterIter _writer
 , WriterIter _writer_end
 ){
-bits::rewrite_dispatch (
+return bits::rewrite_dispatch (
   _var
 , _buffer
 , _buffer_end
 , _writer
 , _writer_end
-, use_typelist<has_type, T, get_typelist<typename BufferIter::value_type>>::value 
+, use_typelist <
+    has_type
+  , T
+  , get_typelist <
+      typename BufferIter::value_type >
+  >::value 
 );
 }
 
-/ * rewrite output * /
+/* rewrite output */
 template <
   typename T
 , typename BufferOutput
-, typename WriterIter
->
-void
+, typename WriterIter >
+bool
 rewrite (
   T const & _var
 , BufferOutput _output
 , WriterIter _writer
 , WriterIter _writer_end
 ){
-bits::rewrite_dispatch (
+return bits::rewrite_dispatch (
   _var
 , _output
 , _writer
 , _writer_end
-, use_typelist<has_type, T, get_typelist<typename BufferOutput::value_type>>::value 
+, use_typelist <
+    has_type
+  , T
+  , get_typelist <
+      typename BufferOutput::value_type
+    >
+  >::value 
 );
-}*/
+}
 
 } /* typesystems */
 #endif

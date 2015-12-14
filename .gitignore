@@ -33,6 +33,7 @@
 # Editor Files
 *.swp
 *.*~
+*.project
 
 # Build Directories
 /build/bin
