@@ -1,5 +1,6 @@
 #include "../src/qualified_typeid.cpp"
 #include "../include/writer.hpp"
+#include "../include/typelist.hpp"
 
 #include <iterator>
 #include <map>
@@ -8,7 +9,9 @@
 
 using namespace typesystems;
 
-typedef std::map<qualified_typeinfo, iwriter_base_type> map_t;
+typedef std::map<
+  qualified_typeinfo
+, iwriter_base_type > map_t;
 typedef int con_type;
 typedef float v_type;
 
@@ -18,7 +21,11 @@ map_t iwriter;
 std::vector<con_type> buffer;
 
 iwriter [qualified_typeid<float>()]
-= make_iwriter (new iwriter_function<v_type, std::vector<con_type>::iterator,map_t::iterator> (
+= make_iwriter (
+  new iwriter_function <
+    v_type
+  , std::vector<con_type>::iterator
+  , map_t::iterator > (
   //  type        buffer iterator type                                    writer iterator type
   [] (float & _var, std::vector<con_type>::iterator, std::vector<con_type>::iterator, map_t::iterator, map_t::iterator) -> bool {
   _var = 4.21;
@@ -38,6 +45,18 @@ v_type val (3.145);
   } else {
   std::cout << "B\n";
   }
+
+v_type var = 0;
+rewrite (
+  var
+, std::begin(buffer)
+, std::end(buffer)
+, std::begin(iwriter)
+, std::end(iwriter)
+, typelist<int>
+);
+
+std::cout << var << std::endl;
 
 return 0;
 }
