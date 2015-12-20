@@ -5,13 +5,13 @@
 //    (See accompanying file LICENSE_1_0.txt or copy at
 //          http://www.boost.org/LICENSE_1_0.txt)
 
-#ifndef TYPESYSTEMS_qualified_typeinfo_HPP
-#define TYPESYSTEMS_qualified_typeinfo_HPP
+#ifndef TYPESYSTEMS_QUALIFIED_TYPEINFO_HPP
+#define TYPESYSTEMS_QUALIFIED_TYPEINFO_HPP
 
 #include <typeinfo>
 #include <typeindex>
 #include "./bits/qualified_types.hpp"
-#include "./bits/make_id.hpp"
+//#include "./bits/make_id.hpp"
 
 namespace typesystems {
 class qualified_typeinfo;
@@ -89,7 +89,7 @@ private:
   /* ctor */
   template <typename T>
   explicit
-  qualified_typeinfo(
+  qualified_typeinfo (
     bits::make_id<T> const &
   );
 
@@ -104,7 +104,8 @@ template <typename T>
 qualified_typeinfo
 qualified_typeid(
 ){
-return qualified_typeinfo(bits::make_id<T>());
+return
+qualified_typeinfo(bits::make_id<T>());
 }
 
 } /* typesystems */

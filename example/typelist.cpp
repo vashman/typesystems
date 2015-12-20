@@ -3,12 +3,12 @@
 #include "../include/type_traits.hpp"
 
 using typesystems::typelist;
-using typesystems::get_typelist;
+using typesystems::make_typelist;
 using typesystems::use_typelist;
 using typesystems::has_type;
 
 struct type_with_list {
-  typedef std::tuple<int,float> type;
+  typedef typelist<int,float> type;
 };
 
 struct type_with_no_list {
@@ -30,19 +30,19 @@ static_assert (
 
 /* check typelist with extra types */
 static_assert (
-  use_typelist<has_type, int, typename get_typelist<type_with_no_list::type>, float>::value
+  use_typelist<has_type, int, make_typelist<type_with_no_list::type>, float>::value
 , "3: typelist<struct::type As int>, int does not have int!"
 );
 
 /* check typelist with no end extra types */
 static_assert (
-  use_typelist<has_type, int, typename get_typelist<type_with_no_list::type>>::value
+  use_typelist<has_type, int, make_typelist<type_with_no_list::type>>::value
 , "4: typelist<struct::type As int> does not have int!"
 );
 
 /* check typelist with no start types */
 static_assert (
-  use_typelist<has_type, typename get_typelist<type_with_no_list::type>, int, int>::value
+  use_typelist<has_type, make_typelist<type_with_no_list::type>, int, int>::value
 , "5: Ts... As int, int does not have typelist<struct::type As int>!"
 );
 
@@ -68,19 +68,19 @@ static_assert (
 
 /* check typelist with extra types */
 static_assert (
-  use_typelist<has_type, int, typename get_typelist<type_with_list::type>, int, float>::value
+  use_typelist<has_type, int, get_typelist<type_with_list::type>, int, float>::value
 , "9: typelist<struct::type As tuple<int,float>>,int,float does not have int!"
 );
 
 /* check typelist with no end extra types */
 static_assert (
-  use_typelist<has_type, int, typename get_typelist<type_with_list::type>>::value
+  use_typelist<has_type, int, make_typelist<type_with_list::type>>::value
 , "10: typelist<struct::type As tuple<int,float>> does not have int!"
 );
 
 /* check typelist with no start types */
 static_assert (
-  use_typelist<has_type, typename get_typelist<type_with_list::type>, int, int>::value
+  use_typelist<has_type, make_typelist<type_with_list::type>, int, int>::value
 , "11: int,int does not have typelist<struct::type As tuple <int,float>>!"
 );
 

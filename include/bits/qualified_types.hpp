@@ -20,7 +20,7 @@ enum class qualified_type : int {
 /* get_qualifier */
 template <typename T>
 qualified_type
-get_qualifier(
+get_qualifier (
 ){
 qualified_type temp;
 temp = qualified_type::none;

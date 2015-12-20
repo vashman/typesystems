@@ -121,7 +121,9 @@ use_owriter (
 template <
   typename T
 , typename BufferIter
-, typename WriterIter >
+, typename WriterIter
+, template <typename...> Typelist
+, typename... Ts >
 bool
 rewrite (
   T &
@@ -129,19 +131,23 @@ rewrite (
 , BufferIter
 , WriterIter
 , WriterIter
+, Typelist<Ts...> const &
 );
 
 /* rewrite */
 template <
   typename T
 , typename OutputIter
-, typename WriterIter >
+, typename WriterIter
+, template <typename...> Typelist
+, typename... Ts >
 bool
 rewrite (
   T &
 , OutputIter
 , WriterIter
 , WriterIter
+, Typelist<Ts...> const &
 );
 
 } /* typesystems */

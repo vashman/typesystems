@@ -6,7 +6,6 @@
 #include <utility>
 #include <algorithm>
 #include "../type_traits.hpp"
-#include "../typelist.hpp"
 
 namespace typesystems {
 
@@ -176,7 +175,9 @@ return writer(
 template <
   typename T
 , typename BufferIter
-, typename WriterIter >
+, typename WriterIter
+, template <typename...> Typelist
+, typename... Ts>
 bool
 rewrite (
   T & _var
@@ -184,6 +185,7 @@ rewrite (
 , BufferIter _buffer_end
 , WriterIter _writer
 , WriterIter _writer_end
+, Typelist<Ts...> const &
 ){
 return bits::rewrite_dispatch (
   _var
@@ -191,12 +193,7 @@ return bits::rewrite_dispatch (
 , _buffer_end
 , _writer
 , _writer_end
-, use_typelist <
-    has_type
-  , T
-  , get_typelist <
-      typename BufferIter::value_type >
-  >::value 
+, has_type<T,Ts...>::value 
 );
 }
 
@@ -204,26 +201,23 @@ return bits::rewrite_dispatch (
 template <
   typename T
 , typename BufferOutput
-, typename WriterIter >
+, typename WriterIter
+, template <typename...> Typelist
+, typename... Ts >
 bool
 rewrite (
   T const & _var
 , BufferOutput _output
 , WriterIter _writer
 , WriterIter _writer_end
+, Typelist<Ts...> const &
 ){
 return bits::rewrite_dispatch (
   _var
 , _output
 , _writer
 , _writer_end
-, use_typelist <
-    has_type
-  , T
-  , get_typelist <
-      typename BufferOutput::value_type
-    >
-  >::value 
+, has_type<T,Ts...>::value
 );
 }
 

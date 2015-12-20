@@ -15,7 +15,8 @@ template <typename T>
 qualified_typeinfo::qualified_typeinfo (
   bits::make_id<T> const &
 )
-: qualification (bits::get_qualifier<T>())
+: qualification (
+    bits::get_qualifier<T>() )
 , id (typeid (T)) {
 }
 
