@@ -7,147 +7,137 @@
 #include "qualified_typeid.hpp"
 
 namespace typesystems {
-
+  
 /* writer base type
   Typeless storage of writer.
 */
 typedef
-std::shared_ptr<void> iwriter_base_type;
-
-typedef
-std::shared_ptr<void> owriter_base_type;
+std::shared_ptr<void> writer_base_type;
 
 /* writer function type
   The type used to store the writer,
   using the call signature for the
   writer.
-  
-  Returns false if the re-writing could
-  not be done. True otherwise.
 */
 template <
-  typename T
-, typename BufferIter
-, typename WriterIter >
-using iwriter_function = std::function <
-bool (
-  T &
-, BufferIter
-, BufferIter
-, WriterIter
-, WriterIter
-)>;
-
-template <
-  typename T
-, typename OutputIter
-, typename WriterIter >
-using owriter_function = std::function <
-bool (
-  T const &
-, OutputIter
-, WriterIter
-, WriterIter
-)>;
-
-/* iwriter type */
-template <
-  typename T
-, typename BufferIter
-, typename WriterIter >
-using iwriter_type = std::shared_ptr <
-  iwriter_function <
-    T
-  , BufferIter
-  , WriterIter >
+  typename BufferIter
+, typename OutputIter >
+using writer_function = std::function <
+qualified_typeinfo (
+  BufferIter, BufferIter, OutputIter )
 >;
 
-/* owriter type */ 
+/* writer type
+  The shared writer type implicity
+  converts to a base writer type.
+*/
 template <
-  typename T
-, typename OutputIter
-, typename WriterIter >
-using owriter_type = std::shared_ptr<
-  owriter_function <
-    T
-  , OutputIter
-  , WriterIter
-  >
->;
+  typename BufferIter
+, typename OutputIter >
+struct writer_type {
+/* ctor */
+writer_type (
+  writer_function <
+    BufferIter,OutputIter > * _func
+) : ptr (_func) {
+}
 
-/* make input writer */
+/* ctor */
+writer_type (
+  writer_base_type & _writer
+) : ptr (std::static_pointer_cast <
+    writer_function <
+      BufferIter, OutputIter >
+  > (_writer)
+  ) {
+}
+
+operator writer_base_type() const {
+  return std::static_pointer_cast <void>
+  (this->ptr);
+}
+
+/* ctor copy */
+writer_type (
+  writer_type const &
+) = default;
+
+/* copy assignment */
+writer_type &
+operator = (
+  writer_type const &
+) = default;
+
+/* move assignment */
+writer_type &
+operator = (
+  writer_type &&
+) = default;
+
+/* ctor move */
+writer_type (
+  writer_type &&
+) = default;
+
+/* dtor */
+~writer_type() = default;
+
+bool
+operator () (
+  BufferIter _begin
+, BufferIter _end
+, OutputIter _output
+){
+return
+(*this->ptr)(_begin,_end,_output);
+}
+
+std::shared_ptr < writer_function <
+  BufferIter, OutputIter > > ptr;
+}; /* writer_type */
+
+/* make writer */
 template <
-  typename T
-, typename BufferIter
-, typename WriterIter >
-iwriter_base_type
-make_iwriter (
-  iwriter_function <
-    T, BufferIter, WriterIter > *
+  typename BufferIter
+, typename OutputIter
+, typename Function >
+writer_type<BufferIter,OutputIter>
+make_writer (
+  Function
 );
 
-/* make output writer */
+/* use writer */
 template <
-  typename T
-, typename OutputIter
-, typename WriterIter >
-owriter_base_type
-make_owriter (
-  owriter_function <
-    T, OutputIter, WriterIter > *
+  typename BufferIter
+, typename OutputIter >
+writer_type <BufferIter, OutputIter>
+use_writer (
+  writer_base_type &
 );
 
-/* use_iwriter */
+/* use writer */
 template <
-  typename T
-, typename BufferIter
-, typename WriterIter >
-iwriter_type<T,BufferIter,WriterIter>
-use_iwriter (
-  iwriter_base_type &
-);
-
-/* use_owriter */
-template <
-  typename T
-, typename OutputIter
-, typename WriterIter >
-owriter_type<T,OutputIter,WriterIter>
-use_owriter (
-  owriter_base_type &
+  typename BufferIter
+, typename OutputIter >
+writer_type <BufferIter, OutputIter>
+use_writer (
+  writer_type<BufferIter,OutputIter> &
 );
 
 /* rewrite */
 template <
-  typename T
+  typename... Ts
+, typename T
 , typename BufferIter
-, typename WriterIter
-, template <typename...> Typelist
-, typename... Ts >
-bool
-rewrite (
-  T &
-, BufferIter
-, BufferIter
-, WriterIter
-, WriterIter
-, Typelist<Ts...> const &
-);
-
-/* rewrite */
-template <
-  typename T
 , typename OutputIter
 , typename WriterIter
-, template <typename...> Typelist
-, typename... Ts >
-bool
+, typename GetWriter >
+qualified_typeinfo
 rewrite (
-  T &
+  BufferIter, BufferIter
 , OutputIter
-, WriterIter
-, WriterIter
-, Typelist<Ts...> const &
+, WriterIter, WriterIter
+, GetWriter
 );
 
 } /* typesystems */

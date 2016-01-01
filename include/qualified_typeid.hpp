@@ -11,9 +11,13 @@
 #include <typeinfo>
 #include <typeindex>
 #include "./bits/qualified_types.hpp"
-//#include "./bits/make_id.hpp"
 
 namespace typesystems {
+namespace bits {
+template <typename T>
+struct make_id {};
+} /* bits */
+
 class qualified_typeinfo;
 
 /* qualified_typeid
@@ -31,7 +35,7 @@ public:
 /* ctor copy */
 qualified_typeinfo (
   qualified_typeinfo const &
-) = default;
+b) = default;
 
 /* assignment operator copy */
 qualified_typeinfo &
