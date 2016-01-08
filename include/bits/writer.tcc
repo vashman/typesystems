@@ -187,9 +187,34 @@ rewrite (
 , GetWriter _get_writer
 ){
   if (has_type<T,Ts...>::value){
-    if (empty<T>(_begin, _end))
-    return qualified_typeid<void>();
-  *_output = *_begin;
+  *_output++ = *_begin;
+  return qualified_typeid<T>();
+  }
+auto writer (
+  use_writer<BufferIter,OutputIter> (
+    _get_writer(
+      _writer, _writer_end
+    , qualified_typeid<T>() ) ));
+return writer(_begin,_end,_output);
+}
+
+/* rewrite */
+template <
+  typename... Ts
+, typename T
+, typename BufferIter
+, typename WriterIter
+, typename GetWriter >
+qualified_typeinfo
+rewrite (
+  BufferIter _begin, BufferIter _end
+, T & _var
+, WriterIter _writer
+, WriterIter _writer_end
+, GetWriter _get_writer
+){
+  if (has_type<T,Ts...>::value){
+  _var = *_begin;
   return qualified_typeid<T>();
   }
 auto writer (
