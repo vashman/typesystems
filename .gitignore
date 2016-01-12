@@ -35,5 +35,8 @@
 *.*~
 *.project
 
+# Config Files
+*.doxy
+
 # Build Directories
 /build/bin
