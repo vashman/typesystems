@@ -33,10 +33,10 @@
 # Editor Files
 *.swp
 *.*~
-*.project
 
 # Config Files
 *.doxy
+*.project
 
 # Build Directories
 /build/bin
