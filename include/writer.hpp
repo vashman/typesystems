@@ -4,7 +4,6 @@
 #define TYPESYSTEMS_WRITER_HPP
 
 #include <memory>
-#include "qualified_typeid.hpp"
 
 namespace typesystems {
   
@@ -23,7 +22,7 @@ template <
   typename BufferIter
 , typename OutputIter >
 using writer_function = std::function <
-qualified_typeinfo (
+bool (
   BufferIter, BufferIter, OutputIter )
 >;
 
@@ -43,6 +42,7 @@ writer_type (
 }
 
 /* ctor */
+explicit
 writer_type (
   writer_base_type & _writer
 ) : ptr (std::static_pointer_cast <
@@ -122,22 +122,6 @@ template <
 writer_type <BufferIter, OutputIter>
 use_writer (
   writer_type<BufferIter,OutputIter> &
-);
-
-/* rewrite */
-template <
-  typename... Ts
-, typename T
-, typename BufferIter
-, typename OutputIter
-, typename WriterIter
-, typename GetWriter >
-qualified_typeinfo
-rewrite (
-  BufferIter, BufferIter
-, OutputIter
-, WriterIter, WriterIter
-, GetWriter
 );
 
 } /* typesystems */
