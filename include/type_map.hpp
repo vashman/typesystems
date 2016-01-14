@@ -7,15 +7,42 @@
 #include <iterator>
 
 namespace typesystems {
+namespace bits {
+
+template <
+  int N, typename T, typename... Ts >
+struct check_tuple {
+/**/
+static
+T&
+get (
+  int const &
+, std::tuple<std::tuple<Ts,T>...> &
+);
+}; /* check_tuple */
+
+template <typename T, typename... Ts>
+struct check_tuple <0,T,Ts...> {
+/**/
+static
+T&
+get (
+  int const &
+, std::tuple<std::tuple<Ts,T>...> &
+);
+}; /* check_tuple <0,T,Ts...> */
+
+} /* bits */
 
 /* type map */
 template <typename T, typename... Ts>
-using type_map
-  = std::tuple<std::tuple<Ts,T>...>;
+class type_map {
+std::tuple<std::tuple<Ts,T>...> map;
 
-/**/
-template <typename T, typename... Ts>
-class type_map_iterator
+public:
+
+/* type map iterator */
+class iterator
 : public std::iterator <
     std::random_access_iterator_tag
   , T >
@@ -26,129 +53,134 @@ int index;
 public:
 /* ctor */
 explicit
-type_map_iterator (
+iterator (
   type_map<T,Ts...> &
 );
 
 /* ctor end */
 explicit
-type_map_iterator ();
+iterator ();
 
 /* ctor copy */
-type_map_iterator (
-  type_map_iterator<T,Ts...> const &
+iterator (
+  iterator const &
 ) = default;
 
 /* ctor move */
-type_map_iterator (
-  type_map_iterator<T,Ts...> &&
+iterator (
+  iterator &&
 ) = default;
 
 /* operator copy */
-type_map_iterator<T,Ts...> &
+iterator &
 operator = (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) = default;
 
 /**/
-type_map_iterator<T,Ts...> &
+iterator &
 operator = (
-  type_map_iterator<T,Ts...> &&
+  iterator &&
 ) = default;
 
-//
-type_map_iterator<T,Ts...> &
+/*
+iterator &
 operator ++ ();
 
 //
-type_map_iterator<T,Ts...> &
+iterator &
 operator ++ (
   int
 );
 
 //
-type_map_iterator<T,Ts...> &
+iterator &
 operator -- ();
 
 //
-type_map_iterator<T,Ts...> &
+iterator &
 operator -- (
   int
 );
 
-type_map_iterator<T,Ts...> &
+iterator &
 operator + (
   int
 );
 
-type_map_iterator<T,Ts...> &
+iterator &
 operator +(
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 );
 
-type_map_iterator<T,Ts...> &
+iterator &
 operator - (
   int
 );
 
-type_map_iterator<T,Ts...> &
+iterator &
 operator += (
   int
 );
 
 bool
 operator < (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
 
 bool
 operator > (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
 
 bool
 operator >= (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
 
 bool
 operator <= (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
 
 bool
 operator == (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
 
 bool
 operator != (
-  type_map_iterator<T,Ts...> const &
+  iterator const &
 ) const;
-
+*/
 T&
 operator *();
-
+/*
 T*
 operator ->();
 
-operator []();
-
+T&
+operator [] (int);
+*/
 }; /* type_map_iterator */
 
-/* begin */
-template <typename T, typename... Ts>
-type_map_iterator<T,Ts...>
-begin (
-  type_map<T,Ts...> &
-);
+template <
+  typename Key
+, typename T2
+, typename... T2s >
+friend
+T&
+get (type_map<T,Ts...> &);
 
-/* end */
-template <typename T, typename... Ts>
-type_map_iterator<T,Ts...>
-end (
-  type_map<T,Ts...> const &
-);
+typename type_map<T,Ts...>::iterator
+begin ();
+
+typename type_map<T,Ts...>::iterator
+end ();
+
+}; /* type_map */
+
+
 
 /* get */
 template <
@@ -160,6 +192,17 @@ get (
   type_map<T,Ts...> &
 );
 
+/* get * / 
+template <
+  int Key
+, typename T
+, typename... Ts >
+T&
+get (
+  type_map<T,Ts...> &
+);*/
+
 } /* typesystems */
 #include "./bits/type_map.tcc"
 #endif
+
