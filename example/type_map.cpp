@@ -12,5 +12,27 @@ auto itere (typesystems::end(con));
 
 // auto t (get<int>(con));
 
+--++iter++--;
+
+iter += 2;
+iter += itere;
+iter = iter + 2;
+iter = iter + itere;
+iter -= 2;
+iter -= itere;
+iter = iter - 2;
+iter = iter - itere;
+
+*iter;
+iter[1];
+iter->begin();
+
+if (iter == itere) ;
+if (iter != itere) ;
+if (iter < itere) ;
+if (iter > itere) ;
+if (iter <= itere) ;
+if (iter >= itere) ;
+
 return 0;
 }
