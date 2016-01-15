@@ -25,14 +25,19 @@ iter = iter - itere;
 
 *iter;
 iter[1];
-iter->begin();
 
-if (iter == itere) ;
-if (iter != itere) ;
-if (iter < itere) ;
-if (iter > itere) ;
-if (iter <= itere) ;
-if (iter >= itere) ;
+if (iter == itere)
+{};
+if (iter != itere)
+{};
+if (iter < itere)
+{};
+if (iter > itere)
+{};
+if (iter <= itere)
+{};
+if (iter >= itere)
+{};
 
 return 0;
 }

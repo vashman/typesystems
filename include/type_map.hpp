@@ -16,7 +16,7 @@ struct check_tuple {
 static
 T&
 get (
-  int const &
+  int const
 , std::tuple<std::tuple<Ts,T>...> &
 );
 }; /* check_tuple */
@@ -27,7 +27,7 @@ struct check_tuple <0,T,Ts...> {
 static
 T&
 get (
-  int const &
+  int const
 , std::tuple<std::tuple<Ts,T>...> &
 );
 }; /* check_tuple <0,T,Ts...> */
@@ -49,6 +49,14 @@ class iterator
 {
 type_map<T,Ts...> * con;
 int index;
+
+protected:
+
+explicit
+iterator (
+  type_map<T,Ts...> *
+, int
+);
 
 public:
 /* ctor */
@@ -83,44 +91,64 @@ operator = (
   iterator &&
 ) = default;
 
-/*
-iterator &
+
+iterator
 operator ++ ();
 
 //
 iterator &
 operator ++ (
-  int
+  int const
 );
 
 //
-iterator &
+iterator
 operator -- ();
 
 //
 iterator &
 operator -- (
-  int
+  int const
 );
 
-iterator &
+iterator
 operator + (
   int
-);
+) const;
 
-iterator &
-operator +(
+iterator
+operator + (
   iterator const &
-);
+) const;
 
-iterator &
+iterator
 operator - (
   int
+) const;
+
+iterator
+operator - (
+  iterator const &
+) const;
+
+iterator &
+operator += (
+  int const
 );
 
 iterator &
 operator += (
-  int
+  iterator const &
+);
+
+iterator &
+operator -= (
+  int const
+);
+
+iterator &
+operator -= (
+  iterator const &
 );
 
 bool
@@ -152,16 +180,18 @@ bool
 operator != (
   iterator const &
 ) const;
-*/
-T&
-operator *();
-/*
-T*
+
+T &
+operator * ();
+
+T *
 operator ->();
 
-T&
-operator [] (int);
-*/
+T &
+operator [] (
+  int
+);
+
 }; /* type_map_iterator */
 
 template <
@@ -177,6 +207,8 @@ begin ();
 
 typename type_map<T,Ts...>::iterator
 end ();
+
+friend class iterator;
 
 }; /* type_map */
 
