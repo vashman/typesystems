@@ -48,6 +48,16 @@ get (
   type_map<T,Ts...> &
 );
 
+/* get */ 
+template <
+  std::size_t Key
+, typename T
+, typename... Ts >
+T &
+get (
+  type_map<T,Ts...> &
+);
+
 /* type map */
 template <typename T, typename... Ts>
 class type_map {
@@ -217,6 +227,16 @@ get (
   type_map<T2,T2s...> &
 );
 
+template <
+  std::size_t Key
+, typename T2
+, typename... T2s >
+friend T2 &
+get (
+  type_map<T2,T2s...> &
+);
+
+
 typename type_map<T,Ts...>::iterator
 begin ();
 
@@ -227,15 +247,6 @@ friend class iterator;
 
 }; /* type_map */
 
-/* get * / 
-template <
-  int Key
-, typename T
-, typename... Ts >
-T&
-get (
-  type_map<T,Ts...> &
-);*/
 
 } /* typesystems */
 #include "./bits/type_map.tcc"

@@ -356,6 +356,20 @@ bits::check_tuple<0,T,Ts...>::get (
 return std::get<1>(std::get<0>(_map));
 }
 
+/* get */ 
+template <
+  std::size_t Key
+, typename T
+, typename... Ts >
+T &
+get (
+  type_map<T,Ts...> & _con
+){
+return std::get<1> (
+  std::get<Key>(_con.map)
+);
+}
+
 } /* typesystems */
 #endif
 
