@@ -5,6 +5,7 @@
 
 #include <tuple>
 #include <iterator>
+#include "bits/get.hpp"
 
 namespace typesystems {
 namespace bits {
@@ -33,6 +34,19 @@ get (
 }; /* check_tuple <0,T,Ts...> */
 
 } /* bits */
+
+template <typename T, typename... Ts>
+class type_map;
+
+/* get */
+template <
+  typename Key
+, typename T
+, typename... Ts >
+T&
+get (
+  type_map<T,Ts...> &
+);
 
 /* type map */
 template <typename T, typename... Ts>
@@ -185,7 +199,7 @@ T &
 operator * ();
 
 T *
-operator ->();
+operator -> ();
 
 T &
 operator [] (
@@ -198,9 +212,10 @@ template <
   typename Key
 , typename T2
 , typename... T2s >
-friend
-T&
-get (type_map<T,Ts...> &);
+friend T2 &
+get (
+  type_map<T2,T2s...> &
+);
 
 typename type_map<T,Ts...>::iterator
 begin ();
@@ -211,18 +226,6 @@ end ();
 friend class iterator;
 
 }; /* type_map */
-
-
-
-/* get */
-template <
-  typename Key
-, typename T
-, typename... Ts >
-T&
-get (
-  type_map<T,Ts...> &
-);
 
 /* get * / 
 template <

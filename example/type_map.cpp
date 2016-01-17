@@ -10,7 +10,9 @@ auto iter (typesystems::begin(con));
 
 auto itere (typesystems::end(con));
 
-// auto t (get<int>(con));
+int & t (get<char>(con));
+int & t1 (get<int>(con));
+int & t2 (get<double>(con));
 
 --++iter++--;
 
