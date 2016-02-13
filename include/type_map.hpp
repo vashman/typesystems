@@ -251,4 +251,3 @@ friend class iterator;
 } /* typesystems */
 #include "./bits/type_map.tcc"
 #endif
-
