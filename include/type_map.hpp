@@ -115,6 +115,7 @@ operator = (
   iterator &&
 ) = default;
 
+~iterator() = default;
 
 iterator
 operator ++ ();
@@ -235,7 +236,6 @@ friend T2 &
 get (
   type_map<T2,T2s...> &
 );
-
 
 typename type_map<T,Ts...>::iterator
 begin ();

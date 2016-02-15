@@ -6,12 +6,18 @@ Distributed under the Boost Software License, Version 1.0.
  (See accompanying file `../LICENSE_1_0.txt` or copy at
        `http://www.boost.org/LICENSE_1_0.txt`)
 
-All examples can be found in the [example/rewriter](../example/
-rewriter) directory.
+All examples can be found in the [example/writer](../example/writer)
+directory.
 
-Table of Contents
+1 Table of Contents
 ==========================================================================
 1. Table of Contents
+2. Types of Converstions
+3. Writer
+5. Creating a Writer
+6. Using a Writer
+
+
 2. Scope
   1. Put Rewriter
   2. Get Rewriter
