@@ -6,7 +6,7 @@
 //          http://www.boost.org/LICENSE_1_0.txt)
 
 #include <iostream>
-#include "../../include/qualified_typeid.hpp"
+#include "../include/qualified_typeid.hpp"
 
 using typesystems::qualified_typeinfo;
 using typesystems::qualified_typeid;
