@@ -9,6 +9,15 @@
 #define TYPESYSTEMS_QUALIFIED_TYPEID_TCC
 
 namespace typesystems {
+/* qualified_typeid */
+template <typename T>
+qualified_typeinfo
+qualified_typeid (){
+return
+qualified_typeinfo(bits::make_id<T>());
+}
+
+namespace  bits {
 
 /* ctor */
 template <typename T>
@@ -20,6 +29,6 @@ qualified_typeinfo::qualified_typeinfo (
 , id (typeid (T)) {
 }
 
-
-} /* typesystems */
+} /* bits*/ } /* typesystems */
 #endif
+

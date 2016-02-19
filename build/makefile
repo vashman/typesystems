@@ -12,23 +12,19 @@ LIBS=$(BIN)/libs
 INCDIR=/usr/local/include/typesystems
 LIBDIR=/usr/local/lib
 
+# Lib Source
 SOURCES=$(wildcard $(SRC)/*.cpp)
 OBJECTS=$(patsubst %, $(OBJS)/%, $(notdir $(SOURCES:%.cpp=%.o)))
 
-# Explcit Type Id examples
-ID_EXSRC=$(wildcard $(EXDIR)/explicit_typeid/*.cpp)
-ID_EXOBJS=$(patsubst %, $(EXOBJ)/explicit_typeid/%,$(notdir $(ID_EXSRC:%.cpp=%.o)))
-ID_EXAMPLES=$(patsubst %, $(BIN)/explicit_typeid/%, $(notdir $(ID_EXSRC:%.cpp=%)))
+# Qualified Type Id examples
+ID_EXSRC=$(wildcard $(EXDIR)/qualified_typeid/*.cpp)
+ID_EXOBJS=$(patsubst %, $(EXOBJ)/qualified_typeid/%,$(notdir $(ID_EXSRC:%.cpp=%.o)))
+ID_EXAMPLES=$(patsubst %, $(BIN)/qualified_typeid/%, $(notdir $(ID_EXSRC:%.cpp=%)))
 
-# Typebuffer examples
-BU_EXSRC=$(wildcard $(EXDIR)/typebuffer/*.cpp)
-BU_EXOBJS=$(patsubst %, $(EXOBJ)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%.o)))
-BU_EXAMPLES=$(patsubst %, $(BIN)/typebuffer/%, $(notdir $(BU_EXSRC:%.cpp=%)))
-
-# Writer examples
-RW_EXSRC=$(wildcard $(EXDIR)/writer/*.cpp)
-RW_EXOBJS=$(patsubst %, $(EXOBJ)/writer/%, $(notdir $(RW_EXSRC:%.cpp=%.o)))
-RW_EXAMPLES=$(patsubst %, $(BIN)/writer/%, $(notdir $(RW_EXSRC:%.cpp=%)))
+# examples
+EXSRC=$(wildcard $(EXDIR)/*.cpp)
+EXOBJS=$(patsubst %, $(EXOBJ)/%, $(notdir $(RW_EXSRC:%.cpp=%.o)))
+EXAMPLES=$(patsubst %, $(BIN)/%, $(notdir $(RW_EXSRC:%.cpp=%)))
 
 MAJOR=0
 MINOR=0
@@ -42,24 +38,17 @@ $(OBJS)/%.o: $(SRC)/%.cpp
 	$(CC) -o $@ -c $< -fPIC $(FLAGS) 2> object.log
 
 # Explicit Type Id
-$(EXOBJ)/explicit_typeid/%.o: $(EXDIR)/explicit_typeid/%.cpp
+$(EXOBJ)/qualified_typeid/%.o: $(EXDIR)/qualified_typeid/%.cpp
 	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
 
-$(BIN)/explicit_typeid/%: $(EXOBJ)/explicit_typeid/%.o
+$(BIN)/qualified_typeid/%: $(EXOBJ)/qualified_typeid/%.o
 	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
-# Typebuffer
-$(EXOBJ)/typebuffer/%.o: $(EXDIR)/typebuffer/%.cpp
+# Examples
+$(EXOBJ)/%.o: $(EXDIR)/%.cpp
 	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
 
-$(BIN)/typebuffer/%: $(EXOBJ)/typebuffer/%.o
-	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
-
-# Rewriter
-$(EXOBJ)/writer/%.o: $(EXDIR)/writer/%.cpp
-	$(CC) -c $< -o $@ $(FLAGS) 2> example_object.log
-
-$(BIN)/writer/%: $(EXOBJ)/writer/%.o
+$(BIN)/%: $(EXOBJ)/%.o
 	$(CC) $< -o $@ $(FLAGS) $(SLIB) 2> example.log
 
 define cc-lib_dynamic
@@ -70,7 +59,7 @@ define cc-lib_static
 ar rvs $@ $^ 2> staticlib.log
 endef
 
-all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(BU_EXAMPLES) $(RW_EXAMPLES)
+all: dirs $(SLIB) $(DLIB) $(ID_EXAMPLES) $(EXAMPLES)
 
 $(SLIB): $(OBJECTS)
 	$(cc-lib_static)
@@ -85,15 +74,10 @@ $(ID_EXAMPLES): $(ID_EXOBJS)
 
 $(ID_EXOBJS): $(ID_EXSRC)
 
-# Typebuffer
-$(BU_EXAMPLES): $(BU_EXOBJS)
+# Example
+$(EXAMPLES): $(EXOBJS)
 
-$(BU_EXOBJS): $(BU_EXSRC)
-
-# Writer
-$(RW_EXAMPLES): $(RW_EXOBJS)
-
-$(RW_EXOBJS): $(RW_EXSRC)
+$(EXOBJS): $(EXSRC)
 
 clean:
 	rm -rf $(BIN)
@@ -101,15 +85,11 @@ clean:
 
 dirs:
 	mkdir -p $(BIN)
-	mkdir -p $(BIN)/explicit_typeid
-	mkdir -p $(BIN)/typebuffer
-	mkdir -p $(BIN)/writer
+	mkdir -p $(BIN)/qualified_typeid
 	mkdir -p $(OBJS)
 	mkdir -p $(LIBS)
 	mkdir -p $(EXOBJ)
-	mkdir -p $(EXOBJ)/explicit_typeid
-	mkdir -p $(EXOBJ)/typebuffer
-	mkdir -p $(EXOBJ)/writer
+	mkdir -p $(EXOBJ)/qualified_typeid
 
 lib: $(SLIB) $(DLIB)
 
