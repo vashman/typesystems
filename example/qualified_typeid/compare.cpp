@@ -8,7 +8,7 @@
 #include <iostream>
 #include "../../include/qualified_typeid.hpp"
 
-using typesystems::explicit_typeid;
+using typesystems::qualified_typeid;
 
 class A{};
 
@@ -33,8 +33,8 @@ int main(){
   " A." << std::endl;
   }
 
-  if (qualified_typeid<A>
-  != qualified_typeid<A>
+  if (qualified_typeid<A>()
+  != qualified_typeid<A>()
   ){
   std::cout << "class A is not the same"
   " as B." << std::endl;

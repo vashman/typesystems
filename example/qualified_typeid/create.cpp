@@ -12,7 +12,8 @@ using typesystems::qualified_typeid;
 
 int main(){
 
-qualified_typeinfo<char> id;
+qualified_typeinfo id (
+  qualified_typeid<const int>() );
 
 auto type_id (qualified_typeid<int>());
 

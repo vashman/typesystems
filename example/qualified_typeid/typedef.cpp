@@ -17,7 +17,7 @@ typedef int some_type;
 auto id = qualified_typeid<int>();
 
   /* true statement */
-  if (id == qualified_typeinfo<int>){
+  if (id == qualified_typeid<int>()){
   std::cout << "some_type is a int."
   << std::endl;
   }

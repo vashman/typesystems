@@ -17,8 +17,6 @@ return
 qualified_typeinfo(bits::make_id<T>());
 }
 
-namespace  bits {
-
 /* ctor */
 template <typename T>
 qualified_typeinfo::qualified_typeinfo (
@@ -29,6 +27,6 @@ qualified_typeinfo::qualified_typeinfo (
 , id (typeid (T)) {
 }
 
-} /* bits*/ } /* typesystems */
+} /* typesystems */
 #endif
 
