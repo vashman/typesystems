@@ -82,6 +82,11 @@ operator != (
   std::type_info const &
 ) const;
 
+bool
+operator < (
+  qualified_typeinfo const &
+) const;
+
 bits::qualified_type qualification;
 std::type_index id;
 

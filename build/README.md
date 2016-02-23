@@ -1,4 +1,4 @@
-Typesystems Building
+Building / Installing Typesystem
 ==========================================================================
 To make everything run `make` in the project build directory. 
 

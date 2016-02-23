@@ -1,6 +1,5 @@
 #include "../src/qualified_typeid.cpp"
 #include "../include/writer.hpp"
-#include "../include/typelist.hpp"
 
 #include <iterator>
 #include <map>
@@ -9,111 +8,134 @@
 
 using namespace typesystems;
 
-typedef int con_type;
-typedef float v_type;
-
-typedef std::vector<con_type> buffer_t;
-typedef std::vector<v_type> outbuffer_t;
-
-typedef buffer_t::iterator buff_iter;
+// other typesystem
+typedef float f_type;
+typedef std::vector<f_type> outbuffer_t;
+typedef outbuffer_t::iterator buffer_iter;
 typedef std::back_insert_iterator <
-  outbuffer_t > out_iter;
+  outbuffer_t > output_iter;
 
-typedef writer_type<buff_iter,out_iter>
-writer_t;
+// typestem boundary
+typedef writer_type <
+  buffer_iter,output_iter > writer_t;
 
+/* erase the type of writer used as
+well. */
 typedef std::map <
   qualified_typeinfo
-, writer_base_type > map_t;
+, writer_base_type
+> writer_map_notype;
 
+/* useful when the iterators erase the
+types used. */
 typedef std::map <
-  qualified_typeinfo, writer_t > map_t2;
+  qualified_typeinfo, writer_t >
+writer_map_type;
 
-typedef int con_type;
-typedef float v_type;
-
+// free function re-writer
 template <typename T, typename T2>
-qualified_typeinfo
-function (T, T, T2 _out){
+bool
+function (
+  T
+, T
+, T2 _out
+){
 _out = 99;
-return qualified_typeid<float>();
+return true;
 }
 
+// functor re-writer
 struct functor {
 template <typename T, typename T2>
-qualified_typeinfo operator() (
-  T, T, T2 _out
+bool operator() (
+  T
+, T
+, T2 _out
 ){
 _out = 66;
-return qualified_typeid<float>();
+return true;
 }
 };
 
-int main (){
-map_t writer_map;
-map_t2 kwriter_map;
-buffer_t buffer;
+outbuffer_t buffer;
 outbuffer_t outbuffer;
+writer_map_notype writer_map_typeless;
+writer_map_type writer_map;
 
-writer_map [qualified_typeid<float>()]
-= make_writer <buff_iter, out_iter > (
+// application typesytem **************/
+typedef int con_type;
+typedef std::vector<con_type> buffer_t;
+
+int main (){
+/* types are added at typesystem
+boundary. */
+auto id = qualified_typeid<f_type>();
+
+// add lamda re-writer
+writer_map_typeless [id] = make_writer <
+  buffer_iter, output_iter > (
   [] (
-    std::vector<con_type>::iterator _iter
-  , std::vector<con_type>::iterator _end
-  , out_iter _output
-  ) -> qualified_typeinfo {
+    buffer_iter _iter
+  , buffer_iter _end
+  , output_iter _output
+  ) -> bool {
   _output = 4.21;
-  return qualified_typeid<float>();
+  return true;
   }
 );
 
-writer_map [qualified_typeid<v_type>()]
-= make_writer <buff_iter, out_iter > (
-  function<buff_iter,out_iter>
-);
+// add free re-writer
+writer_map_typeless [id] = make_writer <
+ buffer_iter, output_iter > (
+  function<buffer_iter,output_iter> );
 
-writer_map [qualified_typeid<v_type>()]
-= make_writer <buff_iter, out_iter > (
-functor()
-);
+// add functor re-writer
+writer_map_typeless [id] = make_writer <
+  buffer_iter, output_iter > (
+  functor() );
 
-kwriter_map.insert(
-std::make_pair(
-  qualified_typeid<v_type>()
-, make_writer<buff_iter, out_iter> (
+auto id2 = qualified_typeid<f_type>();
+
+writer_map.insert ( std::make_pair (
+  id2
+, make_writer<buffer_iter,output_iter> (
   [] (
-    std::vector<con_type>::iterator _iter
-  , std::vector<con_type>::iterator _end
-  , out_iter _output
-  ) -> qualified_typeinfo {
+    buffer_iter _iter
+  , buffer_iter _end
+  , output_iter _output
+  ) -> bool {
   _output = 5.14;
-  return qualified_typeid<v_type>();
+  return true;
   }
  )
 ));
 
-kwriter_map.insert(
-std::make_pair(
-  qualified_typeid<v_type>()
-, make_writer<buff_iter, out_iter> (function<buff_iter,out_iter>)
+writer_map.insert ( std::make_pair (
+  id2
+, make_writer<buffer_iter, output_iter>
+  (function<buffer_iter,output_iter>)
 ));
 
-kwriter_map.insert(
-std::make_pair(
-  qualified_typeid<v_type>()
-, make_writer<buff_iter, out_iter> (functor())
+writer_map.insert ( std::make_pair (
+  id2
+, make_writer<buffer_iter, output_iter>
+  (functor())
 ));
 
-auto writer = use_writer <buff_iter, out_iter>
-(writer_map[qualified_typeid<v_type>()]);
+auto writer = use_writer <
+  buffer_iter, output_iter > (
+  writer_map[id2] );
 
-auto rv = writer(begin(buffer), end(buffer), std::back_inserter(outbuffer));
+auto rv = writer (
+  begin(outbuffer)
+, end(outbuffer)
+, std::back_inserter(outbuffer) );
 
-  if (rv == qualified_typeid<v_type>()){
+  if (rv == true){
     if (outbuffer.empty()) {
     std::cout << "Output is Null\n";  
     } else {
-    v_type val = outbuffer[0];
+    f_type val = outbuffer[0];
     std::cout << "Value is: " << val << "\n";
     }
   } else {

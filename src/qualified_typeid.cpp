@@ -60,6 +60,17 @@ qualified_typeinfo::operator != (
 return !(this->id == _type);
 }
 
+/* equality operator */
+bool
+qualified_typeinfo::operator < (
+  qualified_typeinfo const & _type
+) const {
+return (
+  ( this->qualification 
+  < _type.qualification )
+&& (this->id < _type.id) );
+}
+
 } /* typesystems */
 #endif
 

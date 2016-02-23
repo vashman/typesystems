@@ -8,9 +8,9 @@
 #include "../include/type_map.hpp"
 
 using typesystems::type_map;
+using typesystems::get;
 
 /* Found through ADL.
-  using typesystems::get;
   using typesystems::begin;
   using typesystems::end;
 */

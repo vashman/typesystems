@@ -48,7 +48,8 @@ use_writer (
   writer_type <BufferIter, OutputIter>
   & _writer
 ){
-  if (! _writer) throw std::bad_cast();
+  if (! _writer.ptr)
+  throw std::bad_cast();
 
 return _writer;
 }

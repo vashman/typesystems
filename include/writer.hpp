@@ -35,6 +35,9 @@ template <
 , typename OutputIter >
 struct writer_type {
 /* ctor */
+writer_type () = default;
+
+/* ctor */
 writer_type (
   writer_function <
     BufferIter,OutputIter > * _func
