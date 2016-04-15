@@ -7,6 +7,17 @@
 
 namespace typesystems {
 
+template <typename T, typename... Ts>
+template <typename... Us>
+type_map<T,Ts...>::type_map (
+  Us... _us
+)
+: map (std::make_tuple(Ts(),_us)...) {
+/*static_assert (
+  sizeof...(Us) == sizeof...(Ts)
+, "" );*/
+}
+
 /* ctor begin */
 template <typename T, typename... Ts>
   type_map<T,Ts...>

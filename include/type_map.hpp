@@ -65,6 +65,33 @@ std::tuple<std::tuple<Ts,T>...> map;
 
 public:
 
+type_map () = default;
+
+template <typename... Us>
+type_map (
+  Us...
+);
+
+type_map (
+  type_map<T,Ts...> const &
+) = default;
+
+type_map (
+  type_map<T,Ts...> &&
+) = default;
+
+~type_map () = default;
+
+type_map<T,Ts...> &
+operator = (
+  type_map<T,Ts...> const &
+) = default;
+
+type_map<T,Ts...> &
+operator = (
+  type_map<T,Ts...> &&
+) = default;
+
 /* type map iterator */
 class iterator
 : public std::iterator <
@@ -246,7 +273,6 @@ end ();
 friend class iterator;
 
 }; /* type_map */
-
 
 } /* typesystems */
 #include "./bits/type_map.tcc"

@@ -16,7 +16,9 @@ using typesystems::get;
 */
 
 int main() {
-type_map<int, int, char, double> con;
+type_map <int, int, char, double> con;
+
+type_map <int, int, char> ctor (9, 'A');
 
 auto iter (begin(con));
 auto iter_end (end(con));
