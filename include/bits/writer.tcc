@@ -11,165 +11,129 @@ namespace typesystems {
 
 /* make writer */
 template <
-  typename BufferIter
-, typename OutputIter
+  typename T
+, typename InputIterator
 , typename Function >
-writer_type<BufferIter,OutputIter>
-make_writer (
+iwriter <T,InputIterator>
+make_iwriter (
   Function _func
 ){
+return iwriter <T,InputIterator> (
+  new std::function <
+    bool
+    (T&, InputIterator, InputIterator) >
+  (_func)
+);
+}
+
+/* make writer */
+template <
+  typename T
+, typename OutputIterator
+, typename Function >
+owriter <T,OutputIterator>
+make_owriter (
+  Function _func
+){
+return owriter <T,OutputIterator> (
+  new std::function <
+    bool (T const &, OutputIterator) >
+  (_func)
+);
+}
+
+/* make writer */
+template <
+  typename T
+, typename InputIterator
+, typename Function >
+iwriter <T,InputIterator>
+make_iwriter (
+  Function _func
+, InputIterator const & // unused
+){
 return
-writer_type <BufferIter,OutputIter> (
-  new writer_function <
-    BufferIter, OutputIter >(_func)
-);
+make_iwriter<T,InputIterator> (_func);
 }
 
-/* use writer */
-template <
-  typename BufferIter
-, typename OutputIter >
-writer_type <BufferIter, OutputIter>
-use_writer (
-  writer_base_type & _writer
-){
-  if (! _writer) throw std::bad_cast();
-
-return writer_type<
-  BufferIter, OutputIter >(_writer);
-}
-
-/* use writer */
-template <
-  typename BufferIter
-, typename OutputIter >
-writer_type <BufferIter, OutputIter>
-use_writer (
-  writer_type <BufferIter, OutputIter>
-  & _writer
-){
-  if (! _writer.ptr)
-  throw std::bad_cast();
-
-return _writer;
-}
-
-/*namespace bits {
-/ * input rewrite
-  If the container type is not present, 
-  rewrite the type.
-* /
+/* make writer */
 template <
   typename T
-, typename BufferIter
-, typename WriterIter
-, typename Find >
+, typename OutputIterator
+, typename Function >
+owriter <T,OutputIterator>
+make_owriter (
+  Function _func
+, OutputIterator const & // unused
+){
+return
+make_owriter <T,OutputIterator> (_func);
+}
+
+/* use input writer */
+template <
+  typename T, typename InputIterator >
 bool
-rewrite_dispatch (
+use_iwriter (
   T & _var
-, BufferIter _buffer
-, BufferIter _buffer_end
-, WriterIter _writer
-, WriterIter _writer_end
-, Find _find
-, std::false_type const
+, InputIterator _iter
+, InputIterator _end
+, iwriter <T,InputIterator> & _writer
 ){
-WriterIter iter = _find (
-  _writer
-, _writer_end
-, qualified_typeid<T>() );
-
-  if (iter == _writer_end) return false;
-
-auto writer = use_iwriter <
-x  T, BufferIter, WriterIter, Find >
-  (*iter);
-
-return writer (
-  _var, _buffer, _buffer_end, _writer
-, _writer_end, _find );
+return _writer (_var, _iter, _end);
 }
 
-/ * input rewrite
-  If the container type is present,
-  write the type.
-* /
+/* use input writer */
 template <
-  typename T
-, typename BufferIter
-, typename WriterIter
-, typename Find >
+  typename T, typename InputIterator >
 bool
-rewrite_dispatch (
+use_iwriter (
   T & _var
-, BufferIter _buffer
-, BufferIter _buffer_end
-, WriterIter const &
-, WriterIter const &
-, Find const &
-, std::true_type const
+, InputIterator _iter
+, InputIterator _end
+, iwriter_base & _writer
 ){
-  if (_buffer == _buffer_end)
-  return false;
-_var = *_buffer++;
-return true;
-}
-
-/ * output rewrite dispatch * /
-template <
-  typename T
-, typename BufferOutput
-, typename WriterIter
-, typename Find >
-bool
-rewrite_dispatch (
-  T const & _var
-, BufferOutput _output
-/ * un-used types are not copied nor
-modified. * /
-, WriterIter const &
-, WriterIter const &
-, Find const &
-, std::true_type const
-){
-*_output = _var;
-return true;
-}
-
-/ * output rewrite dispatch * /
-template <
-  typename T
-, typename BufferOutput
-, typename Find
-, typename WriterIter >
-bool
-rewrite_dispatch (
-  T const & _var
-, BufferOutput _output
-, WriterIter _writer
-, WriterIter _writer_end
-, Find _find
-, std::false_type const
-){
-WriterIter iter = _find (
-  _writer
-, _writer_end
-, qualified_typeid<T>() );
-  if (iter == _writer_end) return false;
-  
-auto writer = use_owriter <
-  T, BufferOutput, WriterIter, Find >
-  (*iter);
-return writer(
+return
+use_iwriter (
   _var
-, _output
-, _writer
-, _writer_end
-, _find
+, _iter
+, _end
+, static_cast<iwriter<T,InputIterator>>
+  (_writer)
 );
 }
 
-} / * bits */
+/* use output writer */
+template <
+  typename T, typename OutputIterator >
+bool
+use_owriter (
+  T const & _var
+, OutputIterator _iter
+, owriter<T,OutputIterator> & _writer
+){
+return _writer (_var, _iter);
+}
+
+/* use output writer */
+template <
+  typename T, typename OutputIterator >
+bool
+use_owriter (
+  T const & _var
+, OutputIterator _iter
+, owriter_base & _writer
+){
+auto t =  static_cast<owriter<T,OutputIterator>>
+  (_writer);
+
+return
+use_owriter (
+  _var
+, _iter
+, t);
+}
 
 } /* typesystems */
 #endif
+

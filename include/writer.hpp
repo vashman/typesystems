@@ -6,125 +6,260 @@
 #include <memory>
 
 namespace typesystems {
-  
+
+template <
+  typename T, typename OutputIterator >
+class owriter;
+
+template <
+  typename T, typename InputIterator >
+class iwriter;
+
 /* writer base type
   Typeless storage of writer.
 */
 typedef
-std::shared_ptr<void> writer_base_type;
+std::shared_ptr<void> iwriter_base;
 
-/* writer function type
-  The type used to store the writer,
-  using the call signature for the
-  writer.
-*/
-template <
-  typename BufferIter
-, typename OutputIter >
-using writer_function = std::function <
-bool (
-  BufferIter, BufferIter, OutputIter )
->;
+typedef
+std::shared_ptr<void> owriter_base;
 
-/* writer type
-  The shared writer type implicity
-  converts to a base writer type.
-*/
+/* output writer */
 template <
-  typename BufferIter
-, typename OutputIter >
-struct writer_type {
-/* ctor */
-writer_type () = default;
+  typename T, typename OutputIterator >
+class owriter {
+
+std::shared_ptr <
+std::function < 
+  bool (T const &, OutputIterator) >
+> func;
+
+public:
 
 /* ctor */
-writer_type (
-  writer_function <
-    BufferIter,OutputIter > * _func
-) : ptr (_func) {
+owriter () = default;
+
+/* ctor */
+owriter (
+  std::function < bool (
+    T const &, OutputIterator) > * _func
+)
+: func (_func) {
 }
 
 /* ctor */
 explicit
-writer_type (
-  writer_base_type & _writer
-) : ptr (std::static_pointer_cast <
-    writer_function <
-      BufferIter, OutputIter >
-  > (_writer)
-  ) {
+owriter (
+  owriter_base & _writer
+)
+: func ( std::static_pointer_cast <
+  std::function < bool (
+    T const &, OutputIterator)> >
+   (_writer)
+){
+  if (! _writer) throw std::bad_cast();
 }
 
-operator writer_base_type() const {
+operator owriter_base() const {
   return std::static_pointer_cast <void>
-  (this->ptr);
+  (this->func);
 }
 
 /* ctor copy */
-writer_type (
-  writer_type const &
+owriter (
+  owriter<T,OutputIterator> const &
 ) = default;
 
 /* copy assignment */
-writer_type &
+owriter<T,OutputIterator> &
 operator = (
-  writer_type const &
+  owriter<T,OutputIterator> const &
 ) = default;
 
 /* move assignment */
-writer_type &
+owriter<T,OutputIterator> &
 operator = (
-  writer_type &&
+  owriter<T,OutputIterator> &&
 ) = default;
 
 /* ctor move */
-writer_type (
-  writer_type &&
+owriter (
+  owriter<T,OutputIterator> &&
 ) = default;
 
 /* dtor */
-~writer_type() = default;
+~owriter() = default;
 
 bool
-operator () (
-  BufferIter _begin
-, BufferIter _end
-, OutputIter _output
-){
-return
-(*this->ptr)(_begin,_end,_output);
+operator ()(
+  T const & _var
+, OutputIterator _output
+) const {
+return (*this->func)(_var, _output);
 }
 
-std::shared_ptr < writer_function <
-  BufferIter, OutputIter > > ptr;
-}; /* writer_type */
+}; /* owriter */
+
+/* input writer */
+template <
+  typename T, typename InputIterator >
+class iwriter {
+
+std::shared_ptr<
+std::function < 
+  bool (
+    T&, InputIterator, InputIterator) >
+> func;
+
+public:
+
+/* ctor */
+iwriter () = default;
+
+/* ctor */
+iwriter (
+  std::function < bool (
+    T&, InputIterator, InputIterator) >
+  * _func
+) : func (_func) {
+}
+
+/* ctor */
+explicit
+iwriter (
+  iwriter_base & _writer
+) : func (std::static_pointer_cast <
+    std::function < bool (
+      T&, InputIterator, InputIterator)>
+  > (_writer)
+  )
+{
+  if (! _writer) throw std::bad_cast();
+}
+
+operator iwriter_base() const {
+  return std::static_pointer_cast <void>
+  (this->func);
+}
+
+/* ctor copy */
+iwriter (
+  iwriter<T,InputIterator> const &
+) = default;
+
+/* copy assignment */
+iwriter<T,InputIterator> &
+operator = (
+  iwriter<T,InputIterator> const &
+) = default;
+
+/* move assignment */
+iwriter<T,InputIterator> &
+operator = (
+  iwriter<T,InputIterator> &&
+) = default;
+
+/* ctor move */
+iwriter (
+  iwriter<T,InputIterator> &&
+) = default;
+
+/* dtor */
+~iwriter() = default;
+
+bool
+operator ()(
+  T & _var
+, InputIterator _begin
+, InputIterator _end
+) const {
+return (*this->func)(_var,_begin,_end);
+}
+
+}; /* input writer */
 
 /* make writer */
 template <
-  typename BufferIter
-, typename OutputIter
+  typename T
+, typename InputIterator
 , typename Function >
-writer_type<BufferIter,OutputIter>
-make_writer (
+iwriter <T,InputIterator>
+make_iwriter (
   Function
 );
 
-/* use writer */
+/* make writer */
 template <
-  typename BufferIter
-, typename OutputIter >
-writer_type <BufferIter, OutputIter>
-use_writer (
-  writer_base_type &
+  typename T
+, typename OutputIterator
+, typename Function >
+owriter <T,OutputIterator>
+make_owriter (
+  Function
 );
 
-/* use writer */
+/* make writer */
 template <
-  typename BufferIter
-, typename OutputIter >
-writer_type <BufferIter, OutputIter>
-use_writer (
-  writer_type<BufferIter,OutputIter> &
+  typename T
+, typename InputIterator
+, typename Function >
+iwriter <T,InputIterator>
+make_iwriter (
+  Function
+, InputIterator const &
+);
+
+/* make writer */
+template <
+  typename T
+, typename OutputIterator
+, typename Function >
+owriter <T,OutputIterator>
+make_owriter (
+  Function
+, OutputIterator const &
+);
+
+/* use input writer */
+template <
+  typename T, typename InputIterator >
+bool
+use_iwriter (
+  T &
+, InputIterator
+, InputIterator
+, iwriter <T,InputIterator> &
+);
+
+/* use input writer */
+template <
+  typename T, typename InputIterator >
+bool
+use_iwriter (
+  T &
+, InputIterator
+, InputIterator
+, iwriter_base &
+);
+
+/* use output writer */
+template <
+  typename T, typename OutputIterator >
+bool
+use_owriter (
+  T const &
+, OutputIterator
+, owriter<T,OutputIterator> &
+);
+
+/* use output writer */
+template <
+  typename T, typename OutputIterator >
+bool
+use_owriter (
+  T const &
+, OutputIterator
+, owriter_base &
 );
 
 } /* typesystems */
