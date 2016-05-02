@@ -93,13 +93,16 @@ use_iwriter (
 , InputIterator _end
 , iwriter_base & _writer
 ){
+auto t (
+  static_cast<iwriter<T,InputIterator>>
+  (_writer) );
+
 return
 use_iwriter (
   _var
 , _iter
 , _end
-, static_cast<iwriter<T,InputIterator>>
-  (_writer)
+, t
 );
 }
 

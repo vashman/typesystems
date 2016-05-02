@@ -173,6 +173,7 @@ operator ()(
 , InputIterator _begin
 , InputIterator _end
 ) const {
+  if (_begin == _end) return false;
 return (*this->func)(_var,_begin,_end);
 }
 
