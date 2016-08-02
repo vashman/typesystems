@@ -8,108 +8,102 @@
 #ifndef TYPESYSTEMS_OREWRITE_ITERATOR_HPP
 #define TYPESYSTEMS_OREWRITE_ITERATOR_HPP
 
+#include <iterator>
 #include "type_map.hpp"
-#include "writer.hpp"
 
 namespace typesystems {
 
-/* orewriter iterator */
+/* irewriter iterator */
 template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
-class orewrite_iterator
-{
+  typename T
+, typename IteratorMap
+, typename Writer >
+class orewrite_iterator {
 
-MakeIterator make_iterator;
+typedef std::output_iterator_tag
+  iterator_catagory;
+typedef T value_type;
+typedef std::size_t difference_type;
+typedef T* pointer;
+typedef T& reference;
 
-Iterator iterator;
-
-type_map <owriter_base, Ts...> map;
+IteratorMap iterator_map;
+Writer writer;
 
 public:
 
 /* ctor */
-template <
-  typename Device, typename... Writers >
 orewrite_iterator (
-  MakeIterator
-, Device &
-, Writers...
+  IteratorMap
+, Writer
 );
 
 /* ctor copy*/
 orewrite_iterator (
   orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
+    T, IteratorMap, Writer >
   const &
 ) = default;
 
 /* operator copy assignment */
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
+  T, IteratorMap, Writer > &
 operator = (
   orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
+    T, IteratorMap, Writer >
   const &
 ) = default;
 
 /* ctor move */
 orewrite_iterator (
   orewrite_iterator <
-    MakeIterator, Iterator, Ts... > &&
+    T, IteratorMap, Writer >
+  &&
 ) = default;
 
 /* operator move assignment */
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
+  T, IteratorMap, Writer > &
 operator = (
   orewrite_iterator <
-    MakeIterator, Iterator, Ts... > &&
+    T, IteratorMap, Writer >
+  &&
 ) = default;
 
 /* dtor */
 ~orewrite_iterator () = default;
 
-/* assignment operator */
-template <typename U>
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
-operator = (
-  U const &
-);
-
-orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
+  T, IteratorMap, Writer > &
 operator * ();
 
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > * 
-operator -> ();
+  T, IteratorMap, Writer > &
+operator ++ ();
 
-template <typename Device>
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
-operator ()(
-  Device &
+  T, IteratorMap, Writer >
+operator ++ (int);
+
+orewrite_iterator <
+  T, IteratorMap, Writer > &
+operator = (
+  T const &
 );
 
-}; /* orewrite_iterator */
+}; /* orewrite iterator */
 
 template <
-  typename... Ts
-, typename MakeIterator
-, typename Device
-, typename... Writers >
+  typename T
+, typename IteratorMap
+, typename Writer >
 auto
 make_orewrite_iterator (
-  MakeIterator _makeiter
-, Device & _buffer
-, Writers... _writers
-) -> orewrite_iterator <
-  MakeIterator
-, decltype(_makeiter(_buffer))
-, Ts... >;
+  IteratorMap _itermap
+, Writer _writermap
+)
+-> orewrite_iterator <
+  T, IteratorMap, Writer >;
 
 } /* typesystems */
 #endif

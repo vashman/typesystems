@@ -10,114 +10,93 @@
 
 namespace typesystems {
 
-/* orewrite iterator ctor */
+/* irewrite iterator ctor */
 template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
-template <
-  typename Device, typename... Writers >
-  orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
+  typename T
+, typename IteratorMap
+, typename Writer >
+orewrite_iterator <
+  T, IteratorMap, Writer >
 ::orewrite_iterator (
-  MakeIterator _mkiter
-, Device & _buffer
-, Writers... _writers
+  IteratorMap _itermap
+, Writer _writer
 )
-: make_iterator (_mkiter)
-, iterator (_mkiter(_buffer))
-, map (make_owriter <Ts, Iterator>
-  (_writers)... ) {
-}
+: iterator_map (_itermap)
+, writer (_writer)
+{}
 
-/* orewriter iterator assignment
-  operator. */
 template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
-template <typename U>
+  typename T
+, typename IteratorMap
+, typename Writer >
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
+  T, IteratorMap, Writer > &
   orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
-::operator = (
-  U const & _val
-){
-  if (! use_owriter (
-      _val
-    , this->iterator
-    , get<U>(this->map) )
-  ){
- throw "unable to write type.";
- }
-return *this;
-}
-
-/**/
-template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
-orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
-  orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
+    T, IteratorMap, Writer >
 ::operator * (
 ){
 return *this;
 }
 
-/**/
 template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
+  typename T
+, typename IteratorMap
+, typename Writer >
 orewrite_iterator <
-  MakeIterator, Iterator, Ts... > *
+  T, IteratorMap, Writer > &
   orewrite_iterator <
-  MakeIterator, Iterator, Ts... >
-::operator -> (
+    T, IteratorMap, Writer >
+::operator ++ (
 ){
-return this;
-}
-
-template <
-  typename MakeIterator
-, typename Iterator
-, typename... Ts >
-template <typename Device>
-orewrite_iterator <
-  MakeIterator, Iterator, Ts... > &
-  orewrite_iterator <
-    MakeIterator, Iterator, Ts... >
-::operator ()(
-  Device & _buffer
-){
-this->iterator
-  = this->make_iterator(_buffer);
 return *this;
 }
 
 template <
-  typename... Ts
-, typename MakeIterator
-, typename Device
-, typename... Writers >
+  typename T
+, typename IteratorMap
+, typename Writer >
+orewrite_iterator <
+  T, IteratorMap, Writer >
+  orewrite_iterator <
+    T, IteratorMap, Writer >
+::operator ++ (
+  int
+){
+auto temp_iter (*this);
+return temp_iter;
+}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer >
+orewrite_iterator <
+  T, IteratorMap, Writer > &
+  orewrite_iterator <
+    T, IteratorMap, Writer >
+::operator = (
+  T const & _var
+){
+this->writer(_var, this->iterator_map);
+return *this;
+}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer >
 auto
 make_orewrite_iterator (
-  MakeIterator _makeiter
-, Device & _buffer
-, Writers... _writers
-) -> orewrite_iterator <
-  MakeIterator
-, decltype(_makeiter(_buffer))
-, Ts... > {
-return orewrite_iterator <
-  MakeIterator
-, decltype(_makeiter(_buffer))
-, Ts... >
-(_makeiter, _buffer, _writers...);
+  IteratorMap _itermap
+, Writer _writer
+)
+-> orewrite_iterator <
+  T, IteratorMap, Writer >
+{
+return
+orewrite_iterator <
+  T, IteratorMap, Writer >
+(_itermap, _writer);
 }
 
 } /* typesystems */

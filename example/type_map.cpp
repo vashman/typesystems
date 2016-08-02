@@ -10,18 +10,16 @@
 using typesystems::type_map;
 using typesystems::get;
 
-/* Found through ADL.
-  using typesystems::begin;
-  using typesystems::end;
-*/
-
 int main() {
-type_map <int, int, char, double> con;
+type_map <
+  std::tuple<int,int,int>
+, int, char, double >
+con;
 
-type_map <int, int, char> ctor (9, 'A');
-
-auto iter (begin(con));
-auto iter_end (end(con));
+type_map <
+  std::tuple<int, char, char>
+, int, char, float >
+ctor (9, 'A', 'B');
 
 int & t (get<char>(con));
 int & t1 (get<int>(con));
@@ -29,32 +27,8 @@ int & t2 (get<double>(con));
 
 int & t3 (get<0>(con));
 
---++iter++--;
-
-iter += 2;
-iter += iter_end;
-iter = iter + 2;
-iter = iter + iter_end;
-iter -= 2;
-iter -= iter_end;
-iter = iter - 2;
-iter = iter - iter_end;
-
-*iter;
-iter[1];
-
-if (iter == iter_end)
-{};
-if (iter != iter_end)
-{};
-if (iter < iter_end)
-{};
-if (iter > iter_end)
-{};
-if (iter <= iter_end)
-{};
-if (iter >= iter_end)
-{};
+char & t4 (get<char>(ctor));
+char & t5 (get<float>(ctor));
 
 return 0;
 }

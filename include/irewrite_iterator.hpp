@@ -8,141 +8,127 @@
 #ifndef TYPESYSTEMS_IREWRITE_ITERATOR_HPP
 #define TYPESYSTEMS_IREWRITE_ITERATOR_HPP
 
-#include <type_traits>
+#include <iterator>
 #include "type_map.hpp"
-#include "writer.hpp"
-#include "./bits/is_any.hpp"
 
 namespace typesystems {
 
 /* irewriter iterator */
 template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
-class irewrite_iterator
-{
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+class irewrite_iterator {
 
-MakeBeginIterator make_iterator;
-MakeEndIterator make_end_iterator;
+typedef std::input_iterator_tag
+  iterator_catagory;
+typedef T value_type;
+typedef std::size_t difference_type;
+typedef T* pointer;
+typedef T& reference;
 
-Iterator begin, end;
+IteratorMap iterator_map;
+Writer writer;
+WriteCheck check;
 
-type_map <iwriter_base, Ts...> map;
+T temp;
 
 public:
 
 /* ctor */
-template <
-  typename Device, typename... Writers >
 irewrite_iterator (
-  MakeBeginIterator
-, MakeEndIterator
-, Device &
-, Writers...
+  IteratorMap
+, Writer
+, WriteCheck
 );
 
 /* ctor copy*/
 irewrite_iterator (
   irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... > const &
+    T, IteratorMap, Writer, WriteCheck >
+  const &
 ) = default;
 
 /* operator copy assignment */
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
+  T, IteratorMap, Writer, WriteCheck > &
 operator = (
   irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... > const &
+    T, IteratorMap, Writer, WriteCheck >
+  const &
 ) = default;
 
 /* ctor move */
 irewrite_iterator (
   irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... > &&
+    T, IteratorMap, Writer, WriteCheck >
+  &&
 ) = default;
 
 /* operator move assignment */
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
+  T, IteratorMap, Writer, WriteCheck > &
 operator = (
   irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... > &&
+    T, IteratorMap, Writer, WriteCheck >
+  &&
 ) = default;
 
 /* dtor */
 ~irewrite_iterator () = default;
 
-/* cast operator */
-template <
-  typename U
-, typename = typename std::enable_if <
-   bits::is_any<U,Ts...>::value >::type
->
-operator U ();
-
-irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
+T&
 operator * ();
 
-irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > * 
+T*
 operator -> ();
 
-template <typename Device>
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
-operator ()(
-  Device &
-);
+  T, IteratorMap, Writer, WriteCheck > &
+operator ++ ();
+
+irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
+operator ++ (int);
+
+bool
+operator == (
+  irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const &
+) const;
 
 }; /* irewrite iterator */
 
 template <
-  typename... Ts
-, typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Device
-, typename... Writers >
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+bool
+operator != (
+  irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const &
+, irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const &
+);
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
 auto
 make_irewrite_iterator (
-  MakeBeginIterator _make_iterator
-, MakeEndIterator _make_end_iterator
-, Device & _buffer
-, Writers... _writers
-) -> irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , decltype(_make_iterator(_buffer))
-  , Ts... >;
+  IteratorMap
+, Writer
+, WriteCheck
+)
+-> irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >;
 
 } /* typesystems */
 #endif

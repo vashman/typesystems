@@ -12,155 +12,134 @@ namespace typesystems {
 
 /* irewrite iterator ctor */
 template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
-template <
-  typename Device, typename... Writers >
-  irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... >
-::irewrite_iterator (
-  MakeBeginIterator _make_iterator
-, MakeEndIterator _make_end_iterator
-, Device & _buffer
-, Writers... _writers
-)
-: make_iterator (_make_iterator)
-, make_end_iterator (_make_end_iterator)
-, begin (_make_iterator(_buffer))
-, end (_make_end_iterator(_buffer))
-, map ( make_iwriter <Ts, Iterator>
-  (_writers)... ) {
-}
-
-/* irewriter iterator cast operator. */
-template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
-template <
-  typename U
-, typename >
-  irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... >
-::operator U (){
-U var;
-
-  if (! use_iwriter (
-      var
-    , this->begin
-    , this->end
-    , get<U>(this->map) )
-  ){
-  throw "unable to write type.";
-  }
-return var;
-}
-
-template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
-  irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... >
+  T, IteratorMap, Writer, WriteCheck >
+::irewrite_iterator (
+  IteratorMap _itermap
+, Writer _writer
+, WriteCheck _check
+)
+: iterator_map (_itermap)
+, writer (_writer)
+, check (_check)
+, temp (_writer(_itermap))
+{}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+T&
+irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
 ::operator * (
 ){
-return *this;
+return this->temp;
 }
 
 template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+T*
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > *
-  irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... >
+  T, IteratorMap, Writer, WriteCheck >
 ::operator -> (
 ){
-return this;
+return &this->temp;
 }
 
-/* operator () */
 template <
-  typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Iterator
-, typename... Ts >
-template <typename Device>
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
 irewrite_iterator <
-  MakeBeginIterator
-, MakeEndIterator
-, Iterator
-, Ts... > &
+  T, IteratorMap, Writer, WriteCheck > &
   irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , Iterator
-  , Ts... >
-::operator () (
-  Device & _buffer
+    T, IteratorMap, Writer, WriteCheck >
+::operator ++ (
 ){
-this->begin
-  = this->make_iterator (_buffer);
-this->end
-  = this->make_end_iterator (_buffer);
+this->temp =
+  this->writer(this->iterator_map);
 return *this;
 }
 
 template <
-  typename... Ts
-, typename MakeBeginIterator
-, typename MakeEndIterator
-, typename Device
-, typename... Writers >
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+::operator ++ (
+  int
+){
+auto temp_iter (*this);
+this->temp =
+  this->writer(this->iterator_map);
+return temp_iter;
+}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+bool
+irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
+::operator == (
+  irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const &
+) const {
+return this->check(this->iterator_map);
+}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
+bool
+operator != (
+  irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const & _lhs
+, irewrite_iterator <
+    T, IteratorMap, Writer, WriteCheck >
+  const & _rhs
+){
+return !(_lhs == _rhs);
+}
+
+template <
+  typename T
+, typename IteratorMap
+, typename Writer
+, typename WriteCheck >
 auto
 make_irewrite_iterator (
-  MakeBeginIterator _make_iterator
-, MakeEndIterator _make_end_iterator
-, Device & _buffer
-, Writers... _writers
-) -> irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , decltype(_make_iterator(_buffer))
-  , Ts... >
+  IteratorMap _itermap
+, Writer _writer
+, WriteCheck _check
+)
+-> irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
 {
-return irewrite_iterator <
-    MakeBeginIterator
-  , MakeEndIterator
-  , decltype(_make_iterator(_buffer))
-  , Ts... >
-(
-  _make_iterator
-, _make_end_iterator
-, _buffer
-, _writers...
-); 
+return
+irewrite_iterator <
+  T, IteratorMap, Writer, WriteCheck >
+(_itermap, _writer, _check);
 }
 
 } /* typesystems */

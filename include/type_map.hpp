@@ -5,274 +5,93 @@
 
 #include <tuple>
 #include <iterator>
-#include "bits/get.hpp"
+#include "type_traits.hpp"
 
 namespace typesystems {
-namespace bits {
 
 template <
-  int N, typename T, typename... Ts >
-struct check_tuple {
-/**/
-static
-T&
-get (
-  int const
-, std::tuple<std::tuple<Ts,T>...> &
-);
-}; /* check_tuple */
-
-template <typename T, typename... Ts>
-struct check_tuple <0,T,Ts...> {
-/**/
-static
-T&
-get (
-  int const
-, std::tuple<std::tuple<Ts,T>...> &
-);
-}; /* check_tuple <0,T,Ts...> */
-
-} /* bits */
-
-template <typename T, typename... Ts>
-class type_map;
+  typename Tuple, typename... Key >
+struct type_map;
 
 /* get */
-template <
-  typename Key
-, typename T
-, typename... Ts >
-T&
+/*template <
+  typename Key_Value
+, typename Tuple
+, typename... Key >
+auto
 get (
-  type_map<T,Ts...> &
+  type_map<Tuple, Key...> & _con
+)
+-> decltype (
+  std::get <
+    get_type_index<Key_Value>::value >
+  (_con.tup)
 );
 
-/* get */ 
+/ * get * /
 template <
-  std::size_t Key
-, typename T
-, typename... Ts >
-T &
+  std::size_t Key_Value
+, typename Tuple
+, typename... Key >
+auto
 get (
-  type_map<T,Ts...> &
-);
+  type_map<Tuple, Key...> & _con
+)
+-> decltype (
+  std::get<Key_Value>(_con.tup)
+);*/
 
 /* type map */
-template <typename T, typename... Ts>
-class type_map {
-std::tuple<std::tuple<Ts,T>...> map;
+template <
+  typename Tuple, typename... Key >
+struct type_map {
+
+Tuple tup;
 
 public:
 
 type_map () = default;
 
-template <typename... Us>
+template <typename... Ts>
 type_map (
-  Us...
+  Ts...
 );
 
+explicit
 type_map (
-  type_map<T,Ts...> const &
+  Tuple &
+); 
+
+type_map (
+  type_map<Tuple, Key...> const &
 ) = default;
 
 type_map (
-  type_map<T,Ts...> &&
+  type_map<Tuple, Key...> &&
 ) = default;
 
 ~type_map () = default;
 
-type_map<T,Ts...> &
+type_map<Tuple, Key...> &
 operator = (
-  type_map<T,Ts...> const &
+  type_map<Tuple, Key...> const &
 ) = default;
 
-type_map<T,Ts...> &
+type_map<Tuple, Key...> &
 operator = (
-  type_map<T,Ts...> &&
+  type_map<Tuple, Key...> &&
 ) = default;
-
-/* type map iterator */
-class iterator
-: public std::iterator <
-    std::random_access_iterator_tag
-  , T >
-{
-type_map<T,Ts...> * con;
-int index;
-
-protected:
-
-explicit
-iterator (
-  type_map<T,Ts...> *
-, int
-);
-
-public:
-/* ctor */
-explicit
-iterator (
-  type_map<T,Ts...> &
-);
-
-/* ctor end */
-explicit
-iterator ();
-
-/* ctor copy */
-iterator (
-  iterator const &
-) = default;
-
-/* ctor move */
-iterator (
-  iterator &&
-) = default;
-
-/* operator copy */
-iterator &
-operator = (
-  iterator const &
-) = default;
-
-/**/
-iterator &
-operator = (
-  iterator &&
-) = default;
-
-~iterator() = default;
-
-iterator
-operator ++ ();
-
-//
-iterator &
-operator ++ (
-  int const
-);
-
-//
-iterator
-operator -- ();
-
-//
-iterator &
-operator -- (
-  int const
-);
-
-iterator
-operator + (
-  int
-) const;
-
-iterator
-operator + (
-  iterator const &
-) const;
-
-iterator
-operator - (
-  int
-) const;
-
-iterator
-operator - (
-  iterator const &
-) const;
-
-iterator &
-operator += (
-  int const
-);
-
-iterator &
-operator += (
-  iterator const &
-);
-
-iterator &
-operator -= (
-  int const
-);
-
-iterator &
-operator -= (
-  iterator const &
-);
-
-bool
-operator < (
-  iterator const &
-) const;
-
-bool
-operator > (
-  iterator const &
-) const;
-
-bool
-operator >= (
-  iterator const &
-) const;
-
-bool
-operator <= (
-  iterator const &
-) const;
-
-bool
-operator == (
-  iterator const &
-) const;
-
-bool
-operator != (
-  iterator const &
-) const;
-
-T &
-operator * ();
-
-T *
-operator -> ();
-
-T &
-operator [] (
-  int
-);
-
-}; /* type_map_iterator */
-
-template <
-  typename Key
-, typename T2
-, typename... T2s >
-friend T2 &
-get (
-  type_map<T2,T2s...> &
-);
-
-template <
-  std::size_t Key
-, typename T2
-, typename... T2s >
-friend T2 &
-get (
-  type_map<T2,T2s...> &
-);
-
-typename type_map<T,Ts...>::iterator
-begin ();
-
-typename type_map<T,Ts...>::iterator
-end ();
-
-friend class iterator;
 
 }; /* type_map */
+
+template <
+  typename... Keys, typename Tuple >
+type_map <Tuple, Keys...>
+make_type_map (
+  Tuple _tup
+){
+return type_map<Tuple,Keys...> (_tup);
+}
 
 } /* typesystems */
 #include "./bits/type_map.tcc"
