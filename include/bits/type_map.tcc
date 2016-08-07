@@ -14,9 +14,6 @@ template <typename... Ts>
   Ts... _ts
 )
 : tup (_ts...) {
-/*static_assert (
-  sizeof...(Us) == sizeof...(Ts)
-, "" );*/
 }
 
 template <
