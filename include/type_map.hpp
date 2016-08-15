@@ -41,6 +41,16 @@ get (
   std::get<Key_Value>(_con.tup)
 );*/
 
+/* map concat */
+template <typename... Map>
+type_map<>
+map_cat (
+  Map&&... _maps
+){
+return make_type_map <>
+(std::tuple_cat(_maps.tuple...);
+}
+
 /* type map */
 template <
   typename Tuple, typename... Key >
