@@ -9,6 +9,7 @@
 
 using typesystems::type_map;
 using typesystems::get;
+using typesystems::type_map_has_type;
 
 int main() {
 type_map <
@@ -20,6 +21,11 @@ type_map <
   std::tuple<int, char, char>
 , int, char, float >
 ctor (9, 'A', 'B');
+
+static_assert (
+  type_map_has_type <int,decltype(con)>::value
+, "con has a int key."
+);
 
 int & t (get<char>(con));
 int & t1 (get<int>(con));

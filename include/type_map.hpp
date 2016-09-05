@@ -13,6 +13,9 @@ template <
   typename Tuple, typename... Key >
 struct type_map;
 
+template <typename T, typename TypeMap>
+struct type_map_has_type;
+
 /* get */
 /*template <
   typename Key_Value
@@ -42,14 +45,14 @@ get (
 );*/
 
 /* map concat */
-template <typename... Map>
+/*template <typename... Map>
 type_map<>
 map_cat (
   Map&&... _maps
 ){
 return make_type_map <>
 (std::tuple_cat(_maps.tuple...);
-}
+}*/
 
 /* type map */
 template <
