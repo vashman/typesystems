@@ -9,8 +9,7 @@
 
 namespace typesystems {
 
-template <
-  typename Tuple, typename... Key >
+template <typename Tuple, typename... Key>
 struct type_map;
 
 template <typename T, typename TypeMap>
@@ -55,8 +54,7 @@ return make_type_map <>
 }*/
 
 /* type map */
-template <
-  typename Tuple, typename... Key >
+template <typename Tuple, typename... Key>
 struct type_map {
 
 Tuple tup;
@@ -73,7 +71,7 @@ type_map (
 explicit
 type_map (
   Tuple &
-); 
+);
 
 type_map (
   type_map<Tuple, Key...> const &
@@ -97,13 +95,12 @@ operator = (
 
 }; /* type_map */
 
-template <
-  typename... Keys, typename Tuple >
+template <typename... Keys, typename Tuple>
 type_map <Tuple, Keys...>
 make_type_map (
   Tuple _tup
 ){
-return type_map<Tuple,Keys...> (_tup);
+return type_map <Tuple, Keys...> (_tup);
 }
 
 } /* typesystems */

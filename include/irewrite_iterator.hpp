@@ -21,8 +21,7 @@ template <
 , typename WriteCheck >
 class irewrite_iterator {
 
-typedef std::input_iterator_tag
-  iterator_catagory;
+typedef std::input_iterator_tag iterator_catagory;
 typedef T value_type;
 typedef std::size_t difference_type;
 typedef T* pointer;
@@ -45,34 +44,26 @@ irewrite_iterator (
 
 /* ctor copy*/
 irewrite_iterator (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
 ) = default;
 
 /* operator copy assignment */
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck > &
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &
 operator = (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
 ) = default;
 
 /* ctor move */
 irewrite_iterator (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
-  &&
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &&
 ) = default;
 
 /* operator move assignment */
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck > &
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &
 operator = (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
-  &&
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &&
 ) = default;
 
 /* dtor */
@@ -84,18 +75,15 @@ operator * ();
 T*
 operator -> ();
 
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck > &
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &
 operator ++ ();
 
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 operator ++ (int);
 
 bool
 operator == (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
 ) const;
 
@@ -108,11 +96,9 @@ template <
 , typename WriteCheck >
 bool
 operator != (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
-, irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+, irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
 );
 
@@ -121,14 +107,12 @@ template <
 , typename IteratorMap
 , typename Writer
 , typename WriteCheck >
-auto
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 make_irewrite_iterator (
   IteratorMap
 , Writer
 , WriteCheck
-)
--> irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >;
+);
 
 } /* typesystems */
 #endif

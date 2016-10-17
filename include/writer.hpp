@@ -8,17 +8,14 @@
 namespace typesystems {
 
 template <typename T, typename TypeMap>
-using input_writer =
-  std::function <T(TypeMap const &)>;
+using input_writer = std::function <T(TypeMap const &)>;
 
 template <typename T, typename TypeMap>
 using output_writer =
-  std::function <
-    void (T const&, TypeMap const &) >
+  std::function <void (T const &, TypeMap const &) >;
 
 template <typename TypeMap>
-using writer_check =
-  std::function <bool(TypeMap const &)>;
+using writer_check = std::function <bool(TypeMap const &)>;
 
 } /* typesystems */
 #endif

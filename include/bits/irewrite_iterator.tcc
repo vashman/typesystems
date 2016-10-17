@@ -16,8 +16,7 @@ template <
 , typename IteratorMap
 , typename Writer
 , typename WriteCheck >
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::irewrite_iterator (
   IteratorMap _itermap
 , Writer _writer
@@ -35,8 +34,7 @@ template <
 , typename Writer
 , typename WriteCheck >
 T&
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::operator * (
 ){
 return this->temp;
@@ -48,8 +46,7 @@ template <
 , typename Writer
 , typename WriteCheck >
 T*
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::operator -> (
 ){
 return &this->temp;
@@ -60,14 +57,11 @@ template <
 , typename IteratorMap
 , typename Writer
 , typename WriteCheck >
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck > &
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck> &
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::operator ++ (
 ){
-this->temp =
-  this->writer(this->iterator_map);
+this->temp = this->writer(this->iterator_map);
 return *this;
 }
 
@@ -76,16 +70,13 @@ template <
 , typename IteratorMap
 , typename Writer
 , typename WriteCheck >
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::operator ++ (
   int
 ){
 auto temp_iter (*this);
-this->temp =
-  this->writer(this->iterator_map);
+this->temp = this->writer(this->iterator_map);
 return temp_iter;
 }
 
@@ -95,11 +86,9 @@ template <
 , typename Writer
 , typename WriteCheck >
 bool
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 ::operator == (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const &
 ) const {
 return this->check(this->iterator_map);
@@ -112,11 +101,9 @@ template <
 , typename WriteCheck >
 bool
 operator != (
-  irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+  irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const & _lhs
-, irewrite_iterator <
-    T, IteratorMap, Writer, WriteCheck >
+, irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
   const & _rhs
 ){
 return !(_lhs == _rhs);
@@ -127,18 +114,13 @@ template <
 , typename IteratorMap
 , typename Writer
 , typename WriteCheck >
-auto
+irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 make_irewrite_iterator (
   IteratorMap _itermap
 , Writer _writer
 , WriteCheck _check
-)
--> irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
-{
-return
-irewrite_iterator <
-  T, IteratorMap, Writer, WriteCheck >
+){
+return irewrite_iterator <T, IteratorMap, Writer, WriteCheck>
 (_itermap, _writer, _check);
 }
 

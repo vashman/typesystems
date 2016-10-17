@@ -5,40 +5,29 @@
 
 namespace typesystems {
 
-template <
-    typename Tuple
-  , typename... Keys >
+template <typename Tuple, typename... Keys>
 template <typename... Ts>
-  type_map<Tuple, Keys...>
-::type_map (
+type_map<Tuple, Keys...>::type_map (
   Ts... _ts
 )
 : tup (_ts...) {
 }
 
-template <
-    typename Tuple
-  , typename... Keys >
-  type_map<Tuple, Keys...>
-::type_map (
+template <typename Tuple, typename... Keys>
+type_map<Tuple, Keys...>::type_map (
   Tuple & _tup
 )
 : tup (_tup) {
 }
 
 /* get */
-template <
-  typename Key
-, typename Tuple
-, typename... Keys >
+template <typename Key, typename Tuple, typename... Keys>
 auto
 get (
   type_map<Tuple, Keys...> & _con
 )
--> decltype ( std::get <
-  get_type_index<Key, Keys...>::value >
-(_con.tup)
-)
+-> decltype (
+  std::get <get_type_index<Key, Keys...>::value >(_con.tup) )
 {
 return
 std::get <
