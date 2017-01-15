@@ -33,6 +33,13 @@
 # Editor Files
 *.swp
 *.*~
+*.project
+*.doxy
+/.vs
+*.sln
+*.VC.*
+*.vcxproj
+*.vcxproj.*
 
 # Config Files
 *.doxy
