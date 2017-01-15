@@ -48,3 +48,4 @@
 # Build Directories
 /build/bin
 /build/doc
+/Debug
