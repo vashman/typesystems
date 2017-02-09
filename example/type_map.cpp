@@ -7,14 +7,22 @@
 
 #include "../include/type_map.hpp"
 
+using std::tuple;
+
 using typesystems::type_map;
+using typesystems::make_type_map;
+using typesystems::type_map_cat;
 using typesystems::get;
 
 int main() {
-type_map <std::tuple<int,int,int>, int, char, double > con;
+type_map <tuple<int,int,int>, int, char, double > con;
 
-type_map <std::tuple<int, char, char>, int, char, float>
-ctor (9, 'A', 'B');
+type_map <tuple<int, char, char>, int, char, float>
+ctor {9, 'A', 'B'};
+
+auto tm = make_type_map<bool, double>(tuple<int, int>{});
+
+auto tm2 = type_map_cat(ctor, tm);
 
 int & t (get<char>(con));
 int & t1 (get<int>(con));

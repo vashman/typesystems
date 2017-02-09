@@ -32,6 +32,12 @@ type_map<Tuple, Keys...>::type_map (
 : tup (std::forward<Tuple>(_tup)) {
 }
 
+template <typename Tuple, typename... Keys>
+type_map<Tuple, Keys...>::operator Tuple (
+){
+return this->tup;
+}
+
 /* get */
 template <typename Key, typename Tuple, typename... Keys>
 auto
@@ -41,8 +47,9 @@ get (
 -> decltype (
   std::get <get_type_index<Key, Keys...>::value >(_con.tup)
 ){
-return
-std::get <get_type_index<Key, Keys...>::value> (_con.tup);
+using std::get;
+
+return get <get_type_index<Key, Keys...>::value> (_con.tup);
 }
 
 /* get */
@@ -55,8 +62,11 @@ get (
   get_type_index<Key, Keys...>::value >
   (std::move(_con.tup))
 ){
-return std::get <get_type_index<Key, Keys...>::value >
-(std::move(_con.tup));
+using std::get;
+using std::move;
+
+return
+get<get_type_index<Key, Keys...>::value >(move(_con.tup));
 }
 
 /* get */ 
@@ -67,7 +77,9 @@ get (
 )
 -> decltype (std::get<Key>(_con.tup))
 {
-return std::get<Key> (_con.tup);
+using std::get;
+
+return get<Key> (_con.tup);
 }
 
 /* get */ 
@@ -78,7 +90,9 @@ get (
 )
 -> decltype (std::get<Key>(std::move(_con.tup)))
 {
-return std::get<Key> (std::move(_con.tup));
+using std::get;
+
+return get<Key> (std::move(_con.tup));
 }
 
 /* get */
@@ -90,8 +104,9 @@ get (
 -> decltype ( std::get <get_type_index<Key, Keys...>::value>
   (_con.tup))
 {
-return
-std::get <get_type_index<Key, Keys...>::value>(_con.tup);
+using std::get;
+
+return get <get_type_index<Key, Keys...>::value>(_con.tup);
 }
 
 /* get */ 
@@ -102,31 +117,31 @@ get (
 )
 -> decltype (std::get<Key>(_con.tup))
 {
-return std::get<Key> (_con.tup);
+using std::get;
+
+return get<Key> (_con.tup);
 }
 
-/*template <typename T, typename Tup>
-struct type_map_has_type <T, type_map<Tup>>
-: std::false_type {};
-
 template <
-  typename T, typename Tup, typename U, typename... Ts >
-struct type_map_has_type <T, type_map<Tup, U, Ts...>>
-: type_map_has_type<T, type_map<Tup, Ts...>> {};
+  typename Tuple1
+, typename Tuple2
+, typename... Keys1
+, typename... Keys2 >
+auto
+type_map_cat (
+  type_map <Tuple1, Keys1...> _type_map1
+, type_map <Tuple2, Keys2...> _type_map2
+)
+-> type_map<decltype(tuple_cat (static_cast<Tuple1>(_type_map1), static_cast<Tuple2>(_type_map2))), Keys1..., Keys2...>
+{
+using std::tuple_cat;
 
-template <typename T, typename Tup, typename... Ts>
-struct type_map_has_type<T, type_map<Tup, T, Ts...>>
-: std::true_type {};
-*/
-/* map concat */
-/*template <typename... Map>
-type_map<>
-map_cat (
-  Map&&... _maps
-){
-return make_type_map <>
-(std::tuple_cat(_maps.tuple...);
-}*/
+return type_map<decltype(tuple_cat (static_cast<Tuple1>(_type_map1), static_cast<Tuple2>(_type_map2))), Keys1..., Keys2...> {
+  tuple_cat (
+  static_cast<Tuple1>(_type_map1)
+, static_cast<Tuple2>(_type_map2)
+)};
+}
 
 } /* typesystems */
 #endif

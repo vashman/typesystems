@@ -50,6 +50,9 @@ operator = (
   type_map<Tuple, Key...> &&
 ) = default;
 
+explicit
+operator Tuple();
+
 }; /* type_map */
 
 } /* typesystems */
